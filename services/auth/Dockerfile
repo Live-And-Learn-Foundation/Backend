@@ -1,18 +1,36 @@
-# maintainer info
-FROM alpine:3.18
+FROM python:3.12-slim
 
-# copy requirements file
-WORKDIR /app
-COPY requirements.txt ./
+ENV PYTHONUNBUFFERED=1 
 
-# install python and dependences
-RUN apk update
-RUN apk add python3 py3-pip
-RUN pip3 install -r ./requirements.txt
+WORKDIR /app/auth
 
-# copy app
-COPY app ./
+RUN apt-get update && apt-get install -y \
+    libpq-dev \
+    gcc \
+    pkg-config \
+    dos2unix \
+    netcat-traditional \
+    default-libmysqlclient-dev \
+    && rm -rf /var/lib/apt/lists/*
 
-# start command 
-CMD ["sh","./prod.sh"]
-EXPOSE 3000
+RUN pip install -U pip setuptools wheel
+RUN pip install --upgrade pip
+
+# Copy the requirements file to the working directory
+COPY ./requirements.txt .
+
+# Install Python dependencies
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . .
+
+COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
+
+RUN dos2unix /usr/local/bin/docker-entrypoint.sh
+
+# # Make entrypoint executable
+# RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+
+# # run entrypoint.sh
+# ENTRYPOINT ["bash", "/usr/local/bin/docker-entrypoint.sh"]
+
