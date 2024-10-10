@@ -1,3 +1,3 @@
 from .base import BaseService
-from .mailing import Mailing
+from .mail import Mailing
 from .verification import Verification

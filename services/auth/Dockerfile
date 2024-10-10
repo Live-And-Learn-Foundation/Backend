@@ -28,9 +28,9 @@ COPY docker-entrypoint.sh /usr/local/bin/docker-entrypoint.sh
 
 RUN dos2unix /usr/local/bin/docker-entrypoint.sh
 
-# # Make entrypoint executable
-# RUN chmod +x /usr/local/bin/docker-entrypoint.sh
+# Make entrypoint executable
+RUN chmod +x /usr/local/bin/docker-entrypoint.sh
 
-# # run entrypoint.sh
-# ENTRYPOINT ["bash", "/usr/local/bin/docker-entrypoint.sh"]
+# run entrypoint.sh
+ENTRYPOINT ["bash", "/usr/local/bin/docker-entrypoint.sh"]
 

@@ -5,28 +5,30 @@ services:
       dockerfile: Dockerfile
     command: python manage.py runserver 0.0.0.0:8000
     volumes:
-      - ./Backend:/app/Backend
+      - ./services/auth:/app/auth
     ports:
       - '8000:8000'
     depends_on:
-      mysql:
-        condition: service_healthy
+      # mysql:
+      #   condition: service_healthy
       redis:
         condition: service_healthy
     env_file:
-      - .env
+      - ./services/auth/config.env
     networks:
-      - network
+      - network-1
 
   mysql:
-    image: mysql:8
+    image: mysql
+    restart: always
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: abcd
       MYSQL_USER: ${DB_USER}
       MYSQL_PASSWORD: ${DB_PASSWORD}
+      MYSQL_HOST: localhost
     volumes:
       - ./docker_volume/mysql_data:/var/lib/mysql
-      - ./init-db.sh:/docker-entrypoint-initdb.d/init-db.sh
     ports:
       - '3306:${DB_PORT}'
     healthcheck:
@@ -45,7 +47,7 @@ services:
       timeout: 1s
       retries: 20
     networks:
-      - network
+      - network-1
 
   redis:
     image: 'redis:alpine'
@@ -61,11 +63,12 @@ services:
     volumes:
       - ./docker_volume/redis-data:/var/lib/redis
     networks:
-      - network
+      - network-1
 
 volumes:
   mysql_data:
   redis-data:
 
 networks:
-  network:
+  network-1:
+    driver: bridge
