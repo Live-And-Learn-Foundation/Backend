@@ -8,9 +8,7 @@ class Command(BaseCommand):
     help = "Check if the databases exist, and create them if not."
 
     def handle(self, *args, **options):
-        db_name_default = os.getenv('DB_NAME_DEFAULT')
-        db_name_01 = os.getenv('DB_NAME_01')
-        db_name_02 = os.getenv('DB_NAME_02')
+        db_name = os.getenv('DB_NAME')
         db_user = os.getenv('DB_USER')
         db_password = os.getenv('DB_PASSWORD')
         # db_host = os.getenv('DB_HOST')
@@ -21,11 +19,7 @@ class Command(BaseCommand):
             conn = connections['default']
             conn.ensure_connection()
             self.stdout.write(self.style.SUCCESS(
-                f"Database '{db_name_default}' exists."))
-            self.stdout.write(self.style.SUCCESS(
-                f"Database '{db_name_01}' exists."))
-            self.stdout.write(self.style.SUCCESS(
-                f"Database '{db_name_02}' exists."))
+                f"Database '{db_name}' exists."))
         except Exception:
             self.stdout.write(self.style.WARNING(f"Checking databases..."))
 
@@ -40,7 +34,7 @@ class Command(BaseCommand):
                 cursor = connection.cursor()
 
                 # Tạo cơ sở dữ liệu nếu không tồn tại
-                for db_name in [db_name_default, db_name_01, db_name_02]:
+                for db_name in [db_name]:
                     cursor.execute(
                         f"CREATE DATABASE IF NOT EXISTS `{db_name}`;")
                     self.stdout.write(self.style.SUCCESS(
