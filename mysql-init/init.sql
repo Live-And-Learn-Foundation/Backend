@@ -1,0 +1,4 @@
+GRANT ALL PRIVILEGES ON *.* TO 'root_user'@'%' WITH GRANT OPTION;
+FLUSH PRIVILEGES;
+
+SHOW GRANTS FOR 'root_user'@'%';
