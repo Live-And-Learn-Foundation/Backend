@@ -1,13 +1,20 @@
 from django.db import models
 
-from users.models.role import Role
+# Create your models here.
+import uuid
+from django.utils import timezone
+
+from .role import Role
 from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser
+from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import PermissionsMixin
 from django.db import models
 
-from base.models.time_stamped import TimeStampedModel
+from oauth.managers.user_manager import UserManager
+from base.models.timestamped import TimeStampedModel
+# from common.constants.gender import Genders
 
 AUTH_PROVIDERS = {'facebook': 'facebook', 'google': 'google',
                   'twitter': 'twitter', 'email': 'email'}
@@ -19,11 +26,14 @@ class User(TimeStampedModel, AbstractBaseUser, PermissionsMixin):
     first_name = models.CharField(max_length=50, blank=True)
     last_name = models.CharField(max_length=150, blank=True)
     is_active = models.BooleanField(default=False)
+    is_staff = models.BooleanField(default=True)
     roles = models.ManyToManyField(Role, related_name="users", null=True)
+    date_joined = models.DateTimeField(default=timezone.now)
     auth_provider = models.CharField(
         max_length=255, blank=False,
         null=False, default=AUTH_PROVIDERS.get('email'))
-    USERNAME_FIELD = "email"
+    USERNAME_FIELD = "email"  # username
+    objects = UserManager()
 
     class Meta:
         db_table = "users"

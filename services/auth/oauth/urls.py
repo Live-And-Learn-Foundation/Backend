@@ -1,20 +1,14 @@
-from django.urls import path, include, re_path
-from rest_framework_simplejwt.views import TokenRefreshView, TokenVerifyView
+from django.urls import path, include,re_path
+from django.views.decorators.csrf import csrf_exempt
+from rest_framework import routers
 
-from rest_framework_nested import routers
+from .views import Oauth2ViewSet
 
-from oauth.views.auth import AuthViewSet
+app_name = "oauth"
+router = routers.DefaultRouter()
 
-app_name = "auth"
-
-router = routers.SimpleRouter(trailing_slash=False)
-
-router.register(r"", AuthViewSet, basename="auth")
+router.register(r"", Oauth2ViewSet, basename="oauth")
 
 urlpatterns = [
-    path('api/v1/auth/', include(router.urls)),
-    path('api/v1/auth/token/refresh/',
-         TokenRefreshView.as_view(), name="auth-token-refresh"),
-    path('api/v1/auth/token/verify/',
-         TokenVerifyView.as_view(), name="auth-token-verify"),
+    re_path(r'^api/v1/', include(router.urls)), 
 ]

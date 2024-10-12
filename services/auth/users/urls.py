@@ -1,5 +1,7 @@
 from django.urls import path, include, re_path
-from rest_framework_simplejwt.views import TokenObtainPairView, TokenRefreshView
+from django.contrib.auth.models import User, Group
+from oauth2_provider.contrib.rest_framework import TokenHasReadWriteScope, TokenHasScope
+from rest_framework.routers import DefaultRouter
 
 from rest_framework_nested import routers
 from users.views import UserViewSet
@@ -13,10 +15,4 @@ urlpatterns = [
     path(
         r'api/v1/users/', include(router.urls)
     ),
-]
-
-urlpatterns = urlpatterns + [
-    path('api/v1/token/', TokenObtainPairView.as_view(), name='token_obtain_pair'),
-    path('api/v1/token/refresh/', TokenRefreshView.as_view(),
-         name='token_refresh'),
 ]

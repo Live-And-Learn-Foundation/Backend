@@ -1,10 +1,13 @@
-from rest_framework import serializers
+from rest_framework import generics, permissions, serializers
 
 from users.models.user import User
 from users.models.role import Role
-from users.serializers.role import RoleSerializer
+from django.contrib.auth.hashers import make_password
+
+from .role import RoleSerializer
 
 
+# first we define the serializers
 class UserSerializer(serializers.ModelSerializer):
     roles = RoleSerializer(required=False, many=True)
 
@@ -16,6 +19,7 @@ class UserSerializer(serializers.ModelSerializer):
             "first_name",
             "last_name",
             "is_active",
+            "is_staff",
             "roles"
         ]
         depth = 1

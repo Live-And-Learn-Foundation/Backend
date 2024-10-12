@@ -1,1 +1,1 @@
-from .auth import AuthViewSet
+from .oauth2 import Oauth2ViewSet

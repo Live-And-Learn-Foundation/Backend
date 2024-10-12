@@ -1,19 +1,16 @@
 import uuid
 from django.db import models
-from django.utils.timezone import now
+from django.db.models import Manager
+from django.utils import timezone
+
 
 class TimeStampedModel(models.Model):
-    
+    objects = Manager
     id = models.UUIDField(
         primary_key=True, default=uuid.uuid4, editable=False, unique=True
     )
-    created_at = models.DateTimeField(default=now, editable=False)
+    created_at = models.DateTimeField(default=timezone.now)
     updated_at = models.DateTimeField(auto_now=True)
 
     class Meta:
         abstract = True
-
-    def save(self, *args, **kwargs):
-        if not self.created_at:
-            self.created_at = now()
-        super().save(*args, **kwargs)
