@@ -15,16 +15,15 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import include, re_path
+from django.urls import include, re_path, path
 from django.conf import settings
-from django.urls import path
 from django.conf.urls.static import static
 
 from health_check.urls import urlpatterns as health_check_urls
-from oauth2_provider import urls as oauth2_urls
+
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('oauth/', include('oauth2_provider.urls', namespace='oauth2_provider')),
+    path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     path('', include("oauth.urls")),
     path('', include("users.urls")),
 ]

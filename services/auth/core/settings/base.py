@@ -1,4 +1,4 @@
-from . import BASE_DIR
+from . import BASE_DIR, env
 from ..scopes import scopes, default_scopes
 from oauth.tokens import signed_token_generator
 import os
@@ -13,45 +13,86 @@ load_dotenv(CONFIG_ENV_PATH)
 # Quick-start development settings - unsuitable for production
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.getenv("SECRET_KEY")
+APP_NAME = (
+    os.environ["APP_NAME"]
+    if "APP_NAME" in os.environ
+    else env.str("APP_NAME", default="Auth")
+)
 
-OIDC_RSA_PRIVATE_KEY_FILE = os.getenv("OIDC_RSA_PRIVATE_KEY_FILE")
+SECRET_KEY = (
+    os.environ["SECRET_KEY"] if "SECRET_KEY" in os.environ else env(
+        "SECRET_KEY")
+)
 
-if OIDC_RSA_PRIVATE_KEY_FILE:
-    OIDC_RSA_PRIVATE_KEY_FILE = (
-        join(BASE_DIR, OIDC_RSA_PRIVATE_KEY_FILE)
-        if not OIDC_RSA_PRIVATE_KEY_FILE.startswith("/")
-        else OIDC_RSA_PRIVATE_KEY_FILE
-    )
-    with open(OIDC_RSA_PRIVATE_KEY_FILE) as f:
-        OIDC_RSA_PRIVATE_KEY = f.read()
-else:
-    raise ValueError(
-        "OIDC_RSA_PRIVATE_KEY_FILE environment variable is not set.")
+OIDC_RSA_PRIVATE_KEY_FILE = (
+    os.environ["OIDC_RSA_PRIVATE_KEY_FILE"]
+    if "OIDC_RSA_PRIVATE_KEY_FILE" in os.environ
+    else env("OIDC_RSA_PRIVATE_KEY_FILE")
+)
+OIDC_RSA_PRIVATE_KEY_FILE = (
+    join(BASE_DIR, OIDC_RSA_PRIVATE_KEY_FILE)
+    if not OIDC_RSA_PRIVATE_KEY_FILE.startswith("/")
+    else OIDC_RSA_PRIVATE_KEY_FILE
+)
+with open(OIDC_RSA_PRIVATE_KEY_FILE) as f:
+    OIDC_RSA_PRIVATE_KEY = f.read()
+JWT_ISSUER = (
+    os.environ["JWT_ISSUER"]
+    if "JWT_ISSUER" in os.environ
+    else env.str("JWT_ISSUER", "LiveAndLearn")
+)
 
-JWT_ISSUER = os.getenv("JWT_ISSUER", "Docs")
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = env.bool("DEBUG", default=True)
 
-DEBUG = os.getenv("DEBUG", "True") == "True"
 API_HOST = os.getenv("API_HOST")
 
-DEFAULT_HOST = os.getenv("DEFAULT_HOST", "localhost:8000")
+DEFAULT_HOST = (
+    os.environ["DEFAULT_HOST"]
+    if "DEFAULT_HOST" in os.environ
+    else env.str("DEFAULT_HOST", default="localhost:8000")
+)
 
-ALLOWED_HOSTS = os.getenv(
-    "DJANGO_ALLOWED_HOSTS", "127.0.0.1:8000,localhost,host.docker.internal").split(',')
-DEFAULT_CLIENT_SECRET = os.getenv("DEFAULT_CLIENT_SECRET")
-DEFAULT_CLIENT_ID = os.getenv("DEFAULT_CLIENT_ID")
-SUPER_ADMIN_EMAIL = os.getenv("SUPER_ADMIN_EMAIL", "service@email.com")
-SUPER_ADMIN_PASSWORD = os.getenv("SUPER_ADMIN_PASSWORD", "")
+ALLOWED_HOSTS = env.list(
+    'DJANGO_ALLOWED_HOSTS',
+    default=[
+        DEFAULT_HOST.split(':')[0],
+        'host.docker.internal'
+    ]
+)
+DEFAULT_CLIENT_ID = (
+    os.environ["DEFAULT_CLIENT_ID"]
+    if "DEFAULT_CLIENT_ID" in os.environ
+    else env("DEFAULT_CLIENT_ID")
+)
+DEFAULT_CLIENT_SECRET = (
+    os.environ["DEFAULT_CLIENT_SECRET"]
+    if "DEFAULT_CLIENT_SECRET" in os.environ
+    else env("DEFAULT_CLIENT_SECRET")
+)
 
+# Default user and applications
+SUPER_ADMIN_EMAIL = (
+    os.environ["SUPER_ADMIN_EMAIL"]
+    if "SUPER_ADMIN_EMAIL" in os.environ
+    else env.str("SUPER_ADMIN_EMAIL", default="service@pandosima.com")
+)
+SUPER_ADMIN_PASSWORD = (
+    os.environ["SUPER_ADMIN_PASSWORD"]
+    if "SUPER_ADMIN_PASSWORD" in os.environ
+    else env.str("SUPER_ADMIN_PASSWORD", default="")
+)
+
+# Sending mails
 EMAIL_BACKEND = "django.core.mail.backends.smtp.EmailBackend"
-EMAIL_HOST = os.getenv("EMAIL_HOST", "smtp.gmail.com")
-EMAIL_PORT = int(os.getenv("EMAIL_PORT", 587))
-EMAIL_HOST_USER = os.getenv("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = os.getenv("EMAIL_HOST_PASSWORD")
+EMAIL_HOST = env("EMAIL_HOST", default="smtp.gmail.com")
+EMAIL_PORT = env("EMAIL_PORT", default=587)
+EMAIL_HOST_USER = env("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = env("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 DEFAULT_FROM_EMAIL = os.getenv(
-    "DEFAULT_FROM_EMAIL", "Docs <noreply@email.com>")
+    "DEFAULT_FROM_EMAIL", "LiveAndLearn <noreply@email.com>")
 
 DEFAULT_OAUTH2_SCHEME = "http" if API_HOST in [
     "localhost", "127.0.0.1"] else "https"
@@ -68,11 +109,12 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'rest_framework',
     "rest_framework_api_key",
     'oauth2_provider',
     'corsheaders',
+    'django_filters',
     'health_check',
-    "base",
     'users',
     'oauth',
 ]
@@ -144,6 +186,15 @@ AUTH_PASSWORD_VALIDATORS = [
 ]
 
 AUTH_USER_MODEL = "users.User"
+OAUTH2_PROVIDER_APPLICATION_MODEL = "oauth.Application"
+OAUTH2_PROVIDER_ACCESS_TOKEN_MODEL = "oauth.AccessToken"
+OAUTH2_PROVIDER_ID_TOKEN_MODEL = "oauth.IDToken"
+OAUTH2_PROVIDER_REFRESH_TOKEN_MODEL = "oauth.RefreshToken"
+OAUTH2_PROVIDER_GRANT_MODEL = "oauth.Grant"
+AUTHENTICATION_BACKENDS = (
+    "oauth.backends.CustomOAuth2Backend",
+    "django.contrib.auth.backends.ModelBackend",  # To keep the Browsable API
+)
 
 OAUTH2_PROVIDER = {
     "OIDC_ENABLED": True,
@@ -158,6 +209,7 @@ OAUTH2_PROVIDER = {
     "REFRESH_TOKEN_GENERATOR": "oauthlib.oauth2.rfc6749.tokens.random_token_generator",
     "ACCESS_TOKEN_EXPIRE_SECONDS": 3600,
     "REFRESH_TOKEN_GRACE_PERIOD_SECONDS": 4000,
+    # ... any other settings you want
 }
 
 REST_FRAMEWORK = {
@@ -181,4 +233,5 @@ MEDIA_ROOT = join(BASE_DIR, "media")
 MEDIA_URL = "/media/"
 
 # static config
-STATIC_URL = 'static/'
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')

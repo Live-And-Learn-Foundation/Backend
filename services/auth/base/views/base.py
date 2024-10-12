@@ -2,6 +2,7 @@ from rest_framework import status, viewsets
 from rest_framework.response import Response
 from django.db import transaction
 from django.db.models import Q
+from drf_nested_forms.utils import NestedForm
 
 
 class BaseViewSet(viewsets.ModelViewSet):
@@ -36,27 +37,13 @@ class BaseViewSet(viewsets.ModelViewSet):
         """
         return self.serializer_map.get(self.action, self.serializer_class)
 
-    def limitBusiness(self, data, **kwargs):
-        data = data.copy()
-        businesses_pk = kwargs.get('businesses_pk')
-        if businesses_pk:
-            serializer_class = self.get_serializer_class()
-            fields = (
-                serializer_class.Meta.fields
-                if serializer_class.Meta and serializer_class.Meta.fields
-                else []
-            )
-            if 'business_id' in fields:
-                if isinstance(data, list):
-                    for item in data:
-                        item.update({"business_id": businesses_pk})
-                else:
-                    data.update({"business_id": businesses_pk})
-        return data
-
     def create(self, request, *args, **kwargs):
         data = request.data.copy()
-        data = self.limitBusiness(data, **kwargs)
+        content_type = request.content_type
+        if content_type is not None and 'form-data' in content_type:
+            form = NestedForm(request.data)
+            if form.is_nested():
+                data = form.data
         serializer = self.get_serializer(data=data)
         if serializer.is_valid(raise_exception=True):
             self.perform_create(serializer)
@@ -65,6 +52,11 @@ class BaseViewSet(viewsets.ModelViewSet):
 
     def update(self, request, *args, **kwargs):
         data = request.data.copy()
+        content_type = request.content_type
+        if content_type is not None and 'form-data' in content_type:
+            form = NestedForm(request.data)
+            if form.is_nested():
+                data = form.data
         serializer = self.get_serializer(self.get_object(), data=data)
         if serializer.is_valid(raise_exception=True):
             self.perform_update(serializer)
@@ -121,7 +113,7 @@ class MultipleUpdateViewSet(BaseViewSet):
         Create mutile items at once.
         :return: Response
         """
-        data = self.limitBusiness(request.data, **kwargs)
+        data = request.data
         try:
             serializer = self.get_serializer(
                 data=data, many=isinstance(data, list))
@@ -140,7 +132,7 @@ class MultipleUpdateViewSet(BaseViewSet):
         Only use this method for the small table where all data can be fit on one page.
         :return: Response
         """
-        data = self.limitBusiness(request.data, **kwargs)
+        data = request.data
         try:
             queryset = self.get_queryset()
             if queryset:
