@@ -1,7 +1,9 @@
 from django.db import models
 
+from base.models.timestamped import TimeStampedModel
+
 # Create your models here.
-class Role(models.Model):
+class Role(TimeStampedModel):
     name = models.CharField(max_length=200, null=False, blank=False, unique=True)
     description = models.TextField(default="", null=True, blank=True)
     scope = models.TextField(default="", null=True, blank=True)

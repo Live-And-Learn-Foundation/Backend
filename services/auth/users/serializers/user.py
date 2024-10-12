@@ -4,12 +4,16 @@ from users.models.user import User
 from users.models.role import Role
 from django.contrib.auth.hashers import make_password
 
-from .role import RoleSerializer
+from .role import ShortRoleSerializer
 
 
 # first we define the serializers
 class UserSerializer(serializers.ModelSerializer):
-    roles = RoleSerializer(required=False, many=True)
+    roles = ShortRoleSerializer(many=True, required=False)
+    role_ids = serializers.PrimaryKeyRelatedField(required=False, write_only=True, many=True, allow_null=True,
+                                                   allow_empty=True,
+                                                   queryset=Role.objects.all(),
+                                                   source='roles')
 
     class Meta:
         model = User
@@ -19,7 +23,6 @@ class UserSerializer(serializers.ModelSerializer):
             "first_name",
             "last_name",
             "is_active",
-            "is_staff",
             "roles"
         ]
         depth = 1
@@ -55,7 +58,7 @@ class CreateUserSerializer(serializers.ModelSerializer):
 
 
 class ShortUserSerializer(serializers.ModelSerializer):
-    role = RoleSerializer(required=False, many=True)
+    roles = ShortRoleSerializer(many=True, required=False)
 
     class Meta:
         model = User

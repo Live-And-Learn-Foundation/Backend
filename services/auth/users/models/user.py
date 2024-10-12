@@ -21,12 +21,19 @@ AUTH_PROVIDERS = {'facebook': 'facebook', 'google': 'google',
 
 
 class User(TimeStampedModel, AbstractBaseUser, PermissionsMixin):
+    id = models.UUIDField(
+        primary_key=True, default=uuid.uuid4, editable=False, unique=True
+    )
     password = models.CharField(verbose_name="password", max_length=255)
     email = models.EmailField(max_length=255, unique=True, null=True)
     first_name = models.CharField(max_length=50, blank=True)
     last_name = models.CharField(max_length=150, blank=True)
     is_active = models.BooleanField(default=False)
-    is_staff = models.BooleanField(default=True)
+    is_staff = models.BooleanField(
+        "staff status",
+        default=False,
+        help_text="Designates whether the user can log into this admin site.",
+    )
     roles = models.ManyToManyField(Role, related_name="users", null=True)
     date_joined = models.DateTimeField(default=timezone.now)
     auth_provider = models.CharField(

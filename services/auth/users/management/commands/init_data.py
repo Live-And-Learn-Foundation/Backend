@@ -1,7 +1,6 @@
 from django.core.management.base import BaseCommand
-from api_users.models import User
+from users.models import User, Role
 from oauth.models import Application
-from api_users.models.role import Role
 import random
 from django.db.models import Q
 from core.settings.base import (
@@ -22,13 +21,14 @@ class Command(BaseCommand):
     def handle(self, *args, **kwargs):
         super_admin_user = self.create_superadmin_account()
         self.create_oauth2_application(user=super_admin_user)
+        self.stdout.write(self.style.SUCCESS("Init data successfully"))
 
     @classmethod
     def create_oauth2_application(cls, user=None):
-        # Admin page
-        admin_app = Application.objects.filter(
+        # Default page
+        default_app = Application.objects.filter(
             Q(client_id=DEFAULT_CLIENT_ID)).exists()
-        if not admin_app:
+        if not default_app:
             Application.objects.create(
                 client_id=DEFAULT_CLIENT_ID,
                 client_type="confidential",

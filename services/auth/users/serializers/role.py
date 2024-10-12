@@ -11,12 +11,14 @@ class RoleSerializer(serializers.ModelSerializer):
             "description",
             "scope",
             "last_modified_by",
+            "updated_at",
         ]
         extra_kwargs = {
             "name": {"required": False},
             "description": {"required": False},
             "scope": {"required": False},
             "last_modified_by": {"required": False},
+            "updated_at": {"read_only": True},
         }
 
 
@@ -27,8 +29,10 @@ class ShortRoleSerializer(serializers.ModelSerializer):
             "id",
             "name",
             "description",
+            "updated_at",
         ]
         extra_kwargs = {
             "name": {"required": False},
             "description": {"required": False},
+            "updated_at": {"read_only": True},
         }
