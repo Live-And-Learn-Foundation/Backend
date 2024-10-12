@@ -22,11 +22,7 @@ services:
     image: mysql
     restart: always
     environment:
-      MYSQL_HOST: ${DB_HOST}
-      MYSQL_USER: ${DB_USER}
-      MYSQL_PASSWORD: ${DB_PASSWORD}
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
-      MYSQL_DATABASE: ${DB_NAME}
     volumes:
       - ./docker_volume/mysql_data:/var/lib/mysql
       - ./mysql-init:/docker-entrypoint-initdb.d
