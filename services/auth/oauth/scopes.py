@@ -6,13 +6,19 @@ default_scopes = {
 system_scopes = {
     "admin:roles:view": "View  roles",
     "admin:roles:edit": "Edit roles",
-    "admin:users:view": "View all users's information",
-    "admin:users:edit": "Edit all users's information",
+    "admin:users:view": "View all users' information",
+    "admin:users:edit": "Edit all users' information",
+    "admin:applications:view": "View integrated applications",
+    "admin:applications:edit": "Edit integrated applications",
 }
 
-scopes = {
+approvable_scopes = {
     "openid": "OpenID Connect scope",
 }
 
-scopes.update(default_scopes)
+client_scopes = {}
+client_scopes.update(default_scopes)
+client_scopes.update(approvable_scopes)
+scopes = {}
+scopes.update(client_scopes)
 scopes.update(system_scopes)

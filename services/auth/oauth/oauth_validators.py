@@ -56,7 +56,7 @@ class CustomOAuth2Validator(OAuth2Validator):
         request.client = id_token.application
         request.user = id_token.user
         # this is needed by django rest framework
-        # request.access_token = id_token
+        request.access_token = id_token
         return True
 
     def _load_id_token(self, token):

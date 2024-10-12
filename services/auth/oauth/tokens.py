@@ -1,6 +1,10 @@
 from datetime import datetime
-from oauthlib import common
+from oauthlib.common import generate_signed_token
 from django.utils import timezone
+from jwcrypto import jws
+import json
+import pytz
+utc = pytz.UTC
 
 
 def signed_token_generator(private_pem, **kwargs):
@@ -9,8 +13,11 @@ def signed_token_generator(private_pem, **kwargs):
     """
     def signed_token_generator(request):
         request.claims = kwargs
-        if request.scope is None and request.refresh_token_instance is not None:
-            scope = request.refresh_token_instance.access_token.scope if request.refresh_token_instance.access_token else None
+        refresh_token_instance = getattr(
+            request, "refresh_token_instance", None)
+        if request.scope is None and refresh_token_instance is not None:
+            access_token = refresh_token_instance.access_token if refresh_token_instance is not None else None
+            scope = access_token.scope if access_token is not None else None
             request.scope = scope
         request.claims.update(
             {
@@ -19,7 +26,7 @@ def signed_token_generator(private_pem, **kwargs):
                 "iat": timezone.now(),
             },
         )
-        return common.generate_signed_token(private_pem, request)
+        return generate_signed_token(private_pem, request)
 
     return signed_token_generator
 
@@ -30,7 +37,7 @@ class JWTAccessToken():
         self.user_id = claims["sub"]
         unix_timestamp = int(claims.get("exp", None))
         self.expires = datetime.utcfromtimestamp(unix_timestamp)
-    
+
     def allow_scopes(self, scopes):
         """
         Check if the token allows the provided scopes
@@ -40,11 +47,31 @@ class JWTAccessToken():
         if not scopes:
             return True
 
+        if self.scope is None:
+            return False
+
         provided_scopes = set(self.scope.split())
         resource_scopes = set(scopes)
 
         return resource_scopes.issubset(provided_scopes)
     
+    def is_expired(self):
+        """
+        Check token expiration with timezone awareness
+        """
+        if not self.expires:
+            return True
+
+        return  timezone.now() >= utc.localize(self.expires)
+
+    def is_valid(self, scopes=None):
+        """
+        Checks if the access token is valid.
+
+        :param scopes: An iterable containing the scopes to check or None
+        """
+        return not self.is_expired() and self.allow_scopes(scopes)
+
     @property
     def scopes(self):
         """

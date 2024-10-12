@@ -5,7 +5,7 @@ from rest_framework import routers
 from .views import Oauth2ViewSet
 
 app_name = "oauth"
-router = routers.DefaultRouter()
+router = routers.DefaultRouter(trailing_slash=False)
 
 router.register(r"", Oauth2ViewSet, basename="oauth")
 
