@@ -10,10 +10,6 @@ from .role import ShortRoleSerializer
 # first we define the serializers
 class UserSerializer(serializers.ModelSerializer):
     roles = ShortRoleSerializer(many=True, required=False)
-    role_ids = serializers.PrimaryKeyRelatedField(required=False, write_only=True, many=True, allow_null=True,
-                                                   allow_empty=True,
-                                                   queryset=Role.objects.all(),
-                                                   source='roles')
 
     class Meta:
         model = User
