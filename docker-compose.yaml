@@ -11,7 +11,7 @@ services:
     depends_on:
       - mysql
       - redis
-      - kong
+      # - kong
     env_file:
       - ./services/auth/config.env
     networks:
@@ -114,7 +114,7 @@ services:
 volumes:
   mysql_data:
   redis_data:
-  kong_data:
+  # kong_data:
 
 networks:
   network-1:
