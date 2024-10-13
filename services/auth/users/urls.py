@@ -13,6 +13,6 @@ router.register(r"", UserViewSet, basename="users")
 
 urlpatterns = [
     path(
-        r'api/v1/users/', include(router.urls)
+        r'', include(router.urls)
     ),
 ]

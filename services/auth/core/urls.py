@@ -22,8 +22,8 @@ from django.conf.urls.static import static
 from health_check.urls import urlpatterns as health_check_urls
 
 urlpatterns = [
-    path('', include("oauth.urls")),
-    path('', include("users.urls")),
+    path('api/auth/v1/oauth/', include("oauth.urls")),
+    path('api/auth/v1/users/', include("users.urls")),
 ]
 # Root route
 urlpatterns += [
