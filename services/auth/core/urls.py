@@ -22,8 +22,6 @@ from django.conf.urls.static import static
 from health_check.urls import urlpatterns as health_check_urls
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('o/', include('oauth2_provider.urls', namespace='oauth2_provider')),
     path('', include("oauth.urls")),
     path('', include("users.urls")),
 ]
