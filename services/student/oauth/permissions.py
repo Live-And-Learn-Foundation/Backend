@@ -21,31 +21,34 @@ class TokenHasActionScope(TokenMatchesOASRequirements):
     """
 
     def has_permission(self, request, view):
-        token = request.auth
+        token = request.user
 
         if not token:
             return False
 
-        if hasattr(token, "scope"):  # OAuth 2
-            required_alternate_scopes = self.get_required_alternate_scopes(request, view)
+        # Extract the scope from the token if it's a dictionary
+        token_scope = token.get('scope', '') if isinstance(
+            token, dict) else getattr(token, 'scope', '')
+        token_scopes = set(token_scope.split())
 
-            m = view.action.lower()
-            if m in required_alternate_scopes:
-                log.debug(
-                    "Required scopes alternatives to access resource: {0}".format(
-                        required_alternate_scopes[m]
-                    )
+
+        if not token_scopes:
+            return False
+
+        required_alternate_scopes = self.get_required_alternate_scopes(
+            request, view)
+
+        m = view.action.lower()
+        if m in required_alternate_scopes:
+            log.debug(
+                "Required scopes alternatives to access resource: {0}".format(
+                    required_alternate_scopes[m]
                 )
-                for alt in required_alternate_scopes[m]:
-                    if token.is_valid(alt):
-                        return True
-                return False
-            else:
-                log.warning("no scope alternates defined for method {0}".format(m))
-                return False
-
-        assert False, (
-            "TokenHasActionScope requires the"
-            "`oauth.rest_framework.OAuth2Authentication` authentication "
-            "class to be used."
-        )
+            )
+            for alt in required_alternate_scopes[m]:
+                if set(alt).issubset(token_scopes):
+                    return True
+            return False
+        else:
+            log.warning("no scope alternates defined for method {0}".format(m))
+            return False
