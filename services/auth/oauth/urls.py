@@ -10,5 +10,5 @@ router = routers.DefaultRouter(trailing_slash=False)
 router.register(r"", Oauth2ViewSet, basename="oauth")
 
 urlpatterns = [
-    re_path(r'^api/v1/', include(router.urls)), 
+    re_path(r'', include(router.urls)), 
 ]
