@@ -10,11 +10,11 @@ from students.views import StudentViewSet, StudentCourseViewSet
 app_name = "students"
 
 router = routers.SimpleRouter(trailing_slash=False)
-router.register(r"", StudentViewSet, basename="students")
-router.register(r"courses", StudentCourseViewSet, basename="student_courses")
+router.register(r"students", StudentViewSet, basename="students")
+router.register(r"students_courses", StudentCourseViewSet, basename="student_courses")
 
 urlpatterns = [
     path(
-        r'api/v1/students/', include(router.urls)
+        r'api/v1/', include(router.urls)
     ),
 ]
