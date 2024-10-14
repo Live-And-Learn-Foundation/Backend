@@ -60,6 +60,27 @@ services:
     networks:
       - network-1
 
+  document:
+    build:
+      context: ./services/document
+      dockerfile: Dockerfile
+    command: python manage.py runserver 0.0.0.0:9003
+    volumes:
+      - ./services/document:/app/document
+    ports:
+      - '9003:9003'
+    depends_on:
+      auth:
+        condition: service_healthy
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    env_file:
+      - ./services/document/config.env
+    networks:
+      - network-1
+
   mysql:
     image: mysql:latest
     restart: always

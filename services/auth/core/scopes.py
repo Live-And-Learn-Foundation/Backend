@@ -16,20 +16,29 @@ from .course_scopes import (
     system_scopes as course_system_scopes,
 )
 
+from .document_scopes import (
+    scopes as document_scopes,
+    default_scopes as document_default_scopes,
+    system_scopes as document_system_scopes,
+)
+
 scopes = {
     **oauth_scopes,
     **student_scopes,
     **course_scopes,
+    **document_scopes,
 }
 
 default_scopes = {
     **oauth_default_scopes,
     **student_default_scopes,
     **course_default_scopes,
+    **document_default_scopes,
 }
 
 system_scopes = {
     **oauth_system_scopes,
     **student_system_scopes,
     **course_system_scopes,
+    **document_system_scopes,
 }
