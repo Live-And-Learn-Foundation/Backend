@@ -28,8 +28,6 @@ services:
     ports:
       - '9001:9001'
     depends_on:
-      auth:
-        condition: service_healthy
       mysql:
         condition: service_healthy
       redis:
@@ -49,8 +47,6 @@ services:
     ports:
       - '9002:9002'
     depends_on:
-      auth:
-        condition: service_healthy
       mysql:
         condition: service_healthy
       redis:
@@ -70,8 +66,6 @@ services:
     ports:
       - '9003:9003'
     depends_on:
-      auth:
-        condition: service_healthy
       mysql:
         condition: service_healthy
       redis:
