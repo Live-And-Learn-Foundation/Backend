@@ -2,12 +2,12 @@ import uuid
 from django.db import models
 from base.models import TimeStampedModel
 from courses.models.room import Room
+from courses.models.subject import Subject
 
 
 class Course(TimeStampedModel):
-    subject_id = models.UUIDField(
-        primary_key=False, default=uuid.uuid4, editable=False, unique=True
-    )
+    subject = models.ForeignKey(
+        Subject, on_delete=models.CASCADE, blank=True, related_name="subjects")
     room = models.ForeignKey(
         Room, on_delete=models.CASCADE, blank=True, related_name="rooms")
     title = models.CharField(max_length=100, null=True, blank=True)
