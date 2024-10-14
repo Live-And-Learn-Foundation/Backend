@@ -18,6 +18,48 @@ services:
     networks:
       - network-1
 
+  student:
+    build:
+      context: ./services/student
+      dockerfile: Dockerfile
+    command: python manage.py runserver 0.0.0.0:9001
+    volumes:
+      - ./services/student:/app/student
+    ports:
+      - '9001:9001'
+    depends_on:
+      auth:
+        condition: service_healthy
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    env_file:
+      - ./services/student/config.env
+    networks:
+      - network-1
+  
+  course:
+    build:
+      context: ./services/course
+      dockerfile: Dockerfile
+    command: python manage.py runserver 0.0.0.0:9002
+    volumes:
+      - ./services/course:/app/course
+    ports:
+      - '9002:9002'
+    depends_on:
+      auth:
+        condition: service_healthy
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    env_file:
+      - ./services/course/config.env
+    networks:
+      - network-1
+
   mysql:
     image: mysql:latest
     restart: always
