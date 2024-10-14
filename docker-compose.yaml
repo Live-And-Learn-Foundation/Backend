@@ -75,6 +75,25 @@ services:
     networks:
       - network-1
 
+  department:
+    build:
+      context: ./services/department
+      dockerfile: Dockerfile
+    command: python manage.py runserver 0.0.0.0:9004
+    volumes:
+      - ./services/department:/app/department
+    ports:
+      - '9004:9004'
+    depends_on:
+      mysql:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+    env_file:
+      - ./services/department/config.env
+    networks:
+      - network-1
+
   mysql:
     image: mysql:latest
     restart: always

@@ -9,7 +9,7 @@ class Thesis(TimeStampedModel):
     )
     title = models.CharField(max_length=100, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
-    more_info = models.TextField(null=True, blank=True)
+    more_info = models.JSONField(null=True, blank=True)
     submission_date = models.DateField(null=True, blank=True)
 
     class Meta:
