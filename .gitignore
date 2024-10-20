@@ -27,3 +27,6 @@ docker_volume/*
 
 .idea/
 .vscode/
+
+.kong_data/
+.mysql_data/

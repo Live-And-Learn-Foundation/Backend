@@ -100,7 +100,7 @@ services:
     environment:
       MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
     volumes:
-      - mysql_data:/var/lib/mysql
+      - .mysql_data:/var/lib/mysql
       - ./mysql-init:/docker-entrypoint-initdb.d
     ports:
       - '3307:${DB_PORT}'
@@ -145,7 +145,7 @@ services:
       POSTGRES_DB: kong
       POSTGRES_PASSWORD: kong
     healthcheck:
-      test: ['CMD-SHELL', 'pg_isready -U kong']
+      test: ['CMD-SHELL', 'pg_isready']
       interval: 30s
       timeout: 10s
       retries: 5
