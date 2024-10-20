@@ -4,6 +4,8 @@ from django.db import models
 import uuid
 from django.utils import timezone
 
+from .users_detail import UserDetail
+
 from .role import Role
 from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser
@@ -35,6 +37,7 @@ class User(TimeStampedModel, AbstractBaseUser, PermissionsMixin):
         help_text="Designates whether the user can log into this admin site.",
     )
     roles = models.ManyToManyField(Role, related_name="users", null=True)
+    user_detail = models.OneToOneField(UserDetail, on_delete=models.CASCADE, related_name='user', null=True, blank=True)
     date_joined = models.DateTimeField(default=timezone.now)
     auth_provider = models.CharField(
         max_length=255, blank=False,
