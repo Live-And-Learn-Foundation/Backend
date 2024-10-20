@@ -10,4 +10,5 @@ class DepartmentSerializer(serializers.ModelSerializer):
             "more_info",
             "name",
             "description",
+            "department_type",
         ]
