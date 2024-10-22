@@ -5,7 +5,7 @@ from base.models import TimeStampedModel
 
 class Thesis(TimeStampedModel):
     user_id = models.UUIDField(
-        primary_key=False, default=uuid.uuid4, editable=False, unique=True
+        primary_key=False, default=uuid.uuid4, editable=True, unique=False
     )
     title = models.CharField(max_length=100, null=True, blank=True)
     description = models.TextField(null=True, blank=True)

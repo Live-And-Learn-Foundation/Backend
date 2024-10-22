@@ -6,10 +6,11 @@ from django.contrib.auth.hashers import make_password
 
 from .role import ShortRoleSerializer
 from .users_detail import UserDetailSerializer
+from base.serializers import WritableNestedSerializer
 
 
 # first we define the serializers
-class UserSerializer(serializers.ModelSerializer):
+class UserSerializer(WritableNestedSerializer):
     roles = ShortRoleSerializer(many=True, required=False)
     user_detail = UserDetailSerializer(required=False)
 
@@ -25,6 +26,8 @@ class UserSerializer(serializers.ModelSerializer):
             "user_detail"
         ]
         depth = 1
+        nested_create_fields = ["roles"]
+        nested_update_fields = ["roles", "user_detail"]
 
 
 class CreateUserSerializer(serializers.ModelSerializer):
