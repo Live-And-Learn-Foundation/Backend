@@ -6,7 +6,7 @@ from departments.models.teacher_type import TeacherType
 
 class Teacher(TimeStampedModel):
     user_id = models.UUIDField(
-        primary_key=False, default=uuid.uuid4, editable=False, unique=True
+        primary_key=False, default=uuid.uuid4, editable=True, unique=False
     )
     teacher_type = models.ForeignKey(
         TeacherType, on_delete=models.CASCADE, blank=True, related_name="teacher_types")
