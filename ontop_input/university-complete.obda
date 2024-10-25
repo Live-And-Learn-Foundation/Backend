@@ -1,0 +1,356 @@
+[PrefixDeclaration]
+:		http://www.semanticweb.org/nguye/ontologies/2024/8/university#
+owl:		http://www.w3.org/2002/07/owl#
+rdf:		http://www.w3.org/1999/02/22-rdf-syntax-ns#
+xml:		http://www.w3.org/XML/1998/namespace
+xsd:		http://www.w3.org/2001/XMLSchema#
+obda:		https://w3id.org/obda/vocabulary#
+rdfs:		http://www.w3.org/2000/01/rdf-schema#
+
+[MappingDeclaration] @collection [[
+mappingId	MAPID-ebf3d96c77884aa88dda73e2932a5dc3
+target		:Thesis_{id} a :Thesis ; :hasTitle {title} ; :hasDescription {description} ; :hasSubmissionDate {submission_date} ; :createdAt {created_at} ; :updatedAt {updated_at} ; :hasAuthor :Person_{user_id} . :Person_{user_id} a :Student . 
+source		SELECT
+			t.id,
+			t.title,
+			t.description,
+			t.submission_date,
+			t.created_at,
+			t.updated_at,
+			t.user_id
+			FROM
+			document_db.thesis t
+			JOIN
+			student_db.students s
+			ON
+			s.user_id = t.user_id;
+
+mappingId	MAPID-54cb5daeab074120abffb3acb3f40b44
+target		:Thesis_{id} a :Thesis ; :hasTitle {title} ; :hasDescription {description} ; :hasSubmissionDate {submission_date} ; :createdAt {created_at} ; :updatedAt {updated_at} ; :hasAuthor :Person_{user_id} . :Person_{user_id} a :Teacher . 
+source		SELECT
+			t.id,
+			t.title,
+			t.description,
+			t.submission_date,
+			t.created_at,
+			t.updated_at,
+			t.user_id
+			FROM
+			document_db.thesis t
+			JOIN
+			department_db.teachers s
+			ON
+			s.user_id = t.user_id;
+
+mappingId	MAPID-a2c438c4bfa24bdbaacc049c1bbe74f5
+target		:Department_{id} a :AcademicDepartment ; :hasName {name} ; :createdAt {created_at} ; :updatedAt {updated_at} ; :hasDescription {description} . 
+source		SELECT
+			t.id,
+			t.created_at,
+			t.updated_at,
+			t.name,
+			t.description
+			FROM
+			department_db.departments t
+
+mappingId	MAPID-35be9d06317c446aaad264a53368ad3c
+target		:Subject_material_{id} a :Subject_material ; :hasTitle {title} ; :createdAt {created_at} ; :updatedAt {updated_at} ; :hasDescription {description} ; :isMaterialOf :Subject_{subject_id} . 
+source		SELECT
+			t.id,
+			t.created_at,
+			t.updated_at,
+			t.title,
+			t.description,
+			t.subject_id
+			FROM
+			document_db.subject_materials t
+
+mappingId	MAPID-6063a22c57d04b959ae2d4b1f3ec4b2e
+target		:Facility_{id} a :StaffRoom ; :hasTitle {title} ; :createdAt {created_at} ; :updatedAt {updated_at} ; :hasLocation {location} ; :hasCapacity {capacity} . 
+source		SELECT
+			t.id,
+			t.created_at,
+			t.updated_at,
+			t.title,
+			t.location,
+			t.capacity
+			FROM
+			course_db.rooms t
+			JOIN
+			course_db.room_types s
+			ON
+			s.id = t.room_type_id
+			WHERE
+			s.title = 'StaffRoom';
+
+mappingId	MAPID-db709f3674ce49b4a779f419b1abe5d3
+target		:Facility_{id} a :LabRoom ; :hasTitle {title} ; :createdAt {created_at} ; :updatedAt {updated_at} ; :hasLocation {location} ; :hasCapacity {capacity} . 
+source		SELECT
+			t.id,
+			t.created_at,
+			t.updated_at,
+			t.title,
+			t.location,
+			t.capacity
+			FROM
+			course_db.rooms t
+			JOIN
+			course_db.room_types s
+			ON
+			s.id = t.room_type_id
+			WHERE
+			s.title = 'LabRoom';
+
+mappingId	MAPID-2a8d426d4a8a4ba9bba558744ea4482d
+target		:Facility_{id} a :OfficeRoom ; :hasTitle {title} ; :createdAt {created_at} ; :updatedAt {updated_at} ; :hasLocation {location} ; :hasCapacity {capacity} . 
+source		SELECT
+			t.id,
+			t.created_at,
+			t.updated_at,
+			t.title,
+			t.location,
+			t.capacity
+			FROM
+			course_db.rooms t
+			JOIN
+			course_db.room_types s
+			ON
+			s.id = t.room_type_id
+			WHERE
+			s.title = 'OfficeRoom';
+
+mappingId	MAPID-c8eef146517f4880910f25f66141d230
+target		:Facility_{id} a :ClassRoom ; :hasTitle {title} ; :createdAt {created_at} ; :updatedAt {updated_at} ; :hasLocation {location} ; :hasCapacity {capacity} . 
+source		SELECT
+			t.id,
+			t.created_at,
+			t.updated_at,
+			t.title,
+			t.location,
+			t.capacity
+			FROM
+			course_db.rooms t
+			JOIN
+			course_db.room_types s
+			ON
+			s.id = t.room_type_id
+			WHERE
+			s.title = 'ClassRoom';
+
+mappingId	MAPID-21a68718016a4f899576cc2d4089d680
+target		:Facility_{id} a :Library ; :hasTitle {title} ; :createdAt {created_at} ; :updatedAt {updated_at} ; :hasLocation {location} ; :hasCapacity {capacity} . 
+source		SELECT
+			t.id,
+			t.created_at,
+			t.updated_at,
+			t.title,
+			t.location,
+			t.capacity
+			FROM
+			course_db.rooms t
+			JOIN
+			course_db.room_types s
+			ON
+			s.id = t.room_type_id
+			WHERE
+			s.title = 'Library';
+
+mappingId	MAPID-f7377a206afc494dac9223a50d282c58
+target		:Major_{id} a :Major ; :hasName {name} ; :hasDescription {description} ; :createdAt {created_at} ; :updatedAt {updated_at} ; :isOfferedByDepartment :AcademicDepartment_{department_id} . 
+source		SELECT
+			t.id,
+			t.created_at,
+			t.updated_at,
+			t.name,
+			t.description,
+			t.department_id
+			FROM
+			department_db.majors t
+			JOIN
+			department_db.departments s
+			ON
+			s.id = t.department_id
+
+mappingId	MAPID-b724e74de46a4829bd4c4256aab7aab0
+target		:Subject_{id} a :Subject ; :hasTitle {title} ; :hasCredit {credit} ; :createdAt {created_at} ; :updatedAt {updated_at} ; :isStudiedInMajor :Major_{major_id} . 
+source		SELECT
+			t.id,
+			t.created_at,
+			t.updated_at,
+			t.title,
+			t.credit,
+			t.major_id
+			FROM
+			course_db.subjects t
+
+mappingId	MAPID-ab354c645f7f45489beed73b68d9c2d7
+target		:Course_{id} a :Course ; :hasTitle {title} ; :startDate {start_date} ; :endDate {end_date} ; :createdAt {created_at} ; :updatedAt {updated_at} ; :isCourseOf :Subject_{subject_id} ; :studyIn :Facility_{room_id} . 
+source		SELECT
+			t.id,
+			t.created_at,
+			t.updated_at,
+			t.title,
+			t.end_date,
+			t.start_date,
+			t.subject_id,
+			t.room_id
+			FROM
+			course_db.courses t
+			JOIN
+			course_db.rooms r
+			ON
+			t.room_id = r.id
+
+mappingId	MAPID-4fcae199cde64d2c9e6f2cab477a7c9c
+target		:Person_{user_id} a :Student ; :hasFirstName {first_name} ; :hasLastName {last_name} ; :hasBiography {biography} ; :hasAcademicTitle {academic_title} ; :hasDegree {degree} ; :hasDateOfBirth {date_of_birth} ; :createdAt {created_at} ; :updatedAt {updated_at} ; :enrollmentYear {enrollment_year} . 
+source		SELECT
+			t.user_id,
+			u.first_name,
+			u.last_name,
+			s.biography,
+			s.academic_title,
+			s.degree,
+			s.date_of_birth,
+			t.created_at,
+			t.updated_at,
+			t.enrollment_year
+			FROM
+			student_db.students t
+			JOIN
+			auth_db.users u
+			ON
+			t.user_id = u.id
+			JOIN
+			auth_db.users_detail s
+			ON
+			t.user_id = s.id
+
+mappingId	MAPID-f55c2e76d98548088ce20186502b062a
+target		:Person_{user_id} a :Student ; :studies :Course_{course_id} . 
+source		SELECT
+			s.user_id,
+			t.course_id
+			FROM
+			student_db.student_courses t
+			JOIN
+			student_db.students s
+			ON
+			s.id = t.student_id
+
+mappingId	MAPID-6517c767fcf24c3ab238f8dff82670b0
+target		:Person_{user_id} a :Professor ; :hasFirstName {first_name} ; :hasLastName {last_name} ; :hasBiography {biography} ; :hasAcademicTitle {academic_title} ; :hasDegree {degree} ; :hasDateOfBirth {date_of_birth} ; :createdAt {created_at} ; :updatedAt {updated_at} . 
+source		SELECT
+			t.user_id,
+			u.first_name,
+			u.last_name,
+			s.biography,
+			s.academic_title,
+			s.degree,
+			s.date_of_birth,
+			t.created_at,
+			t.updated_at
+			FROM
+			department_db.teachers t
+			JOIN
+			auth_db.users u
+			ON
+			u.id = t.user_id
+			JOIN
+			auth_db.users_detail s
+			ON
+			u.user_detail_id = s.id
+			JOIN
+			department_db.teacher_types d
+			ON
+			t.teacher_type_id = d.id
+			WHERE
+			d.name = 'Professor';
+
+mappingId	MAPID-6517c767fcf24c3ab238f8dff82670b0(0)
+target		:Person_{user_id} a :TeachingAssistant ; :hasFirstName {first_name} ; :hasLastName {last_name} ; :hasBiography {biography} ; :hasAcademicTitle {academic_title} ; :hasDegree {degree} ; :hasDateOfBirth {date_of_birth} ; :createdAt {created_at} ; :updatedAt {updated_at} . 
+source		SELECT
+			t.user_id,
+			u.first_name,
+			u.last_name,
+			s.biography,
+			s.academic_title,
+			s.degree,
+			s.date_of_birth,
+			t.created_at,
+			t.updated_at
+			FROM
+			department_db.teachers t
+			JOIN
+			auth_db.users u
+			ON
+			u.id = t.user_id
+			JOIN
+			auth_db.users_detail s
+			ON
+			u.user_detail_id = s.id
+			JOIN
+			department_db.teacher_types d
+			ON
+			t.teacher_type_id = d.id
+			WHERE
+			d.name = 'TeachingAssistant';
+
+mappingId	MAPID-bbd85b8a5a7548a39db980bd333ff1c0
+target		:Person_{user_id} a :Teacher ; :isMemberOf :Department_{department_id} . 
+source		SELECT
+			s.user_id,
+			t.department_id
+			FROM
+			department_db.teacher_departments t
+			JOIN
+			department_db.teachers s
+			ON
+			t.teacher_id = s.id
+
+mappingId	MAPID-bbd85b8a5a7548a39db980bd333ff1c0(0)
+target		:Person_{user_id} a :Teacher ; :teaches :Course_{course_id} . 
+source		SELECT
+			s.user_id,
+			t.course_id
+			FROM
+			department_db.teacher_courses t
+			JOIN
+			department_db.teachers s
+			ON
+			t.teacher_id = s.id
+
+mappingId	MAPID-4fcae199cde64d2c9e6f2cab477a7c9c(0)
+target		:Person_{user_id} a :Student ; :hasFirstName {first_name} ; :hasLastName {last_name} ; :createdAt {created_at} ; :updatedAt {updated_at} ; :enrollmentYear {enrollment_year} . 
+source		SELECT
+			t.user_id,
+			u.first_name,
+			u.last_name,
+			t.created_at,
+			t.updated_at,
+			t.enrollment_year
+			FROM
+			student_db.students t
+			JOIN
+			auth_db.users u
+			ON
+			t.user_id = u.id
+
+mappingId	MAPID-21a68718016a4f899576cc2d4089d680(0)
+target		:Facility_{id} a :LectureHall ; :hasTitle {title} ; :createdAt {created_at} ; :updatedAt {updated_at} ; :hasLocation {location} ; :hasCapacity {capacity} . 
+source		SELECT
+			t.id,
+			t.created_at,
+			t.updated_at,
+			t.title,
+			t.location,
+			t.capacity
+			FROM
+			course_db.rooms t
+			JOIN
+			course_db.room_types s
+			ON
+			s.id = t.room_type_id
+			WHERE
+			s.title = 'LectureHall';
+]]
+

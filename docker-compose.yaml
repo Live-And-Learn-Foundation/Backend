@@ -36,7 +36,7 @@ services:
       - ./services/student/config.env
     networks:
       - network-1
-  
+
   course:
     build:
       context: ./services/course
@@ -91,6 +91,25 @@ services:
         condition: service_healthy
     env_file:
       - ./services/department/config.env
+    networks:
+      - network-1
+
+  search:
+    build:
+      context: ./services/search
+      dockerfile: Dockerfile
+    volumes:
+      - ./services/search:/app/search
+    ports:
+      - '9005:9005'
+    command: python main.py
+    # depends_on:
+    #   mysql:
+    #     condition: service_healthy
+    #   redis:
+    #     condition: service_healthy
+    # env_file:
+    #   - ./services/search/config.env
     networks:
       - network-1
 
@@ -227,6 +246,26 @@ services:
     depends_on:
       kong:
         condition: service_healthy
+    networks:
+      - network-1
+
+  ontop:
+    image: ontop/ontop
+    environment:
+      ONTOP_ONTOLOGY_FILE: /opt/ontop/input/university-complete.ttl
+      ONTOP_MAPPING_FILE: /opt/ontop/input/university-complete.obda
+      ONTOP_PROPERTIES_FILE: /opt/ontop/input/university-complete.compose.properties
+      ONTOP_CORS_ALLOWED_ORIGINS: "*"
+      ONTOP_DEV_MODE: "true"
+      ONTOP_LAZY_INIT: "true"
+    volumes:
+      - ./ontop_input:/opt/ontop/input
+      - ./jdbc:/opt/ontop/jdbc
+    depends_on:
+      mysql:
+        condition: service_healthy
+    ports:
+    - "9090:8080"
     networks:
       - network-1
 
