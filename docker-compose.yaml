@@ -3,7 +3,7 @@ services:
     build:
       context: ./services/auth
       dockerfile: Dockerfile
-    command: python manage.py runserver 0.0.0.0:9000
+    command: python main.py runserver 0.0.0.0:9000
     volumes:
       - ./services/auth:/app/auth
     ports:
@@ -18,81 +18,81 @@ services:
     networks:
       - network-1
 
-  student:
-    build:
-      context: ./services/student
-      dockerfile: Dockerfile
-    command: python manage.py runserver 0.0.0.0:9001
-    volumes:
-      - ./services/student:/app/student
-    ports:
-      - '9001:9001'
-    depends_on:
-      mysql:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-    env_file:
-      - ./services/student/config.env
-    networks:
-      - network-1
-  
-  course:
-    build:
-      context: ./services/course
-      dockerfile: Dockerfile
-    command: python manage.py runserver 0.0.0.0:9002
-    volumes:
-      - ./services/course:/app/course
-    ports:
-      - '9002:9002'
-    depends_on:
-      mysql:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-    env_file:
-      - ./services/course/config.env
-    networks:
-      - network-1
+  # student:
+  #   build:
+  #     context: ./services/student
+  #     dockerfile: Dockerfile
+  #   command: python main.py runserver 0.0.0.0:9001
+  #   volumes:
+  #     - ./services/student:/app/student
+  #   ports:
+  #     - '9001:9001'
+  #   depends_on:
+  #     mysql:
+  #       condition: service_healthy
+  #     redis:
+  #       condition: service_healthy
+  #   env_file:
+  #     - ./services/student/config.env
+  #   networks:
+  #     - network-1
 
-  document:
-    build:
-      context: ./services/document
-      dockerfile: Dockerfile
-    command: python manage.py runserver 0.0.0.0:9003
-    volumes:
-      - ./services/document:/app/document
-    ports:
-      - '9003:9003'
-    depends_on:
-      mysql:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-    env_file:
-      - ./services/document/config.env
-    networks:
-      - network-1
+  # course:
+  #   build:
+  #     context: ./services/course
+  #     dockerfile: Dockerfile
+  #   command: python main.py runserver 0.0.0.0:9002
+  #   volumes:
+  #     - ./services/course:/app/course
+  #   ports:
+  #     - '9002:9002'
+  #   depends_on:
+  #     mysql:
+  #       condition: service_healthy
+  #     redis:
+  #       condition: service_healthy
+  #   env_file:
+  #     - ./services/course/config.env
+  #   networks:
+  #     - network-1
 
-  department:
-    build:
-      context: ./services/department
-      dockerfile: Dockerfile
-    command: python manage.py runserver 0.0.0.0:9004
-    volumes:
-      - ./services/department:/app/department
-    ports:
-      - '9004:9004'
-    depends_on:
-      mysql:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-    env_file:
-      - ./services/department/config.env
-    networks:
-      - network-1
+  # document:
+  #   build:
+  #     context: ./services/document
+  #     dockerfile: Dockerfile
+  #   command: python main.py runserver 0.0.0.0:9003
+  #   volumes:
+  #     - ./services/document:/app/document
+  #   ports:
+  #     - '9003:9003'
+  #   depends_on:
+  #     mysql:
+  #       condition: service_healthy
+  #     redis:
+  #       condition: service_healthy
+  #   env_file:
+  #     - ./services/document/config.env
+  #   networks:
+  #     - network-1
+
+  # department:
+  #   build:
+  #     context: ./services/department
+  #     dockerfile: Dockerfile
+  #   command: python main.py runserver 0.0.0.0:9004
+  #   volumes:
+  #     - ./services/department:/app/department
+  #   ports:
+  #     - '9004:9004'
+  #   depends_on:
+  #     mysql:
+  #       condition: service_healthy
+  #     redis:
+  #       condition: service_healthy
+  #   env_file:
+  #     - ./services/department/config.env
+  #   networks:
+  #     - network-1
 
   mysql:
     image: mysql:latest
@@ -156,22 +156,9 @@ services:
     networks:
       - network-1
 
-  pgadmin:
-    image: dpage/pgadmin4
-    environment:
-      PGADMIN_DEFAULT_EMAIL: admin@email.com
-      PGADMIN_DEFAULT_PASSWORD: 123456789
-    ports:
-      - '5050:80'
-    depends_on:
-      kong-database:
-        condition: service_healthy
-    networks:
-      - network-1
-
   kong-migration:
     image: kong:latest
-    command: kong migrations up && kong migrations finish
+    command: 'kong migrations bootstrap'
     restart: on-failure
     environment:
       KONG_DATABASE: 'postgres'
@@ -182,13 +169,12 @@ services:
     depends_on:
       kong-database:
         condition: service_healthy
+    links:
+      - kong-database
     networks:
       - network-1
-    healthcheck:
-      test: ['CMD', 'test', '-f', '/tmp/migration_complete']
-      interval: 5s
-      timeout: 5s
-      retries: 5
+    profiles:
+      - donotstart
 
   kong:
     image: kong:latest
@@ -206,6 +192,35 @@ services:
       - '8443:8443' # Secure Proxy access
       - '127.0.0.1:8001:8001' # Admin API access
       - '127.0.0.1:8444:8444' # Secure Admin API access
+    depends_on:
+      kong-database:
+        condition: service_healthy
+    networks:
+      - network-1
+
+  rabbitmq:
+    image: rabbitmq:latest
+    environment:
+      RABBITMQ_DEFAULT_USER: user
+      RABBITMQ_DEFAULT_PASS: password
+    ports:
+      - '5672:5672'
+      - '15672:15672'
+    networks:
+      - network-1
+    healthcheck:
+      test: ['CMD-SHELL', 'rabbitmqctl status']
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: admin@email.com
+      PGADMIN_DEFAULT_PASSWORD: 123456789
+    ports:
+      - '5050:80'
     depends_on:
       kong-database:
         condition: service_healthy
