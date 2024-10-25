@@ -1,0 +1,702 @@
+@prefix : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix obda: <https://w3id.org/obda/vocabulary#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://www.semanticweb.org/nguye/ontologies/2024/8/university#> .
+
+<http://www.semanticweb.org/nguye/ontologies/2024/8/university> rdf:type owl:Ontology ;
+                                                                 rdfs:comment "This is ontology project about university"@en .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#borrows
+:borrows rdf:type owl:ObjectProperty ;
+         rdfs:subPropertyOf :unUsedObjectProperties ;
+         owl:inverseOf :isBorrowed ;
+         rdf:type owl:AsymmetricProperty ,
+                  owl:IrreflexiveProperty ;
+         rdfs:domain :Person ;
+         rdfs:range :Subject_material ;
+         rdfs:comment "A teacher/student borrows subject material"@en .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#enrollsIn
+:enrollsIn rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf :isBelongTo ;
+           owl:inverseOf :hasEnrolledStudent ;
+           rdf:type owl:AsymmetricProperty ,
+                    owl:IrreflexiveProperty ;
+           rdfs:domain :Student ;
+           rdfs:range :Major ;
+           rdfs:comment "A Student is enrolled in a specific Major (field of study)."@en .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#hasAuthor
+:hasAuthor rdf:type owl:ObjectProperty ;
+           owl:inverseOf :isAuthorof ;
+           rdf:type owl:AsymmetricProperty ,
+                    owl:IrreflexiveProperty ;
+           rdfs:domain :Document ;
+           rdfs:range :Student ,
+                      :Teacher ;
+           rdfs:comment "This Document is made by some teachers or students"@en .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#hasEnrolledStudent
+:hasEnrolledStudent rdf:type owl:ObjectProperty ;
+                    rdfs:subPropertyOf :isConsistOf ;
+                    rdf:type owl:AsymmetricProperty ,
+                             owl:IrreflexiveProperty ;
+                    rdfs:domain :Major ;
+                    rdfs:range :Student ;
+                    rdfs:comment "A Major has Students enrolled in it."@en .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#hasInstructor
+:hasInstructor rdf:type owl:ObjectProperty ;
+               owl:inverseOf :teaches ;
+               rdf:type owl:AsymmetricProperty ,
+                        owl:IrreflexiveProperty ;
+               rdfs:domain :Course ;
+               rdfs:range :Teacher ;
+               rdfs:comment "A Course is taught by 1 or more specific Teacher."@en .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#hasMajor
+:hasMajor rdf:type owl:ObjectProperty ;
+          rdfs:subPropertyOf :isConsistOf ;
+          owl:inverseOf :isOfferedByDepartment ;
+          rdf:type owl:AsymmetricProperty ,
+                   owl:IrreflexiveProperty ;
+          rdfs:domain :AcademicDepartment ;
+          rdfs:range :Major ;
+          rdfs:comment "A Department offers one or more Majors (programs of study)."@en .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#hasMember
+:hasMember rdf:type owl:ObjectProperty ;
+           rdfs:subPropertyOf :isConsistOf ;
+           owl:inverseOf :isMemberOf ;
+           rdf:type owl:AsymmetricProperty ,
+                    owl:IrreflexiveProperty ;
+           rdfs:domain :Department ;
+           rdfs:range :Staff ;
+           rdfs:comment "A department has some staff work in it"@en .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#hasPrerequisite
+:hasPrerequisite rdf:type owl:ObjectProperty ;
+                 rdfs:subPropertyOf :unUsedObjectProperties ;
+                 owl:inverseOf :isPrerequisiteFor ;
+                 rdf:type owl:TransitiveProperty ;
+                 rdfs:domain :Subject ;
+                 rdfs:range :Subject ;
+                 rdfs:comment "A Subject has prerequisites that must be completed before taking it."@en .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#includesCourse
+:includesCourse rdf:type owl:ObjectProperty ;
+                rdfs:subPropertyOf :isConsistOf ;
+                owl:inverseOf :isCourseOf ;
+                rdf:type owl:AsymmetricProperty ,
+                         owl:IrreflexiveProperty ;
+                rdfs:domain :Subject ;
+                rdfs:range :Course ;
+                rdfs:comment "A Subject consists of one or more Courses that are offered to students."@en .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#includesSubject
+:includesSubject rdf:type owl:ObjectProperty ;
+                 rdfs:subPropertyOf :isConsistOf ;
+                 owl:inverseOf :isStudiedInMajor ;
+                 rdfs:domain :Major ;
+                 rdfs:range :Subject ;
+                 rdfs:comment "A Major includes several Subjects (academic topics)."@en .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#isAuthorof
+:isAuthorof rdf:type owl:ObjectProperty ,
+                     owl:AsymmetricProperty ,
+                     owl:IrreflexiveProperty ;
+            rdfs:domain :Student ,
+                        :Teacher ;
+            rdfs:range :Document ;
+            rdfs:comment "A Teacher or Student is the author of a specific type of document."@en .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#isBelongTo
+:isBelongTo rdf:type owl:ObjectProperty ;
+            owl:inverseOf :isConsistOf ;
+            rdf:type owl:TransitiveProperty .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#isBorrowed
+:isBorrowed rdf:type owl:ObjectProperty ;
+            rdfs:subPropertyOf :unUsedObjectProperties ;
+            rdf:type owl:AsymmetricProperty ,
+                     owl:IrreflexiveProperty ;
+            rdfs:domain :Subject_material ;
+            rdfs:range :Person ;
+            rdfs:comment "A book or subject material is borrowed by Student/Teacher"@en .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#isConsistOf
+:isConsistOf rdf:type owl:ObjectProperty .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#isCourseOf
+:isCourseOf rdf:type owl:ObjectProperty ;
+            rdfs:subPropertyOf :isBelongTo ;
+            rdf:type owl:AsymmetricProperty ,
+                     owl:IrreflexiveProperty ;
+            rdfs:domain :Course ;
+            rdfs:range :Subject ;
+            rdfs:comment "A course is offered in 1 Subject"@en .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#isMaterialOf
+:isMaterialOf rdf:type owl:ObjectProperty ,
+                       owl:AsymmetricProperty ,
+                       owl:IrreflexiveProperty ;
+              rdfs:domain :Subject_material ;
+              rdfs:range :Subject ;
+              rdfs:comment "This Subject material is used for learning in which subject"@en .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#isMemberOf
+:isMemberOf rdf:type owl:ObjectProperty ;
+            rdfs:subPropertyOf :isBelongTo ;
+            rdf:type owl:AsymmetricProperty ,
+                     owl:IrreflexiveProperty ;
+            rdfs:domain :Staff ;
+            rdfs:range :Department ;
+            rdfs:comment "A staff is a member/ indivitual that works for a department"@en .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#isOfferedByDepartment
+:isOfferedByDepartment rdf:type owl:ObjectProperty ;
+                       rdfs:subPropertyOf :isBelongTo ;
+                       rdf:type owl:AsymmetricProperty ,
+                                owl:IrreflexiveProperty ;
+                       rdfs:domain :Major ;
+                       rdfs:range :AcademicDepartment ;
+                       rdfs:comment "A Major is offered by a specific Department."@en .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#isPrerequisiteFor
+:isPrerequisiteFor rdf:type owl:ObjectProperty ;
+                   rdfs:subPropertyOf :unUsedObjectProperties ;
+                   rdf:type owl:TransitiveProperty ;
+                   rdfs:domain :Subject ;
+                   rdfs:range :Subject ;
+                   rdfs:comment "A Subject is a prerequisite for another Subject"@en .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#isStudiedBy
+:isStudiedBy rdf:type owl:ObjectProperty ;
+             owl:inverseOf :studies ;
+             rdfs:domain :Course ;
+             rdfs:range :Student ;
+             rdfs:comment "A Course is studied by some student"@en .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#isStudiedInMajor
+:isStudiedInMajor rdf:type owl:ObjectProperty ;
+                  rdfs:subPropertyOf :isBelongTo ;
+                  rdfs:domain :Subject ;
+                  rdfs:range :Major .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#isUsedForCourse
+:isUsedForCourse rdf:type owl:ObjectProperty ;
+                 owl:inverseOf :studyIn ;
+                 rdfs:domain :Facility ;
+                 rdfs:range :Course .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#managesDocument
+:managesDocument rdf:type owl:ObjectProperty ;
+                 rdfs:subPropertyOf :unUsedObjectProperties ;
+                 rdfs:domain :Library ;
+                 rdfs:range :Document ;
+                 rdfs:comment "Library manages some Documents"@en .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#specializeIn
+:specializeIn rdf:type owl:ObjectProperty ,
+                       owl:IrreflexiveProperty ;
+              rdfs:domain :Teacher ;
+              rdfs:range :Major ;
+              rdfs:comment "A Teacher specializes in a particular subject or field of study."@en .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#studies
+:studies rdf:type owl:ObjectProperty ;
+         rdfs:subPropertyOf owl:topObjectProperty ;
+         rdfs:domain :Student ;
+         rdfs:range :Course ;
+         rdfs:comment "A student studies a course"@en .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#studyIn
+:studyIn rdf:type owl:ObjectProperty ;
+         rdfs:domain :Course ;
+         rdfs:range :Facility .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#teaches
+:teaches rdf:type owl:ObjectProperty ;
+         rdfs:domain :Teacher ;
+         rdfs:range :Course ;
+         rdfs:comment "Teacher teaches course"@en .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#unUsedObjectProperties
+:unUsedObjectProperties rdf:type owl:ObjectProperty .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#courseProperties
+:courseProperties rdf:type owl:DatatypeProperty .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#createdAt
+:createdAt rdf:type owl:DatatypeProperty ;
+           rdfs:subPropertyOf :generalProperties .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#departmentProperties
+:departmentProperties rdf:type owl:DatatypeProperty .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#endDate
+:endDate rdf:type owl:DatatypeProperty ;
+         rdfs:subPropertyOf :courseProperties .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#enrollmentYear
+:enrollmentYear rdf:type owl:DatatypeProperty ;
+                rdfs:subPropertyOf :studentProperties .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#generalProperties
+:generalProperties rdf:type owl:DatatypeProperty .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#hasAcademicTitle
+:hasAcademicTitle rdf:type owl:DatatypeProperty ;
+                  rdfs:subPropertyOf :personProperties .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#hasBiography
+:hasBiography rdf:type owl:DatatypeProperty ;
+              rdfs:subPropertyOf :personProperties .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#hasCapacity
+:hasCapacity rdf:type owl:DatatypeProperty ;
+             rdfs:subPropertyOf :roomProperties .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#hasCredit
+:hasCredit rdf:type owl:DatatypeProperty ;
+           rdfs:subPropertyOf :subjectProperties .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#hasDateOfBirth
+:hasDateOfBirth rdf:type owl:DatatypeProperty ;
+                rdfs:subPropertyOf :personProperties .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#hasDegree
+:hasDegree rdf:type owl:DatatypeProperty ;
+           rdfs:subPropertyOf :personProperties .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#hasDescription
+:hasDescription rdf:type owl:DatatypeProperty ;
+                owl:equivalentProperty :hasInfo ;
+                rdfs:subPropertyOf :generalProperties .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#hasEmail
+:hasEmail rdf:type owl:DatatypeProperty ;
+          rdfs:subPropertyOf :personProperties .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#hasFirstName
+:hasFirstName rdf:type owl:DatatypeProperty ;
+              rdfs:subPropertyOf :personProperties .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#hasInfo
+:hasInfo rdf:type owl:DatatypeProperty ;
+         rdfs:subPropertyOf :generalProperties ;
+         rdf:type owl:FunctionalProperty .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#hasLastName
+:hasLastName rdf:type owl:DatatypeProperty ;
+             rdfs:subPropertyOf :personProperties .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#hasLocation
+:hasLocation rdf:type owl:DatatypeProperty ;
+             rdfs:subPropertyOf :roomProperties .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#hasName
+:hasName rdf:type owl:DatatypeProperty ;
+         owl:equivalentProperty :hasTitle ;
+         rdfs:subPropertyOf :generalProperties .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#hasSubmissionDate
+:hasSubmissionDate rdf:type owl:DatatypeProperty ;
+                   rdfs:subPropertyOf :thesisProperties .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#hasTitle
+:hasTitle rdf:type owl:DatatypeProperty ;
+          rdfs:subPropertyOf :generalProperties .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#personProperties
+:personProperties rdf:type owl:DatatypeProperty .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#roomProperties
+:roomProperties rdf:type owl:DatatypeProperty .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#startDate
+:startDate rdf:type owl:DatatypeProperty ;
+           rdfs:subPropertyOf :courseProperties .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#studentProperties
+:studentProperties rdf:type owl:DatatypeProperty .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#subjectMaterialProperties
+:subjectMaterialProperties rdf:type owl:DatatypeProperty .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#subjectProperties
+:subjectProperties rdf:type owl:DatatypeProperty .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#thesisProperties
+:thesisProperties rdf:type owl:DatatypeProperty .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#updatedAt
+:updatedAt rdf:type owl:DatatypeProperty ;
+           rdfs:subPropertyOf :generalProperties .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#AcademicDepartment
+:AcademicDepartment rdf:type owl:Class ;
+                    rdfs:subClassOf :Department ,
+                                    [ rdf:type owl:Restriction ;
+                                      owl:onProperty :hasMajor ;
+                                      owl:someValuesFrom :Major
+                                    ] ,
+                                    [ rdf:type owl:Restriction ;
+                                      owl:onProperty :hasMember ;
+                                      owl:someValuesFrom :Staff
+                                    ] ;
+                    owl:disjointWith :AdministrativeDepartment .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#AdministrativeDepartment
+:AdministrativeDepartment rdf:type owl:Class ;
+                          rdfs:subClassOf :Department .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#AdministrativeStaff
+:AdministrativeStaff rdf:type owl:Class ;
+                     rdfs:subClassOf :NonTeachingStaff .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#ClassRoom
+:ClassRoom rdf:type owl:Class ;
+           rdfs:subClassOf :Facility .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#Course
+:Course rdf:type owl:Class ;
+        rdfs:subClassOf [ rdf:type owl:Restriction ;
+                          owl:onProperty :isStudiedBy ;
+                          owl:someValuesFrom :Student
+                        ] ,
+                        [ rdf:type owl:Restriction ;
+                          owl:onProperty :hasInstructor ;
+                          owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                          owl:onClass :TeachingAssistant
+                        ] ,
+                        [ rdf:type owl:Restriction ;
+                          owl:onProperty :studyIn ;
+                          owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                          owl:onClass :LabRoom
+                        ] ,
+                        [ rdf:type owl:Restriction ;
+                          owl:onProperty :hasInstructor ;
+                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                          owl:onClass :Professor
+                        ] ,
+                        [ rdf:type owl:Restriction ;
+                          owl:onProperty :isCourseOf ;
+                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                          owl:onClass :Subject
+                        ] ,
+                        [ rdf:type owl:Restriction ;
+                          owl:onProperty :studyIn ;
+                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                          owl:onClass :ClassRoom
+                        ] ;
+        owl:disjointWith :Department ,
+                         :Document ,
+                         :Facility ,
+                         :Major ,
+                         :Person ,
+                         :Subject .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#Department
+:Department rdf:type owl:Class ;
+            owl:disjointWith :Document ,
+                             :Facility ,
+                             :Major ,
+                             :Person ,
+                             :Subject .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#Document
+:Document rdf:type owl:Class ;
+          rdfs:subClassOf [ rdf:type owl:Restriction ;
+                            owl:onProperty :hasAuthor ;
+                            owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                            owl:onClass [ rdf:type owl:Class ;
+                                          owl:unionOf ( :Student
+                                                        :Teacher
+                                                      )
+                                        ]
+                          ] ;
+          owl:disjointWith :Facility ,
+                           :Major ,
+                           :Person ,
+                           :Subject .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#Facility
+:Facility rdf:type owl:Class ;
+          owl:disjointWith :Major ,
+                           :Person ,
+                           :Subject .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#HumanResourcesStaff
+:HumanResourcesStaff rdf:type owl:Class ;
+                     rdfs:subClassOf :NonTeachingStaff .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#LabRoom
+:LabRoom rdf:type owl:Class ;
+         rdfs:subClassOf :Facility .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#LectureHall
+:LectureHall rdf:type owl:Class ;
+             rdfs:subClassOf :Facility .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#Library
+:Library rdf:type owl:Class ;
+         rdfs:subClassOf :Facility ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :managesDocument ;
+                           owl:someValuesFrom :Document
+                         ] .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#Major
+:Major rdf:type owl:Class ;
+       rdfs:subClassOf [ rdf:type owl:Restriction ;
+                         owl:onProperty :hasEnrolledStudent ;
+                         owl:someValuesFrom :Student
+                       ] ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty :includesSubject ;
+                         owl:someValuesFrom :Subject
+                       ] ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty :isOfferedByDepartment ;
+                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                         owl:onClass :AcademicDepartment
+                       ] ;
+       owl:disjointWith :Person .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#NonTeachingStaff
+:NonTeachingStaff rdf:type owl:Class ;
+                  rdfs:subClassOf :Staff ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty :isMemberOf ;
+                                    owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                                    owl:onClass :AdministrativeDepartment
+                                  ] .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#OfficeRoom
+:OfficeRoom rdf:type owl:Class ;
+            rdfs:subClassOf :Facility .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#Person
+:Person rdf:type owl:Class ;
+        owl:disjointWith :Subject .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#Professor
+:Professor rdf:type owl:Class ;
+           rdfs:subClassOf :Teacher .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#Staff
+:Staff rdf:type owl:Class ;
+       rdfs:subClassOf :Person ,
+                       [ rdf:type owl:Restriction ;
+                         owl:onProperty :isMemberOf ;
+                         owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                         owl:onClass :Department
+                       ] .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#StaffRoom
+:StaffRoom rdf:type owl:Class ;
+           rdfs:subClassOf :Facility .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#Student
+:Student rdf:type owl:Class ;
+         rdfs:subClassOf :Person ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :borrows ;
+                           owl:someValuesFrom :Subject_material
+                         ] ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :studies ;
+                           owl:someValuesFrom :Course
+                         ] ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :isAuthorof ;
+                           owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                           owl:onClass :Thesis
+                         ] ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :enrollsIn ;
+                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                           owl:onClass :Major
+                         ] .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#StudentAffairsStaff
+:StudentAffairsStaff rdf:type owl:Class ;
+                     rdfs:subClassOf :NonTeachingStaff .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#Subject
+:Subject rdf:type owl:Class ;
+         rdfs:subClassOf [ rdf:type owl:Restriction ;
+                           owl:onProperty :hasPrerequisite ;
+                           owl:someValuesFrom :Subject
+                         ] ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :includesCourse ;
+                           owl:someValuesFrom :Course
+                         ] ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :isPrerequisiteFor ;
+                           owl:someValuesFrom :Subject
+                         ] ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :isStudiedInMajor ;
+                           owl:someValuesFrom :Major
+                         ] .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#Subject_material
+:Subject_material rdf:type owl:Class ;
+                  rdfs:subClassOf :Document ,
+                                  [ rdf:type owl:Restriction ;
+                                    owl:onProperty :isMaterialOf ;
+                                    owl:someValuesFrom :Subject
+                                  ] .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#SupportStaff
+:SupportStaff rdf:type owl:Class ;
+              rdfs:subClassOf :NonTeachingStaff .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#Teacher
+:Teacher rdf:type owl:Class ;
+         rdfs:subClassOf :Staff ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :specializeIn ;
+                           owl:someValuesFrom :Major
+                         ] ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :specializeIn ;
+                           owl:someValuesFrom :Subject
+                         ] ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :teaches ;
+                           owl:someValuesFrom :Course
+                         ] ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :borrows ;
+                           owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                           owl:onClass :Subject_material
+                         ] ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :isAuthorof ;
+                           owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                           owl:onClass :Subject_material
+                         ] ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :isAuthorof ;
+                           owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
+                           owl:onClass :Thesis
+                         ] ,
+                         [ rdf:type owl:Restriction ;
+                           owl:onProperty :isMemberOf ;
+                           owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
+                           owl:onClass :AcademicDepartment
+                         ] .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#TeachingAssistant
+:TeachingAssistant rdf:type owl:Class ;
+                   rdfs:subClassOf :Teacher .
+
+
+###  http://www.semanticweb.org/nguye/ontologies/2024/8/university#Thesis
+:Thesis rdf:type owl:Class ;
+        rdfs:subClassOf :Document .
+
+
+###  Generated by the OWL API (version 4.5.29.2024-05-13T12:11:03Z) https://github.com/owlcs/owlapi
