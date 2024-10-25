@@ -1,6 +1,6 @@
 from flask import Flask
 
-from app import middlewares, routes
+from src import middlewares, routes
 
 
 def main() -> Flask:
@@ -13,7 +13,7 @@ def main() -> Flask:
 
 def run():
     app = main()
-    app.run("localhost", 9006)
+    app.run("0.0.0.0", 9005)
 
 
 if __name__ == "__main__":

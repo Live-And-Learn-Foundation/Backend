@@ -36,7 +36,7 @@ services:
       - ./services/student/config.env
     networks:
       - network-1
-  
+
   course:
     build:
       context: ./services/course
@@ -91,6 +91,25 @@ services:
         condition: service_healthy
     env_file:
       - ./services/department/config.env
+    networks:
+      - network-1
+
+  search:
+    build:
+      context: ./services/search
+      dockerfile: Dockerfile
+    volumes:
+      - ./services/search:/app/search
+    ports:
+      - '9005:9005'
+    command: python main.py
+    # depends_on:
+    #   mysql:
+    #     condition: service_healthy
+    #   redis:
+    #     condition: service_healthy
+    # env_file:
+    #   - ./services/search/config.env
     networks:
       - network-1
 

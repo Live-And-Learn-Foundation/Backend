@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask import Blueprint, jsonify
-from app.controllers import SearchController
+from src.controllers import SearchController
 
 search_blueprint = Blueprint("search_engine", __name__,
                              url_prefix="/api/v1/search")
