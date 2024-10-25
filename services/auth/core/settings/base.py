@@ -81,16 +81,16 @@ INSTALLED_APPS = [
 ]
 
 MIDDLEWARE = [
-    'django.middlewares.security.SecurityMiddleware',
-    'django.contrib.sessions.middlewares.SessionMiddleware',
-    'django.middlewares.common.CommonMiddleware',
-    'django.contrib.auth.middlewares.AuthenticationMiddleware',
-    'oauth2_provider.middlewares.OAuth2TokenMiddleware',
-    'django.contrib.messages.middlewares.MessageMiddleware',
-    'django.middlewares.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middlewares.CorsMiddleware',
-    'base.middlewares.exception_handling.ExceptionHandlingMiddleware',
-    'base.middlewares.decode_token.DecodeTokenMiddleware',
+    'django.middleware.security.SecurityMiddleware',
+    'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.common.CommonMiddleware',
+    'django.contrib.auth.middleware.AuthenticationMiddleware',
+    'oauth2_provider.middleware.OAuth2TokenMiddleware',
+    'django.contrib.messages.middleware.MessageMiddleware',
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
+    'base.middleware.exception_handling.ExceptionHandlingMiddleware',
+    'base.middleware.decode_token.DecodeTokenMiddleware',
 ]
 
 ROOT_URLCONF = 'core.urls'

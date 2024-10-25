@@ -26,7 +26,7 @@ urlpatterns = [
 ]
 # Root route
 urlpatterns += [
-    re_path(r"^healthcheck/", include(health_check_urls)),
+    re_path(r"^/api/healthcheck/", include(health_check_urls)),
 ]
 
 if settings.DEBUG:

@@ -17,6 +17,6 @@ router.register(r"subjects", SubjectViewSet, basename="subjects")
 
 urlpatterns = [
     path(
-        r'api/v1/', include(router.urls)
+        r'api/v1', include(router.urls)
     ),
 ]

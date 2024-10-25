@@ -18,81 +18,81 @@ services:
     networks:
       - network-1
 
-  # student:
-  #   build:
-  #     context: ./services/student
-  #     dockerfile: Dockerfile
-  #   command: python main.py runserver 0.0.0.0:9001
-  #   volumes:
-  #     - ./services/student:/app/student
-  #   ports:
-  #     - '9001:9001'
-  #   depends_on:
-  #     mysql:
-  #       condition: service_healthy
-  #     redis:
-  #       condition: service_healthy
-  #   env_file:
-  #     - ./services/student/config.env
-  #   networks:
-  #     - network-1
+  student:
+     build:
+       context: ./services/student
+       dockerfile: Dockerfile
+     command: python main.py runserver 0.0.0.0:9001
+     volumes:
+       - ./services/student:/app/student
+     ports:
+       - '9001:9001'
+     depends_on:
+       mysql:
+         condition: service_healthy
+       redis:
+         condition: service_healthy
+     env_file:
+       - ./services/student/config.env
+     networks:
+       - network-1
 
-  # course:
-  #   build:
-  #     context: ./services/course
-  #     dockerfile: Dockerfile
-  #   command: python main.py runserver 0.0.0.0:9002
-  #   volumes:
-  #     - ./services/course:/app/course
-  #   ports:
-  #     - '9002:9002'
-  #   depends_on:
-  #     mysql:
-  #       condition: service_healthy
-  #     redis:
-  #       condition: service_healthy
-  #   env_file:
-  #     - ./services/course/config.env
-  #   networks:
-  #     - network-1
+  course:
+     build:
+       context: ./services/course
+       dockerfile: Dockerfile
+     command: python main.py runserver 0.0.0.0:9002
+     volumes:
+       - ./services/course:/app/course
+     ports:
+       - '9002:9002'
+     depends_on:
+       mysql:
+         condition: service_healthy
+       redis:
+         condition: service_healthy
+     env_file:
+       - ./services/course/config.env
+     networks:
+       - network-1
 
-  # document:
-  #   build:
-  #     context: ./services/document
-  #     dockerfile: Dockerfile
-  #   command: python main.py runserver 0.0.0.0:9003
-  #   volumes:
-  #     - ./services/document:/app/document
-  #   ports:
-  #     - '9003:9003'
-  #   depends_on:
-  #     mysql:
-  #       condition: service_healthy
-  #     redis:
-  #       condition: service_healthy
-  #   env_file:
-  #     - ./services/document/config.env
-  #   networks:
-  #     - network-1
+  document:
+     build:
+       context: ./services/document
+       dockerfile: Dockerfile
+     command: python main.py runserver 0.0.0.0:9003
+     volumes:
+       - ./services/document:/app/document
+     ports:
+       - '9003:9003'
+     depends_on:
+       mysql:
+         condition: service_healthy
+       redis:
+         condition: service_healthy
+     env_file:
+       - ./services/document/config.env
+     networks:
+       - network-1
 
-  # department:
-  #   build:
-  #     context: ./services/department
-  #     dockerfile: Dockerfile
-  #   command: python main.py runserver 0.0.0.0:9004
-  #   volumes:
-  #     - ./services/department:/app/department
-  #   ports:
-  #     - '9004:9004'
-  #   depends_on:
-  #     mysql:
-  #       condition: service_healthy
-  #     redis:
-  #       condition: service_healthy
-  #   env_file:
-  #     - ./services/department/config.env
-  #   networks:
-  #     - network-1
+  department:
+     build:
+       context: ./services/department
+       dockerfile: Dockerfile
+     command: python main.py runserver 0.0.0.0:9004
+     volumes:
+       - ./services/department:/app/department
+     ports:
+       - '9004:9004'
+     depends_on:
+       mysql:
+         condition: service_healthy
+       redis:
+         condition: service_healthy
+     env_file:
+       - ./services/department/config.env
+     networks:
+       - network-1
 
   mysql:
     image: mysql:latest
