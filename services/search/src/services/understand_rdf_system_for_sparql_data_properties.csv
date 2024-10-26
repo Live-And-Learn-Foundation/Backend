@@ -3,7 +3,7 @@ Properties Name,Description
 :startDate,"The date when an entity starts. Used for class Course."
 :hasDescription,"A textual description or explanation of an entity or individual. Used across various classes."
 :hasInfo,"Additional information or metadata about an entity or individual. Used across various classes."
-:hasName,"The name of an entity or individual. Used across various classes."
+:hasName,"The name of an entity or individual. Used across various classes, except Person and its subclasses."
 :hasTitle,"The title of an entity or individual. Used across various classes."
 :hasAcademicTitle,"Specific to academic settings, indicating a person's academic designation. Used for class Person and its subclasses."
 :hasBiography,"A detailed account of a person's life or career. Used for class Person and its subclasses."

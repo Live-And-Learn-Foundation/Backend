@@ -67,14 +67,16 @@ for Properties_Name, Description in data_3.values:
 def convert_user_query(user_query):
     messages = base_messages + [{
     "role": "user",
-    "content": f"Convert the following NLQ into a SPARQL query. Ensure that the class of main object of the user's question is selected directly in the query result, in addition to its properties. Provide the query without Prefix and use correct syntax, including the FILTER function for any Data Properties that require substring matching. NLQ: {user_query}",
+    "content": f"Convert the following NLQ into a SPARQL query. Ensure that the class of main object of the user's question is selected directly in the query result, in addition to its properties.  ONLY provide the query without Prefix and use correct syntax, including the FILTER function for any Data Properties that require substring matching. NLQ: {user_query}",
     }]
     
     response = client.chat.completions.create(
     messages=messages,
-    temperature=0.5,
+    temperature=0.3,
     top_p=1.0,
     max_tokens=4096,
     model=model_name
     )
+    print("Hi")
+    print(response.choices[0].message.content)
     return response.choices[0].message.content
