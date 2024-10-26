@@ -29,6 +29,7 @@ def convert_sparql_output(sparql_output):
                     entry["url"].append(f"/{individual_type}/{individual_id}")
             else:
                 # Ghép các phần dữ liệu khác thành additional_info
+                key = re.sub(r'(?<!^)(?=[A-Z])', ' ', key).lower()
                 additional_info_parts.append(f"{key}: {value['value']}")
         
         # Nối các phần của additional_info thành một chuỗi với dấu chấm phẩy
