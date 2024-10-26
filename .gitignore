@@ -22,6 +22,14 @@ oidc.key
 #Docker
 docker_volume
 docker_volume/*
+.kong_data
+.kong_data/*
+
+storage
+storage/*
 
 .idea/
 .vscode/
+
+.kong_data/
+.mysql_data/

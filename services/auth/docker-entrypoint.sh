@@ -6,4 +6,7 @@ echo "Applying database migrations..."
 python manage.py makemigrations 
 python manage.py migrate
 
+echo "Applying admin user..."
+python manage.py init_data
+
 exec "$@"

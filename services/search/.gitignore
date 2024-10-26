@@ -1,0 +1,8 @@
+# Frontend output
+static
+venv
+collectstatic
+config.env
+*.sqlite3
+jwt
+jwt.pub

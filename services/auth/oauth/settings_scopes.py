@@ -1,5 +1,5 @@
 from oauth2_provider.settings import oauth2_settings
-from core.scopes import system_scopes;
+from core.scopes import system_scopes
 from oauth2_provider.scopes import BaseScopes
 from oauthlib.oauth2.rfc6749.utils import scope_to_list
 
@@ -28,7 +28,8 @@ class SettingsScopes(BaseScopes):
         )
 
         if application is not None:
-            application_scopes = all_scopes if  application.scope == '__all__' else set(scope_to_list(application.scope))
+            application_scopes = all_scopes if application.scope == '__all__' else set(
+                scope_to_list(application.scope))
             # validate application scopes
             return list(application_scopes.intersection(all_scopes))
         return list(all_scopes)

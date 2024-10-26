@@ -15,29 +15,21 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import include, re_path
+from django.urls import include, re_path, path
 from django.conf import settings
-from django.urls import path
 from django.conf.urls.static import static
 
-from .views import single_page_view
 from health_check.urls import urlpatterns as health_check_urls
 
 urlpatterns = [
-    # path('admin/', admin.site.urls),
-    path('', include("oauth.urls")),
-    path('', include("api_docs.urls")),
-    path('', include("api_users.urls")),    
+    path('api/v1/oauth/', include("oauth.urls")),
+    path('api/v1/users/', include("users.urls")),
 ]
 # Root route
 urlpatterns += [
-    re_path(r"^healthcheck/", include(health_check_urls)),
-    re_path(r"^.*$", single_page_view),
-]
-
-urlpatterns += [
-    path(r"api/v1/", include("binary_database_files.urls")),
+    re_path(r"^api/healthcheck/", include(health_check_urls)),
 ]
 
 if settings.DEBUG:
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += static(settings.MEDIA_URL,
+                          document_root=settings.MEDIA_ROOT)

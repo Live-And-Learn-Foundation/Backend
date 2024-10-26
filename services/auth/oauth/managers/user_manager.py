@@ -10,7 +10,6 @@ class UserManager(BaseUserManager):
         email = self.normalize_email(email)
         user = self.model(email=email, **extra_fields)
         user.set_password(password)
-        user.is_staff = extra_fields.get("is_staff", False)
         user.is_superuser = extra_fields.get("is_superuser", False)
         user.save(using=self._db)
         return user
@@ -21,7 +20,6 @@ class UserManager(BaseUserManager):
 
         user = self.create_user(email, password)
         user.is_superuser = True
-        user.is_staff = True
         user.save()
 
         return user

@@ -1,6 +1,5 @@
 from django.forms import ValidationError
 from django.shortcuts import render
-from drf_nested_forms.utils import NestedForm
 import json
 from django.http import HttpResponse
 from oauth2_provider.signals import app_authorized
@@ -13,9 +12,9 @@ from oauth2_provider.views.mixins import OAuthLibMixin
 import rest_framework
 from rest_framework.response import Response
 from django.utils.translation import gettext as _
-from api_users.serializers import CreateUserSerializer
+from users.serializers import CreateUserSerializer
 
-from api_users.models.user import User
+from users.models.user import User
 from oauth.services.user import UserService
 from base.services.verification import Verification
 from core.settings.base import (
@@ -48,16 +47,18 @@ from oauth2_provider.contrib.rest_framework import TokenMatchesOASRequirements
 OAuthUser = get_user_model()
 AccessToken = get_access_token_model()
 
+
 class Oauth2ViewSet(OAuthLibMixin, ViewSet):
     """
     The endpoints for login, refresh token and logout
     """
 
-    required_alternate_scopes = ["read", "write"]  # Define your required scopes here
+    # Define your required scopes here
+    required_alternate_scopes = ["read", "write"]
 
     def get_permissions(self):
         """Returns the permission based on the type of action"""
-        if self.action in ["login", "register", "refreshToken","verify" ,"loginWithGoogle"]:
+        if self.action in ["login", "register", "refreshToken", "verify", "loginWithGoogle"]:
             return [AllowAny()]
         return [IsAuthenticated()]
 
@@ -89,21 +90,17 @@ class Oauth2ViewSet(OAuthLibMixin, ViewSet):
         if serializer.is_valid():
             try:
                 user = serializer.save()
-                UserService.verify_user_email(email, first_name, last_name, role_ids=None)
+                UserService.verify_user_email(
+                    email, first_name, last_name, role_ids=None)
                 return Response(serializer.data, status=HTTP_201_CREATED)
             except Exception as e:
                 serializer.delete(user)
                 return Response({"error": str(e)}, status=HTTP_400_BAD_REQUEST)
         return Response(serializer.errors, status=HTTP_400_BAD_REQUEST)
-    
+
     @action(detail=False, methods=["post"], url_path="verify", permission_classes=[AllowAny], authentication_classes=[])
     def verify(self, request, *args, **kwargs):
-        content_type = request.content_type
         data = request.data.copy()
-        if content_type is not None and 'form-data' in content_type:
-            form = NestedForm(request.data)
-            if form.is_nested():
-                data = form.data    
         token = data.get('token')
         if token is not None:
             del data['token']
@@ -137,7 +134,7 @@ class Oauth2ViewSet(OAuthLibMixin, ViewSet):
                 {"error": _("Invalid token")},
                 status=HTTP_406_NOT_ACCEPTABLE,
             )
-            
+
     @action(
         detail=False,
         methods=["post"],
@@ -197,7 +194,7 @@ class Oauth2ViewSet(OAuthLibMixin, ViewSet):
         methods=["post"],
         url_path="refresh-token",
         permission_classes=[AllowAny],
-        authentication_classes=[],  
+        authentication_classes=[],
     )
     def refreshToken(self, request):
         request.POST._mutable = True

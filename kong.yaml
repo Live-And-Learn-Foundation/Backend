@@ -1,0 +1,86 @@
+_format_version: "1.1"
+
+services:
+  - name: auth-service
+    url: http://auth:9000/api
+    routes:
+      - name: auth-route
+        paths:
+          - /api/auth
+        strip_path: true
+        methods:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+          - PATCH
+
+  - name: student-service
+    url: http://student:9001/api
+    routes:
+      - name: student-route
+        paths:
+          - /api/student
+        strip_path: true
+        methods:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+          - PATCH
+
+  - name: course-service
+    url: http://course:9002/api
+    routes:
+      - name: course-route
+        paths:
+          - /api/course
+        strip_path: true
+        methods:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+          - PATCH
+
+  - name: document-service
+    url: http://document:9003/api
+    routes:
+      - name: document-route
+        paths:
+          - /api/document
+        strip_path: true
+        methods:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+          - PATCH
+
+  - name: department-service
+    url: http://department:9004/api
+    routes:
+      - name: department-route
+        paths:
+          - /api/department
+        strip_path: true
+        methods:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+          - PATCH
+
+  - name: search-service
+    url: http://search:9005/api
+    routes:
+      - name: search-route
+        paths:
+          - /api/search
+        strip_path: true
+        methods:
+          - GET
+          - POST
+          - PUT
+          - DELETE
+          - PATCH
