@@ -137,7 +137,7 @@ services:
       KONG_PORTS: '8000,8443'  # Cổng proxy
       KONG_DECLARATIVE_CONFIG: /etc/kong/kong.yaml
     ports:
-      - '8000:8000'
+      - '80:8000'
       - '8443:8443'
       - '127.0.0.1:8001:8001'
       - '127.0.0.1:8444:8444'
