@@ -33,48 +33,49 @@ client = OpenAI(
 
 base_messages = []
 base_messages.append({
-            "role": "system",
-            "content": "You are an expert in converting natural language queries (NLQ) into SPARQL queries for university search.",
-        })
+    "role": "system",
+    "content": "You are an expert in converting natural language queries (NLQ) into SPARQL queries for university search.",
+})
 base_messages.append({
-            "role": "system",
-            "content": "Given the following classes in my RDF graph design: ",
-        })
+    "role": "system",
+    "content": "Given the following classes in my RDF graph design: ",
+})
 for Properties_Name, Description in data_1.values:
     base_messages.append({
-            "role": "system",
-            "content": f"Class: {Properties_Name}\nClass Description: {Description}\n"
+        "role": "system",
+        "content": f"Class: {Properties_Name}\nClass Description: {Description}\n"
     })
 base_messages.append({
-            "role": "system",
-            "content": "And given the following object properties in my RDF graph design: ",
-        })
+    "role": "system",
+    "content": "And given the following object properties in my RDF graph design: ",
+})
 for Properties_Name, Description in data_2.values:
     base_messages.append({
-            "role": "system",
-            "content": f"Object Properties: {Properties_Name}\nObject Properties Description: {Description}\n"
+        "role": "system",
+        "content": f"Object Properties: {Properties_Name}\nObject Properties Description: {Description}\n"
     })
 base_messages.append({
-            "role": "system",
-            "content": "And given the following data properties in my RDF graph design: ",
-        })
+    "role": "system",
+    "content": "And given the following data properties in my RDF graph design: ",
+})
 for Properties_Name, Description in data_3.values:
     base_messages.append({
-            "role": "system",
-            "content": f"Data Properties: {Properties_Name}\nData Properties Description: {Description}\n"
+        "role": "system",
+        "content": f"Data Properties: {Properties_Name}\nData Properties Description: {Description}\n"
     })
+
 
 def convert_user_query(user_query):
     messages = base_messages + [{
-    "role": "user",
-    "content": f"Now, convert the following NLQ into a SPARQL query, just give me the query without Prefix and with correct syntax (using FILTER function for any Data Properties search that contain string): NLQ: {user_query}",
+        "role": "user",
+        "content": f"Now, convert the following NLQ into a SPARQL query, just give me the query without Prefix and with correct syntax (using FILTER function for any Data Properties search that contain string): NLQ: {user_query}",
     }]
-    
+
     response = client.chat.completions.create(
-    messages=messages,
-    temperature=0.5,
-    top_p=1.0,
-    max_tokens=4096,
-    model=model_name
+        messages=messages,
+        temperature=0.5,
+        top_p=1.0,
+        max_tokens=4096,
+        model=model_name
     )
     return response.choices[0].message.content

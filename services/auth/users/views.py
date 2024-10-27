@@ -1,7 +1,5 @@
 from django.shortcuts import render
 
-from rest_framework import generics, permissions, serializers
-
 from users.models.user import User
 from users.serializers import UserSerializer
 # Create your views here.
@@ -21,7 +19,7 @@ class UserViewSet(viewsets.ModelViewSet):
 
     required_alternate_scopes = {
         "create": [["admin:users:edit"]],
-        "invite": [["admin:users:edit"],],
+        "invite": [["admin:users:edit"], ],
         "retrieve": [
             ["admin:users:view"],
             ["admin:users:edit"],

@@ -1,6 +1,6 @@
+from django.core.exceptions import SuspiciousOperation
 from oauth2_provider.backends import OAuth2Backend
 from oauth2_provider.oauth2_backends import get_oauthlib_core
-from django.core.exceptions import SuspiciousOperation
 
 OAuthLibCore = get_oauthlib_core()
 

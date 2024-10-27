@@ -2,7 +2,6 @@ import logging
 
 from oauth2_provider.contrib.rest_framework.permissions import TokenMatchesOASRequirements
 
-
 log = logging.getLogger("oauth2_provider")
 
 

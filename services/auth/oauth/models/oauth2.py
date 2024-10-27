@@ -1,13 +1,11 @@
-from django.db import models
-
 # Create your models here.
 
-from django.db import models
-from django.utils.translation import gettext_lazy as _
-from django.utils import timezone
 import pytz
+from django.db import models
+from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 
-utc=pytz.UTC
+utc = pytz.UTC
 # Create your models here.
 from oauth2_provider.models import (
     AbstractGrant,
@@ -16,6 +14,7 @@ from oauth2_provider.models import (
     AbstractIDToken,
     AbstractRefreshToken
 )
+
 
 class Application(AbstractApplication):
     APPLICATION_TYPE_SYSTEM = "system"
@@ -29,11 +28,14 @@ class Application(AbstractApplication):
     scope = models.TextField(blank=True)
     type = models.CharField(max_length=50, choices=APPLICATION_TYPES, default=APPLICATION_TYPE_CLIENT, blank=True)
 
+
 class Grant(AbstractGrant):
     application = models.ForeignKey(Application, on_delete=models.CASCADE)
 
+
 class IDToken(AbstractIDToken):
     application = models.ForeignKey(Application, on_delete=models.CASCADE)
+
 
 class AccessToken(AbstractAccessToken):
     """
@@ -72,6 +74,7 @@ class AccessToken(AbstractAccessToken):
         now = timezone.now()
         expires_utc = utc.localize(self.expires)
         return now >= expires_utc
+
 
 class RefreshToken(AbstractRefreshToken):
     application = models.ForeignKey(Application, on_delete=models.CASCADE, related_name="refresh_tokens")

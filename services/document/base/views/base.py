@@ -104,6 +104,7 @@ class BaseViewSet(viewsets.ModelViewSet):
         self.clear_querysets_cache()
         return Response(status=status.HTTP_204_NO_CONTENT)
 
+
 #  Just use this viewset
 
 

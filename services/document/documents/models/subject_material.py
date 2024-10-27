@@ -10,6 +10,6 @@ class SubjectMaterial(TimeStampedModel):
     title = models.CharField(max_length=100, null=True, blank=True)
     file_path = models.CharField(max_length=100, null=True, blank=True)
     description = models.TextField(null=True, blank=True)
-    
+
     class Meta:
         db_table = "subject_materials"

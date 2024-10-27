@@ -1,28 +1,21 @@
-from django.forms import ValidationError
-from base.services.verification import Verification
-from users.models.user import User
-from users.serializers import UserSerializer
-from base.views.base import BaseViewSet
 from base.pagination import CustomPagination
+from base.services.verification import Verification
+from base.views.base import BaseViewSet
 from django.contrib.auth import password_validation
+from django.forms import ValidationError
 from django.utils.translation import gettext as _
-from rest_framework import viewsets
-from rest_framework.permissions import AllowAny
-from rest_framework.response import Response
 from rest_framework.decorators import action
 from rest_framework.permissions import AllowAny, IsAuthenticated
-
-
+from rest_framework.response import Response
 from rest_framework.status import (
     HTTP_200_OK,
-    HTTP_201_CREATED,
     HTTP_400_BAD_REQUEST,
-    HTTP_401_UNAUTHORIZED,
     HTTP_404_NOT_FOUND,
-    HTTP_403_FORBIDDEN,
     HTTP_406_NOT_ACCEPTABLE,
     HTTP_500_INTERNAL_SERVER_ERROR,
 )
+from users.models.user import User
+from users.serializers import UserSerializer
 
 
 class UserViewSet(BaseViewSet):
@@ -31,7 +24,7 @@ class UserViewSet(BaseViewSet):
     pagination_class = CustomPagination
     required_alternate_scopes = {
         "create": [["admin:users:edit"]],
-        "invite": [["admin:users:edit"],],
+        "invite": [["admin:users:edit"], ],
         "retrieve": [
             ["admin:users:view"],
             ["admin:users:edit"],
@@ -128,7 +121,8 @@ class UserViewSet(BaseViewSet):
 
         return Response({"message": _("The passwword have been updated.")})
 
-    @action(detail=False, methods=["post"], url_path="verify_invitation", permission_classes=[AllowAny], authentication_classes=[])
+    @action(detail=False, methods=["post"], url_path="verify_invitation", permission_classes=[AllowAny],
+            authentication_classes=[])
     def verify_invitation(self, request, *args, **kwargs):
         data = request.data.copy()
         token = data.get('token')
