@@ -20,6 +20,6 @@ router.register(r"departments", DepartmentViewSet, basename="departments")
 
 urlpatterns = [
     path(
-        r'api/department/v1/', include(router.urls)
+        r'api/v1/', include(router.urls)
     ),
 ]
