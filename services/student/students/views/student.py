@@ -63,7 +63,7 @@ class StudentViewSet(BaseViewSet):
             access_token = request.headers.get('Authorization')
             headers = {'Authorization': access_token}
             response = requests.get(
-                f"http://host.docker.internal:9000/api/auth/v1/users/{user_id}",
+                f"http://host.docker.internal:9000/api/v1/users/{user_id}",
                 headers=headers
             )
             response.raise_for_status()
