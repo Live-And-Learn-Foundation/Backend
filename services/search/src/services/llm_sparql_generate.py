@@ -25,6 +25,7 @@ data_3 = data_3.dropna()
 
 endpoint = "https://models.inference.ai.azure.com"
 model_name = "gpt-4o"
+# print("Hi3")
 
 client = OpenAI(
     base_url=endpoint,
@@ -66,6 +67,7 @@ for Properties_Name, Description in data_3.values:
 
 
 def convert_user_query(user_query):
+    # print("Hi2")
     messages = base_messages + [{
     "role": "user",
     "content": f"Convert the following NLQ into a SPARQL query. Ensure that the class of main object of the user's question is selected directly in the query result, in addition to its properties.  ONLY provide the query without Prefix and use correct syntax, including the FILTER function for any Data Properties that require substring matching. NLQ: {user_query}",
@@ -78,6 +80,6 @@ def convert_user_query(user_query):
     max_tokens=4096,
     model=model_name
     )
-    print("Hi")
-    print(response.choices[0].message.content)
+    # print("Hi")
+    # print(response.choices[0].message.content)
     return response.choices[0].message.content
