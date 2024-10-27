@@ -155,10 +155,20 @@ class WritableNestedSerializer(serializers.ModelSerializer):
                         RelatedModelClass = related_serializer.Meta.model if related_serializer.Meta else None
                         if RelatedModelClass is not None and isinstance(value, dict):
                             if key in nested_update_fields:
-                                related_object = self.deep_create(
-                                    related_serializer, value)
-                                validated_data.update({key: related_object})
-                                setattr(instance, key, related_object)
+                                if value.get('id', None) is None:
+                                    related_object = self.deep_create(
+                                        related_serializer, value)
+                                    validated_data.update({key: related_object})
+                                    setattr(instance, key, related_object)
+                                else:
+                                    related_id = value.get('id')
+                                    del value['id']
+                                    related_object = RelatedModelClass.objects.get(
+                                        pk=related_id)
+                                    new_item = self.deep_update(
+                                        related_serializer, related_object, value)
+                                    validated_data.update({key: new_item})
+                                    setattr(instance, key, new_item)
                             else:
                                 del validated_data[key]
                         else:

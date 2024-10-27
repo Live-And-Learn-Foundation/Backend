@@ -34,7 +34,7 @@ class User(TimeStampedModel, AbstractBaseUser, PermissionsMixin):
         help_text="Designates whether the user can log into this admin site.",
     )
     roles = models.ManyToManyField(Role, related_name="users", null=True)
-    user_detail = models.OneToOneField(UserDetail, on_delete=models.CASCADE, related_name='user', null=True, blank=True)
+    user_detail = models.ForeignKey(UserDetail, on_delete=models.CASCADE, related_name='users', null=True, blank=True)
     date_joined = models.DateTimeField(default=timezone.now)
     auth_provider = models.CharField(
         max_length=255, blank=False,
