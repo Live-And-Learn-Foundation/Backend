@@ -5,7 +5,8 @@ from rest_framework.routers import DefaultRouter
 
 from rest_framework_nested import routers
 
-from departments.views import TeacherViewSet, TeacherTypeViewSet, TeacherCourseViewSet, TeacherDepartmentViewSet, MajorViewSet, DepartmentViewSet
+from departments.views import TeacherViewSet, TeacherTypeViewSet, TeacherCourseViewSet, TeacherDepartmentViewSet, \
+    MajorViewSet, DepartmentViewSet
 
 app_name = "departments"
 
@@ -19,6 +20,6 @@ router.register(r"departments", DepartmentViewSet, basename="departments")
 
 urlpatterns = [
     path(
-        r'api/v1/', include(router.urls)
+        r'api/department/v1/', include(router.urls)
     ),
 ]

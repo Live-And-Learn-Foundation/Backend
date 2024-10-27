@@ -1,9 +1,9 @@
 from datetime import datetime
-from oauthlib.common import generate_signed_token
-from django.utils import timezone
-from jwcrypto import jws
-import json
+
 import pytz
+from django.utils import timezone
+from oauthlib.common import generate_signed_token
+
 utc = pytz.UTC
 
 
@@ -11,6 +11,7 @@ def signed_token_generator(private_pem, **kwargs):
     """
     :param private_pem:
     """
+
     def signed_token_generator(request):
         request.claims = kwargs
         refresh_token_instance = getattr(
@@ -29,6 +30,7 @@ def signed_token_generator(private_pem, **kwargs):
         return generate_signed_token(private_pem, request)
 
     return signed_token_generator
+
 
 class JWTAccessToken():
     def __init__(self, claims):
@@ -54,7 +56,7 @@ class JWTAccessToken():
         resource_scopes = set(scopes)
 
         return resource_scopes.issubset(provided_scopes)
-    
+
     def is_expired(self):
         """
         Check token expiration with timezone awareness
@@ -62,7 +64,7 @@ class JWTAccessToken():
         if not self.expires:
             return True
 
-        return  timezone.now() >= utc.localize(self.expires)
+        return timezone.now() >= utc.localize(self.expires)
 
     def is_valid(self, scopes=None):
         """

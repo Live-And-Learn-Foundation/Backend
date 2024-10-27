@@ -1,8 +1,8 @@
-from rest_framework import status, viewsets
-from rest_framework.response import Response
 from django.db import transaction
 from django.db.models import Q
 from drf_nested_forms.utils import NestedForm
+from rest_framework import status, viewsets
+from rest_framework.response import Response
 
 
 class BaseViewSet(viewsets.ModelViewSet):
@@ -103,6 +103,25 @@ class BaseViewSet(viewsets.ModelViewSet):
                 instances.delete()
         self.clear_querysets_cache()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
+    def multiple_get(self, request, *args, **kwargs):
+        """
+        Get multiple items by IDs.
+        :return: Response
+        """
+        ids = request.query_params.getlist(
+            'ids')
+        ModelClass = self.get_serializer_class().Meta.model
+        manager = ModelClass._default_manager
+        queryset = manager.filter(id__in=ids)
+
+        if queryset.exists():
+            data = self.get_serializer(
+                queryset, many=True).data
+            return Response(data, status=status.HTTP_200_OK)
+        else:
+            return Response({"detail": "No items found for the given IDs."}, status=status.HTTP_404_NOT_FOUND)
+
 
 #  Just use this viewset
 

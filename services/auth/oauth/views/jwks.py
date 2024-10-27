@@ -1,5 +1,6 @@
 from django.http import JsonResponse
 
+
 def jwks_view(request):
     return JsonResponse({
         "keys": [

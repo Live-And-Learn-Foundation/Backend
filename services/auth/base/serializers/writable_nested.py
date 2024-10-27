@@ -1,3 +1,5 @@
+import inflect
+from base.utils.model_meta import get_field_info, get_unique_fields
 from django.db import transaction
 from django.db.models.fields.related_descriptors import (
     ManyToManyDescriptor,
@@ -6,9 +8,7 @@ from django.db.models.fields.related_descriptors import (
     ForwardOneToOneDescriptor,
     ReverseOneToOneDescriptor
 )
-from base.utils.model_meta import get_field_info, get_unique_fields
 from rest_framework import serializers
-import inflect
 
 p = inflect.engine()
 
@@ -144,7 +144,7 @@ class WritableNestedSerializer(serializers.ModelSerializer):
         except:
             nested_update_fields = list()
 
-       # Filter relationship data
+        # Filter relationship data
         for key, value in data.items():
             if key in forward_relation_keys:
                 relation = forward_relations[key]

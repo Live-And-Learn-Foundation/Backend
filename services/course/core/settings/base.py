@@ -1,9 +1,9 @@
-from . import BASE_DIR
-from ..scopes import scopes, default_scopes
-from oauth.tokens import signed_token_generator
 import os
 from os.path import join
+
 from dotenv import load_dotenv
+
+from . import BASE_DIR
 
 CONFIG_ENV_PATH = join(BASE_DIR, 'config.env')
 load_dotenv(CONFIG_ENV_PATH)

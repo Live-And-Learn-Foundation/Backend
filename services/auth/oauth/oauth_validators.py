@@ -1,27 +1,29 @@
 import json
 from datetime import datetime
-from jwcrypto import jwk, jwt
+
+from django.contrib.auth import get_user_model
+from jwcrypto import jwt
 from jwcrypto.common import JWException
 from jwcrypto.jwt import JWTExpired
-from oauth2_provider.oauth2_validators import OAuth2Validator
-from oauthlib.common import verify_signed_token
-from .tokens import JWTAccessToken
-from django.contrib.auth import get_user_model
-
 from oauth2_provider.models import (
     get_access_token_model,
     get_id_token_model,
 )
+from oauth2_provider.oauth2_validators import OAuth2Validator
+
+from .tokens import JWTAccessToken
+
 IDToken = get_id_token_model()
 AccessToken = get_access_token_model()
 User = get_user_model()
+
 
 class CustomOAuth2Validator(OAuth2Validator):
     def validate_bearer_token(self, token, scopes, request):
         if self.validate_bearer_jwt_token(token, scopes, request):
             return True
         return super().validate_bearer_token(token, scopes, request)
-    
+
     def validate_id_token(self, token, scopes, request):
         """
         When users try to access resources, check that provided id_token is valid
@@ -35,15 +37,15 @@ class CustomOAuth2Validator(OAuth2Validator):
 
         if not id_token.allow_scopes(scopes):
             return False
-        
+
         request.scopes = scopes
-        if(isinstance(id_token, JWTAccessToken)):
+        if (isinstance(id_token, JWTAccessToken)):
             request.client_id = id_token.client_id
             user_id = id_token.user_id
             request.user_id = user_id
             request.access_token = AccessToken(
                 user_id=user_id,
-                application_id = id_token.client_id,
+                application_id=id_token.client_id,
                 token=token,
                 expires=id_token.expires,
                 scope=id_token.scope,
@@ -84,13 +86,13 @@ class CustomOAuth2Validator(OAuth2Validator):
             "full_name": ' '.join([request.user.first_name, request.user.last_name]),
             "email": request.user.email,
         }
-    
+
     # If we use jwt token for accesstoken
     def validate_bearer_jwt_token(self, token, scopes, request):
         key = self._get_key_for_token(token)
         if not key:
             return False
-        
+
         try:
             jwt_token = jwt.JWT(key=key, jwt=token)
             claims = json.loads(jwt_token.claims)

@@ -14,11 +14,9 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
-from django.contrib import admin
-from django.urls import include, re_path, path
 from django.conf import settings
 from django.conf.urls.static import static
-
+from django.urls import include, re_path, path
 from health_check.urls import urlpatterns as health_check_urls
 
 urlpatterns = [
@@ -26,7 +24,7 @@ urlpatterns = [
 ]
 # Root route
 urlpatterns += [
-    re_path(r"^healthcheck/", include(health_check_urls)),
+    re_path(r"^api/healthcheck/", include(health_check_urls)),
 ]
 
 if settings.DEBUG:

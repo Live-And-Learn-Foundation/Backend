@@ -1,6 +1,7 @@
 import logging
-from django.http import JsonResponse
+
 from base.middleware.exception import CustomMiddlewareException
+from django.http import JsonResponse
 
 
 class ExceptionHandlingMiddleware:

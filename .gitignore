@@ -6,8 +6,7 @@ __pycache__
 db.sqlite3
 media
 
-# Environments 
-.env 
+# Environments
 .venv 
 env/ 
 venv/ 
@@ -24,6 +23,9 @@ docker_volume
 docker_volume/*
 .kong_data
 .kong_data/*
+
+storage
+storage/*
 
 .idea/
 .vscode/

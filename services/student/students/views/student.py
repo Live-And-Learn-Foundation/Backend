@@ -54,9 +54,9 @@ class StudentViewSet(BaseViewSet):
             student_info = self.get_user(student, request)
             return Response(student_info)
         except requests.exceptions.RequestException as e:
-            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)        
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
-    def get_user (self, student, request, *args, **kwargs):
+    def get_user(self, student, request, *args, **kwargs):
         user_id = student.user_id
         try:
             # Extract access token from request headers

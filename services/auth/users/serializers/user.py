@@ -1,12 +1,10 @@
-from rest_framework import generics, permissions, serializers
-
-from users.models.user import User
+from base.serializers import WritableNestedSerializer
+from rest_framework import serializers
 from users.models.role import Role
-from django.contrib.auth.hashers import make_password
+from users.models.user import User
 
 from .role import ShortRoleSerializer
 from .users_detail import UserDetailSerializer
-from base.serializers import WritableNestedSerializer
 
 
 # first we define the serializers
