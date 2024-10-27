@@ -6,7 +6,6 @@ from django.db import migrations, models
 
 
 class Migration(migrations.Migration):
-
     initial = True
 
     dependencies = [
@@ -18,67 +17,81 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='accesstoken',
             name='user',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='%(app_label)s_%(class)s', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE,
+                                    related_name='%(app_label)s_%(class)s', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='application',
             name='user',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='%(app_label)s_%(class)s', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE,
+                                    related_name='%(app_label)s_%(class)s', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='apikey',
             name='application',
-            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='api_keys', to=settings.OAUTH2_PROVIDER_APPLICATION_MODEL),
+            field=models.ForeignKey(null=True, on_delete=django.db.models.deletion.CASCADE, related_name='api_keys',
+                                    to=settings.OAUTH2_PROVIDER_APPLICATION_MODEL),
         ),
         migrations.AddField(
             model_name='accesstoken',
             name='application',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, to=settings.OAUTH2_PROVIDER_APPLICATION_MODEL),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE,
+                                    to=settings.OAUTH2_PROVIDER_APPLICATION_MODEL),
         ),
         migrations.AddField(
             model_name='grant',
             name='application',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.OAUTH2_PROVIDER_APPLICATION_MODEL),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
+                                    to=settings.OAUTH2_PROVIDER_APPLICATION_MODEL),
         ),
         migrations.AddField(
             model_name='grant',
             name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='%(app_label)s_%(class)s', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='%(app_label)s_%(class)s',
+                                    to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='idtoken',
             name='application',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, to=settings.OAUTH2_PROVIDER_APPLICATION_MODEL),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE,
+                                    to=settings.OAUTH2_PROVIDER_APPLICATION_MODEL),
         ),
         migrations.AddField(
             model_name='idtoken',
             name='user',
-            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='%(app_label)s_%(class)s', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE,
+                                    related_name='%(app_label)s_%(class)s', to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='accesstoken',
             name='id_token',
-            field=models.OneToOneField(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE, related_name='access_token', to=settings.OAUTH2_PROVIDER_ID_TOKEN_MODEL),
+            field=models.OneToOneField(blank=True, null=True, on_delete=django.db.models.deletion.CASCADE,
+                                       related_name='access_token', to=settings.OAUTH2_PROVIDER_ID_TOKEN_MODEL),
         ),
         migrations.AddField(
             model_name='refreshtoken',
             name='access_token',
-            field=models.OneToOneField(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='refresh_token', to=settings.OAUTH2_PROVIDER_ACCESS_TOKEN_MODEL),
+            field=models.OneToOneField(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL,
+                                       related_name='refresh_token', to=settings.OAUTH2_PROVIDER_ACCESS_TOKEN_MODEL),
         ),
         migrations.AddField(
             model_name='refreshtoken',
             name='application',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='refresh_tokens', to=settings.OAUTH2_PROVIDER_APPLICATION_MODEL),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='refresh_tokens',
+                                    to=settings.OAUTH2_PROVIDER_APPLICATION_MODEL),
         ),
         migrations.AddField(
             model_name='refreshtoken',
             name='user',
-            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='%(app_label)s_%(class)s', to=settings.AUTH_USER_MODEL),
+            field=models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='%(app_label)s_%(class)s',
+                                    to=settings.AUTH_USER_MODEL),
         ),
         migrations.AddField(
             model_name='accesstoken',
             name='source_refresh_token',
-            field=models.OneToOneField(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='refreshed_access_token', to=settings.OAUTH2_PROVIDER_REFRESH_TOKEN_MODEL),
+            field=models.OneToOneField(blank=True, null=True, on_delete=django.db.models.deletion.SET_NULL,
+                                       related_name='refreshed_access_token',
+                                       to=settings.OAUTH2_PROVIDER_REFRESH_TOKEN_MODEL),
         ),
         migrations.AlterUniqueTogether(
             name='refreshtoken',

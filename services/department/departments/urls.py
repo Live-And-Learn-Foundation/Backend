@@ -5,7 +5,8 @@ from rest_framework.routers import DefaultRouter
 
 from rest_framework_nested import routers
 
-from departments.views import TeacherViewSet, TeacherTypeViewSet, TeacherCourseViewSet, TeacherDepartmentViewSet, MajorViewSet, DepartmentViewSet
+from departments.views import TeacherViewSet, TeacherTypeViewSet, TeacherCourseViewSet, TeacherDepartmentViewSet, \
+    MajorViewSet, DepartmentViewSet
 
 app_name = "departments"
 

@@ -1,4 +1,3 @@
-from ...models import User
 from core.settings.base import (
     SECRET_KEY,
     SUPER_ADMIN_EMAIL,
@@ -6,6 +5,8 @@ from core.settings.base import (
 )
 from django.contrib.auth.hashers import make_password
 from django.core.management.base import BaseCommand, CommandError
+
+from ...models import User
 
 
 class Command(BaseCommand):

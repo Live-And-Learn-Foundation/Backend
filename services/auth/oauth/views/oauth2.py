@@ -1,48 +1,32 @@
-from django.forms import ValidationError
-from django.shortcuts import render
 import json
-from django.http import HttpResponse
-from oauth2_provider.signals import app_authorized
-from oauth2_provider.models import get_access_token_model
-from oauthlib.oauth2.rfc6749.utils import list_to_scope
-from django.views.decorators.csrf import csrf_exempt
-from django.views.decorators.debug import sensitive_post_parameters
-from django.contrib.auth import password_validation
-from oauth2_provider.views.mixins import OAuthLibMixin
-import rest_framework
-from rest_framework.response import Response
-from django.utils.translation import gettext as _
-from users.serializers import CreateUserSerializer
 
-from users.models.user import User
-from oauth.services.user import UserService
 from base.services.verification import Verification
 from core.settings.base import (
     DEFAULT_CLIENT_ID,
     DEFAULT_CLIENT_SECRET,
 )
+from django.contrib.auth import authenticate
+from django.contrib.auth import get_user_model
+from django.http import HttpResponse
+from django.utils.translation import gettext as _
+from oauth.services.user import UserService
+from oauth2_provider.models import get_access_token_model
+from oauth2_provider.signals import app_authorized
+from oauth2_provider.views.mixins import OAuthLibMixin
+from oauthlib.oauth2.rfc6749.utils import list_to_scope
+from rest_framework.decorators import action
+from rest_framework.permissions import AllowAny, IsAuthenticated
+from rest_framework.response import Response
 from rest_framework.status import (
     HTTP_200_OK,
     HTTP_201_CREATED,
     HTTP_400_BAD_REQUEST,
-    HTTP_401_UNAUTHORIZED,
     HTTP_404_NOT_FOUND,
-    HTTP_403_FORBIDDEN,
     HTTP_406_NOT_ACCEPTABLE,
-    HTTP_500_INTERNAL_SERVER_ERROR,
 )
-
 from rest_framework.viewsets import ViewSet
-from rest_framework.decorators import action
-from django.contrib.auth import authenticate
-
-
-from rest_framework.permissions import AllowAny, IsAuthenticated
-from django.http import HttpRequest
-from django.contrib.auth import get_user_model
-import requests
-from oauth2_provider.contrib.rest_framework import TokenMatchesOASRequirements
-
+from users.models.user import User
+from users.serializers import CreateUserSerializer
 
 OAuthUser = get_user_model()
 AccessToken = get_access_token_model()

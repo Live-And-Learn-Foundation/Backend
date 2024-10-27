@@ -1,9 +1,10 @@
 from django.db import models
+from oauthlib.oauth2.rfc6749.utils import scope_to_list
+from rest_framework_api_key.models import AbstractAPIKey
+
 from .oauth2 import Application
 from ..managers import ApiKeyManager
 
-from oauthlib.oauth2.rfc6749.utils import scope_to_list
-from rest_framework_api_key.models import AbstractAPIKey
 
 class ApiKey(AbstractAPIKey):
     objects = ApiKeyManager()

@@ -1,5 +1,5 @@
-from rest_framework import serializers
 from courses.models import RoomType
+from rest_framework import serializers
 
 
 class RoomTypeSerializer(serializers.ModelSerializer):

@@ -6,8 +6,10 @@ from departments.serializers.department import DepartmentSerializer
 
 class MajorSerializer(serializers.ModelSerializer):
     department = DepartmentSerializer(required=False)
-    department_id = serializers.PrimaryKeyRelatedField(required=False, write_only=True, queryset=Department.objects.all(),
+    department_id = serializers.PrimaryKeyRelatedField(required=False, write_only=True,
+                                                       queryset=Department.objects.all(),
                                                        pk_field=UUIDField(format='hex'), source='department')
+
     class Meta:
         model = Major
         fields = [

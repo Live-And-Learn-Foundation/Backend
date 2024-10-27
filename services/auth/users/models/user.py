@@ -1,21 +1,18 @@
-from django.db import models
-
 # Create your models here.
 import uuid
-from django.utils import timezone
 
-from .users_detail import UserDetail
-
-from .role import Role
+from base.models.timestamped import TimeStampedModel
 from django.conf import settings
 from django.contrib.auth.base_user import AbstractBaseUser
-from django.contrib.auth.models import AbstractUser
 from django.contrib.auth.hashers import make_password
 from django.contrib.auth.models import PermissionsMixin
 from django.db import models
-
+from django.utils import timezone
 from oauth.managers.user_manager import UserManager
-from base.models.timestamped import TimeStampedModel
+
+from .role import Role
+from .users_detail import UserDetail
+
 # from common.constants.gender import Genders
 
 AUTH_PROVIDERS = {'facebook': 'facebook', 'google': 'google',

@@ -1,13 +1,12 @@
-from oauth2_provider.settings import oauth2_settings
 from core.scopes import system_scopes
-from oauth2_provider.scopes import BaseScopes
-from oauthlib.oauth2.rfc6749.utils import scope_to_list
-
 from oauth2_provider.models import (
     get_access_token_model,
     get_application_model,
     get_id_token_model,
 )
+from oauth2_provider.scopes import BaseScopes
+from oauth2_provider.settings import oauth2_settings
+from oauthlib.oauth2.rfc6749.utils import scope_to_list
 
 Application = get_application_model()
 AccessToken = get_access_token_model()
