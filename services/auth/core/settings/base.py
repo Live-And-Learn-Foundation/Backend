@@ -6,7 +6,7 @@ from oauth.tokens import signed_token_generator
 
 from . import BASE_DIR
 from ..scopes import scopes, default_scopes
-
+from corsheaders.defaults import default_headers, default_methods
 CONFIG_ENV_PATH = join(BASE_DIR, 'config.env')
 load_dotenv(CONFIG_ENV_PATH)
 
@@ -61,6 +61,40 @@ DEFAULT_OAUTH2_SCHEME = "http" if API_HOST in [
 API_PORT = "8000"
 DEFAULT_OAUTH2_PORT = ":" + API_PORT if API_PORT is not None else ""
 OAUTH2_URL = DEFAULT_OAUTH2_SCHEME + "://" + API_HOST + DEFAULT_OAUTH2_PORT
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://127.0.0.1:5173",
+    "http://localhost:5173",
+    "http://localhost:3001",
+    "http://127.0.0.1:3001",
+    "http://4.145.112.182:8000",
+    "http://4.145.114.205:8000",
+]
+
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+]
+
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    "ngrok-skip-browser-warning",
+]
+print(CORS_ALLOW_HEADERS)
+CORS_ALLOW_METHODS = list(default_methods)  # Bao gồm tất cả các phương thức HTTP chuẩn
+print(CORS_ALLOW_METHODS)
+CORS_ALLOW_ALL_HEADERS = True
+CORS_ALLOW_CREDENTIALS = True
+
 
 # Application definition
 

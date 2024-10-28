@@ -4,6 +4,7 @@ from oauth.tokens import signed_token_generator
 import os
 from os.path import join
 from dotenv import load_dotenv
+from corsheaders.defaults import default_headers, default_methods
 
 CONFIG_ENV_PATH = join(BASE_DIR, 'config.env')
 load_dotenv(CONFIG_ENV_PATH)
@@ -22,15 +23,77 @@ DEBUG = os.getenv("DEBUG", "True") == "True"
 
 API_HOST = os.getenv("API_HOST")
 
-DEFAULT_HOST = os.getenv("DEFAULT_HOST", "localhost:8001")
+DEFAULT_HOST = os.getenv("DEFAULT_HOST", "localhost:3000")
+print(DEFAULT_HOST)
 
 ALLOWED_HOSTS = os.getenv(
     'DJANGO_ALLOWED_HOSTS',
     default=f"{DEFAULT_HOST.split(':')[0]},host.docker.internal"
 ).split(',')
 
-# Application definition
 
+# CORS_ALLOW_ALL_ORIGINS = os.getenv("CORS_ALLOW_ALL_ORIGINS", "True").lower() in ["true", "1", "yes"]
+# print(CORS_ALLOW_ALL_ORIGINS)
+# CORS_ALLOWED_ORIGINS = os.getenv("CORS_ALLOWED_ORIGINS", "").split(",")
+# if not CORS_ALLOWED_ORIGINS[0]:  # Check for empty string in case env is not set
+#     CORS_ALLOWED_ORIGINS = [
+#         "http://127.0.0.1:3000",
+#         f"http://{os.getenv('DEFAULT_HOST')}",
+#         f"https://{os.getenv('DEFAULT_HOST')}",
+#     ]
+# print(CORS_ALLOWED_ORIGINS)
+
+# CORS_ALLOW_HEADERS = [
+#     "content-type",
+#     "authorization",
+#     "accept-language",
+#     "origin",
+#     "user-agent",
+#     "x-csrftoken",
+# ]
+
+# CORS_ALLOW_METHODS = [
+#     "GET",
+#     "POST",
+#     "PUT",
+#     "DELETE",
+#     "OPTIONS"
+# ]
+CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOW_ALL_ORIGINS = True
+
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:3000",
+    "http://127.0.0.1:3000",
+    "http://127.0.0.1:5173",
+    "http://localhost:5173",
+    "http://localhost:3001",
+    "http://127.0.0.1:3001",
+    "http://4.145.112.182:8000",
+    "http://4.145.114.205:8000",
+]
+
+CORS_ALLOW_METHODS = [
+    "DELETE",
+    "GET",
+    "OPTIONS",
+    "PATCH",
+    "POST",
+    "PUT",
+]
+
+CORS_ALLOW_HEADERS = list(default_headers) + [
+    "ngrok-skip-browser-warning",
+]
+print(CORS_ALLOW_HEADERS)
+CORS_ALLOW_METHODS = list(default_methods)  # Bao gồm tất cả các phương thức HTTP chuẩn
+print(CORS_ALLOW_METHODS)
+CORS_ALLOW_ALL_HEADERS = True
+CORS_ALLOW_CREDENTIALS = True
+
+
+# Application definition
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -50,11 +113,11 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware',
     'base.middleware.exception_handling.ExceptionHandlingMiddleware',
 ]
 

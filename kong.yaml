@@ -14,6 +14,16 @@ services:
           - PUT
           - DELETE
           - PATCH
+          - OPTIONS
+    plugins:
+      - name: cors
+        config:
+          origins: ["http://localhost:3000","http://127.0.0.1:3000","https://semantic-university-frontend-rfponahr0-bach2k2s-projects.vercel.app/"]
+          methods: ["GET", "POST", "PUT", "DELETE", "PATCH","OPTIONS"]
+          headers: ["Content-Type", "Authorization","Accept-Language"]
+          exposed_headers: ["Content-Length", "Content-Range"]
+          credentials: false
+          max_age: 3600
 
   - name: student-service
     url: http://student:9001/api
@@ -28,6 +38,16 @@ services:
           - PUT
           - DELETE
           - PATCH
+          - OPTIONS
+    plugins:
+      - name: cors
+        config:
+          origins: ["http://localhost:3000","http://127.0.0.1:3000","https://semantic-university-frontend-rfponahr0-bach2k2s-projects.vercel.app/"]
+          methods: ["GET", "POST", "PUT", "DELETE", "PATCH","OPTIONS"]
+          headers: ["Content-Type", "Authorization","Accept-Language"]
+          exposed_headers: ["Content-Length", "Content-Range"]
+          credentials: false
+          max_age: 3600
 
   - name: course-service
     url: http://course:9002/api
@@ -42,6 +62,16 @@ services:
           - PUT
           - DELETE
           - PATCH
+          - OPTIONS
+    plugins:
+      - name: cors
+        config:
+          origins: ["http://localhost:3000","http://127.0.0.1:3000"]
+          methods: ["GET", "POST", "PUT", "DELETE", "PATCH","OPTIONS"]
+          headers: ["Content-Type", "Authorization","Accept-Language"]
+          exposed_headers: ["Content-Length", "Content-Range"]
+          credentials: true
+          max_age: 3600
 
   - name: document-service
     url: http://document:9003/api
@@ -56,6 +86,16 @@ services:
           - PUT
           - DELETE
           - PATCH
+          - OPTIONS
+    plugins:
+      - name: cors
+        config:
+          origins: ["http://localhost:3000","http://127.0.0.1:3000"]
+          methods: ["GET", "POST", "PUT", "DELETE", "PATCH","OPTIONS"]
+          headers: ["Content-Type", "Authorization","Accept-Language"]
+          exposed_headers: ["Content-Length", "Content-Range"]
+          credentials: true
+          max_age: 3600
 
   - name: department-service
     url: http://department:9004/api
@@ -70,6 +110,16 @@ services:
           - PUT
           - DELETE
           - PATCH
+          - OPTIONS
+    plugins:
+      - name: cors
+        config:
+          origins: ["http://localhost:3000","http://127.0.0.1:3000"]
+          methods: ["GET", "POST", "PUT", "DELETE", "PATCH","OPTIONS"]
+          headers: ["Content-Type", "Authorization","Accept-Language"]
+          exposed_headers: ["Content-Length", "Content-Range"]
+          credentials: true
+          max_age: 3600
 
   - name: search-service
     url: http://search:9005/api
@@ -84,3 +134,13 @@ services:
           - PUT
           - DELETE
           - PATCH
+          - OPTIONS
+    plugins:
+      - name: cors
+        config:
+          origins: ["http://localhost:3000","http://127.0.0.1:3000"]
+          methods: ["GET", "POST", "PUT", "DELETE", "PATCH","OPTIONS"]
+          headers: ["Content-Type", "Authorization","Accept-Language"]
+          exposed_headers: ["Content-Length", "Content-Range"]
+          credentials: true
+          max_age: 3600
