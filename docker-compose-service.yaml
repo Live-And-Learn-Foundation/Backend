@@ -3,6 +3,11 @@ x-common-service: &common-service
     dockerfile: Dockerfile
   volumes:
      - ./services/:/app
+  environment:
+      - DB_USER=${DB_USER}
+      - DB_PASSWORD=${DB_PASSWORD}
+      - DB_HOST=${DB_HOST}
+      - DB_PORT=${DB_PORT}
   networks:
     - network-1
 
@@ -14,11 +19,6 @@ services:
     command: gunicorn --bind 0.0.0.0:9000 --workers 2 --reload  core.wsgi:application
     ports:
       - '9000:9000'
-    environment:
-      - DB_USER=${DB_USER}
-      - DB_PASSWORD=${DB_PASSWORD}
-      - DB_HOST=${DB_HOST}
-      - DB_PORT=${DB_PORT}
     env_file:
       - ./services/auth/config.env
 
