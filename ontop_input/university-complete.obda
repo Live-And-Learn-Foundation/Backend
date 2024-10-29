@@ -224,7 +224,7 @@ source		SELECT
 			JOIN
 			auth_db.users_detail s
 			ON
-			t.user_id = s.id
+			u.user_detail_id = s.id
 
 mappingId	MAPID-f55c2e76d98548088ce20186502b062a
 target		:Person_{user_id} a :Student ; :studies :Course_{course_id} . 
@@ -321,22 +321,6 @@ source		SELECT
 			department_db.teachers s
 			ON
 			t.teacher_id = s.id
-
-mappingId	MAPID-4fcae199cde64d2c9e6f2cab477a7c9c(0)
-target		:Person_{user_id} a :Student ; :hasFirstName {first_name} ; :hasLastName {last_name} ; :createdAt {created_at} ; :updatedAt {updated_at} ; :enrollmentYear {enrollment_year} . 
-source		SELECT
-			t.user_id,
-			u.first_name,
-			u.last_name,
-			t.created_at,
-			t.updated_at,
-			t.enrollment_year
-			FROM
-			student_db.students t
-			JOIN
-			auth_db.users u
-			ON
-			t.user_id = u.id
 
 mappingId	MAPID-21a68718016a4f899576cc2d4089d680(0)
 target		:Facility_{id} a :LectureHall ; :hasTitle {title} ; :createdAt {created_at} ; :updatedAt {updated_at} ; :hasLocation {location} ; :hasCapacity {capacity} . 
