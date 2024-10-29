@@ -22,6 +22,9 @@ class StudentViewSet(BaseViewSet):
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         params = request.query_params
+        ids = params.getlist('ids')
+        if ids:
+            queryset = queryset.filter(id__in=ids)
 
         # Fetch students list
         keyword = params.get("keyword")
