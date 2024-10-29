@@ -10,21 +10,19 @@ HOST_ADDRESS = os.getenv("HOST")
 
 def generate_answer(user_query):
     try:
-        # print(user_query)
         sparql_query = convert_user_query(user_query)
-        # print(sparql_query)
-        # with open("test.txt", "a") as file:
-        #     file.write(sparql_query)
         # Xử lý chuỗi bằng regex để lấy câu truy vấn SPARQL đúng định dạng
         sparql_query_cleaned = re.sub(r"```(?:sparql)?\n?", "", sparql_query)  # Bỏ các đoạn ```sparql và ``` ở cuối
         sparql_query_cleaned = re.sub(r"\\n", "\n", sparql_query_cleaned)  # Thay thế các ký tự \n bằng newline thật
         # Thêm prefix vào đầu câu truy vấn
         prefix = "PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>\n"
         sparql_query_final = prefix + sparql_query_cleaned.strip()
-        # print(sparql_query_final)
-        with open("test.txt", "a") as file:
+        with open("Logs.txt", "a") as file:
+            file.write('\n--------------------\n')
+            file.write(user_query)
+            file.write('\n\n')
             file.write(sparql_query_final)
-        # return sparql_query
+            file.write('\n--------------------\n')
 
         response = requests.post(
             f"http://host.docker.internal:9090/sparql",
