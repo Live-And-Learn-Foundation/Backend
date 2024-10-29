@@ -20,7 +20,7 @@ def generate_answer(user_query):
         # return sparql_query
 
         response = requests.post(
-            f"http://localhost:9090/sparql",
+            f"http://host.docker.internal:9090/sparql",
             data={"query": sparql_query_final}  # Form data with key "query"
         )
         response.raise_for_status()  # Raise an error for HTTP error responses

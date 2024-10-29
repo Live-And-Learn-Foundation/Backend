@@ -352,5 +352,29 @@ source		SELECT
 			s.id = t.room_type_id
 			WHERE
 			s.title = 'LectureHall';
+
+mappingId	MAPID-be8d839072124747bf8d0494ce288e6e
+target		:Person_{user_id} a :Student ; :enrollsIn :Major_{major_id} . 
+source		SELECT
+			s.user_id,
+			b.major_id
+			FROM
+			student_db.student_courses t
+			JOIN
+			student_db.students s
+			ON
+			s.id = t.student_id
+			JOIN
+			student_db.student_courses a
+			ON
+			s.id = t.student_id
+			JOIN
+			course_db.courses c
+			ON
+			c.id = a.course_id
+			JOIN
+			course_db.subjects b
+			ON
+			c.subject_id = b.id
 ]]
 
