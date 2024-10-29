@@ -25,7 +25,6 @@ data_3 = data_3.dropna()
 
 endpoint = "https://models.inference.ai.azure.com"
 model_name = "gpt-4o-mini"
-print("Hi3")
 
 client = OpenAI(
     base_url=endpoint,
@@ -67,10 +66,6 @@ for Properties_Name, Description in data_3.values:
 
 
 def convert_user_query(user_query):
-    # print("Hi2")
-    # Write content to a file
-    # with open("test.txt", "a") as file:
-    #     file.write("HI 2")
     messages = base_messages + [{
     "role": "user",
     "content": f"Convert the following NLQ into a SPARQL query. All data properties of the object should be OPTIONAL unless asserted by the user's query. Ensure that the class of main object of the user's question is selected directly in the query result, in addition to its properties. For each class object being returned in the answer, its name (or title) must also be returned. ONLY provide the query without Prefix and use correct syntax, including the FILTER function for any Data Properties that require substring matching. NLQ: ```{user_query}```",
