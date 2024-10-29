@@ -26,7 +26,7 @@ def convert_sparql_output(sparql_output):
                     individual_type, individual_id = extract_individual_info(value['value'])
                     if individual_type and individual_id:
                         # Thêm cả tên và url từ các URI
-                        entry["name"].append(f"{individual_type} {individual_id}")
+                        # entry["name"].append(f"{individual_type} {individual_id}")
                         entry["url"].append(f"/{individual_type}/{individual_id}")
                 else:
                     # Ghép các phần dữ liệu khác thành additional_info
