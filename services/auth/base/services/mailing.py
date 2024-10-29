@@ -1,18 +1,19 @@
 import threading
 
 from django.conf import settings
-from django.core.mail import EmailMessage, EmailMultiAlternatives
+from django.core.mail import EmailMultiAlternatives
 from django.template.loader import render_to_string
 from django.utils.html import strip_tags
 
+
 class MailingThread(threading.Thread):
     def __init__(
-        self,
-        messages=None,
-        fail_callback=None
+            self,
+            messages=None,
+            fail_callback=None
     ):
         self.messages = messages
-        self.fail_callback =  fail_callback
+        self.fail_callback = fail_callback
         threading.Thread.__init__(self)
 
     def run(self):
@@ -38,7 +39,7 @@ class Mailing:
     @classmethod
     def create_html_message(cls, data, attachment=None, headers=None):
         subject = data.get("subject")
-        from_email=data.get("from") or settings.DEFAULT_FROM_EMAIL or "Docs <noreply@pandosima.com>"
+        from_email = data.get("from") or settings.DEFAULT_FROM_EMAIL or "Docs <noreply@pandosima.com>"
         to = data.get("to")
         html_content = render_to_string(
             data.get("template"), data.get("context")
@@ -57,4 +58,3 @@ class Mailing:
             )
         # print('msg: ',msg)
         return msg
-

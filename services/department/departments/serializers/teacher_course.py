@@ -7,7 +7,8 @@ from departments.serializers.teacher import TeacherSerializer
 class TeacherCourseSerializer(serializers.ModelSerializer):
     teacher = TeacherSerializer(required=False)
     teacher_id = serializers.PrimaryKeyRelatedField(required=False, write_only=True, queryset=Teacher.objects.all(),
-                                                 pk_field=UUIDField(format='hex'), source='teacher')
+                                                    pk_field=UUIDField(format='hex'), source='teacher')
+
     class Meta:
         model = TeacherCourse
         fields = [

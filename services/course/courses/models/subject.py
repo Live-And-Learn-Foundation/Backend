@@ -1,6 +1,7 @@
 import uuid
-from django.db import models
+
 from base.models import TimeStampedModel
+from django.db import models
 
 
 class Subject(TimeStampedModel):

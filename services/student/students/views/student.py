@@ -22,6 +22,9 @@ class StudentViewSet(BaseViewSet):
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         params = request.query_params
+        ids = params.getlist('ids')
+        if ids:
+            queryset = queryset.filter(id__in=ids)
 
         # Fetch students list
         keyword = params.get("keyword")
@@ -54,16 +57,16 @@ class StudentViewSet(BaseViewSet):
             student_info = self.get_user(student, request)
             return Response(student_info)
         except requests.exceptions.RequestException as e:
-            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)        
+            return Response({"error": str(e)}, status=status.HTTP_400_BAD_REQUEST)
 
-    def get_user (self, student, request, *args, **kwargs):
+    def get_user(self, student, request, *args, **kwargs):
         user_id = student.user_id
         try:
             # Extract access token from request headers
             access_token = request.headers.get('Authorization')
             headers = {'Authorization': access_token}
             response = requests.get(
-                f"http://host.docker.internal:9000/api/auth/v1/users/{user_id}",
+                f"http://host.docker.internal:9000/api/v1/users/{user_id}",
                 headers=headers
             )
             response.raise_for_status()

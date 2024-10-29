@@ -2,8 +2,8 @@ from datetime import datetime
 
 import jwt
 from django.conf import settings
-from rest_framework.exceptions import ValidationError
 from django.utils.translation import gettext as _
+from rest_framework.exceptions import ValidationError
 
 from .base import BaseService
 
@@ -21,7 +21,7 @@ class Verification(BaseService):
     def create_token(data, life_time=3600):
         if not isinstance(data, dict):
             raise ValidationError(detail=_("Invalid format"))
-        
+
         payload = data
         payload.update()
         {
@@ -37,7 +37,7 @@ class Verification(BaseService):
         payload = jwt.decode(token, Verification.get_secret_key(), algorithms=["HS256"])
         if 'iat' in payload:
             del payload['iat']
-        
+
         if 'exp' in payload:
             exp = int(payload.get("exp"))
             if datetime.now().timestamp() < exp:

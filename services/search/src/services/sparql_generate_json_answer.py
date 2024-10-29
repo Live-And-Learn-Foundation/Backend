@@ -7,23 +7,24 @@ from .llm_sparql_generate import convert_user_query
 dotenv.load_dotenv()  # Load environment variables from .env file
 HOST_ADDRESS = os.getenv("HOST")
 
-def generate_answer(user_query): 
+
+def generate_answer(user_query):
     try:
         sparql_query = convert_user_query(user_query)
         # Xử lý chuỗi bằng regex để lấy câu truy vấn SPARQL đúng định dạng
         sparql_query_cleaned = re.sub(r"```(?:sparql)?\n?", "", sparql_query)  # Bỏ các đoạn ```sparql và ``` ở cuối
-        sparql_query_cleaned = re.sub(r"\\n", "\n", sparql_query_cleaned)      # Thay thế các ký tự \n bằng newline thật
+        sparql_query_cleaned = re.sub(r"\\n", "\n", sparql_query_cleaned)  # Thay thế các ký tự \n bằng newline thật
         # Thêm prefix vào đầu câu truy vấn
         prefix = "PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>\n"
         sparql_query_final = prefix + sparql_query_cleaned.strip()
         # return sparql_query
-        
+
         response = requests.post(
-            f"http://localhost:9090/sparql",
+            f"http://host.docker.internal:9090/sparql",
             data={"query": sparql_query_final}  # Form data with key "query"
         )
         response.raise_for_status()  # Raise an error for HTTP error responses
-        return response.json()       # Parse and return JSON data
+        return response.json()  # Parse and return JSON data
     except requests.exceptions.RequestException as e:
         print(f"An error occurred: {e}")
         return None
@@ -33,7 +34,7 @@ def generate_answer(user_query):
 # WHERE {
 #   ?course a :Course .
 #   ?course :hasName ?courseName .
-  
+
 #   OPTIONAL {
 #     ?course :hasInstructor ?instructor .
 #     ?instructor a :Student .
@@ -41,7 +42,7 @@ def generate_answer(user_query):
 #     ?instructor :hasLastName ?instructorLastName .
 #     BIND(CONCAT(?instructorFirstName, " ", ?instructorLastName) AS ?instructorName)
 #   }
-  
+
 #   OPTIONAL {
 #     ?course :isStudiedBy ?student .
 #     ?student a :Student .

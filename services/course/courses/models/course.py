@@ -1,8 +1,7 @@
-import uuid
-from django.db import models
 from base.models import TimeStampedModel
 from courses.models.room import Room
 from courses.models.subject import Subject
+from django.db import models
 
 
 class Course(TimeStampedModel):

@@ -10,5 +10,6 @@ class Teacher(TimeStampedModel):
     )
     teacher_type = models.ForeignKey(
         TeacherType, on_delete=models.CASCADE, blank=True, related_name="teacher_types")
+
     class Meta:
         db_table = "teachers"

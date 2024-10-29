@@ -1,6 +1,6 @@
+from base.models.timestamped import TimeStampedModel
 from django.db import models
 
-from base.models.timestamped import TimeStampedModel
 
 # Create your models here.
 class Role(TimeStampedModel):
@@ -14,7 +14,7 @@ class Role(TimeStampedModel):
 
     class Meta:
         db_table = "roles"
-        
+
     @property
     def scopes(self):
         """
@@ -28,5 +28,3 @@ class Role(TimeStampedModel):
             return {name: desc for name, desc in all_scopes.items()}
         role_scopes = self.scope.split()
         return {name: desc for name, desc in all_scopes.items() if name in role_scopes}
-
-    

@@ -1,5 +1,6 @@
 from rest_framework.routers import Route, DynamicRoute, SimpleRouter
 
+
 class MutipleUpdateRouter(SimpleRouter):
     """
     A router for mutiple update.
