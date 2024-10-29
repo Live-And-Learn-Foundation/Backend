@@ -202,7 +202,7 @@ source		SELECT
 			t.room_id = r.id
 
 mappingId	MAPID-4fcae199cde64d2c9e6f2cab477a7c9c
-target		:Person_{user_id} a :Student ; :hasFirstName {first_name} ; :hasLastName {last_name} ; :hasBiography {biography} ; :hasAcademicTitle {academic_title} ; :hasDegree {degree} ; :hasDateOfBirth {date_of_birth} ; :createdAt {created_at} ; :updatedAt {updated_at} ; :enrollmentYear {enrollment_year} . 
+target		:Person_{user_id} a :Student ; :hasFirstName {first_name} ; :hasLastName {last_name} ; :hasBiography {biography} ; :hasAcademicTitle {academic_title} ; :hasDegree {degree} ; :hasDateOfBirth {date_of_birth} ; :createdAt {created_at} ; :updatedAt {updated_at} ; :enrollmentYear {enrollment_year} ; :hasEmail {email} . 
 source		SELECT
 			t.user_id,
 			u.first_name,
@@ -213,7 +213,8 @@ source		SELECT
 			s.date_of_birth,
 			t.created_at,
 			t.updated_at,
-			t.enrollment_year
+			t.enrollment_year,
+			u.email
 			FROM
 			student_db.students t
 			JOIN
@@ -238,7 +239,7 @@ source		SELECT
 			s.id = t.student_id
 
 mappingId	MAPID-6517c767fcf24c3ab238f8dff82670b0
-target		:Person_{user_id} a :Professor ; :hasFirstName {first_name} ; :hasLastName {last_name} ; :hasBiography {biography} ; :hasAcademicTitle {academic_title} ; :hasDegree {degree} ; :hasDateOfBirth {date_of_birth} ; :createdAt {created_at} ; :updatedAt {updated_at} . 
+target		:Person_{user_id} a :Professor ; :hasFirstName {first_name} ; :hasLastName {last_name} ; :hasBiography {biography} ; :hasAcademicTitle {academic_title} ; :hasDegree {degree} ; :hasDateOfBirth {date_of_birth} ; :createdAt {created_at} ; :updatedAt {updated_at} ; :hasEmail {email} . 
 source		SELECT
 			t.user_id,
 			u.first_name,
@@ -248,7 +249,8 @@ source		SELECT
 			s.degree,
 			s.date_of_birth,
 			t.created_at,
-			t.updated_at
+			t.updated_at,
+			u.email
 			FROM
 			department_db.teachers t
 			JOIN
@@ -267,7 +269,7 @@ source		SELECT
 			d.name = 'Professor';
 
 mappingId	MAPID-6517c767fcf24c3ab238f8dff82670b0(0)
-target		:Person_{user_id} a :TeachingAssistant ; :hasFirstName {first_name} ; :hasLastName {last_name} ; :hasBiography {biography} ; :hasAcademicTitle {academic_title} ; :hasDegree {degree} ; :hasDateOfBirth {date_of_birth} ; :createdAt {created_at} ; :updatedAt {updated_at} . 
+target		:Person_{user_id} a :TeachingAssistant ; :hasFirstName {first_name} ; :hasLastName {last_name} ; :hasBiography {biography} ; :hasAcademicTitle {academic_title} ; :hasDegree {degree} ; :hasDateOfBirth {date_of_birth} ; :createdAt {created_at} ; :updatedAt {updated_at} ; :hasEmail {email} . 
 source		SELECT
 			t.user_id,
 			u.first_name,
@@ -277,7 +279,8 @@ source		SELECT
 			s.degree,
 			s.date_of_birth,
 			t.created_at,
-			t.updated_at
+			t.updated_at,
+			u.email
 			FROM
 			department_db.teachers t
 			JOIN
