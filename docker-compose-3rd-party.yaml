@@ -1,4 +1,19 @@
 services:
+  mysql:
+      image: mysql:latest
+      restart: always
+      environment:
+        MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      volumes:
+        - mysql_data:/var/lib/mysql
+        - ./mysql-init:/docker-entrypoint-initdb.d
+      ports:
+        - '3306:${DB_PORT}'
+      healthcheck:
+        test: [ "CMD", "mysql", "-h", "localhost", "-u", "root", "-p${DB_PASSWORD}", "-e", "SELECT 1" ]
+        timeout: 1s
+        retries: 10
+
   redis:
     image: 'redis:alpine'
     restart: always
@@ -26,7 +41,7 @@ services:
       - '127.0.0.1:8001:8001'
       - '127.0.0.1:8444:8444'
     volumes:
-      - ./kong.yaml:/etc/kong/kong.yaml  # Gắn file cấu hình vào container
+      - ./kong.yaml:/etc/kong/kong.yaml
 
   rabbitmq:
     image: rabbitmq:management
@@ -57,3 +72,4 @@ services:
 
 volumes:
     storage:
+    mysql_data:

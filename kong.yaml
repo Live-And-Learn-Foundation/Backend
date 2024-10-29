@@ -16,7 +16,7 @@ services:
           - PATCH
 
   - name: student-service
-    url: http://student:9001/api
+    url: http://192.168.1.247:9001/api
     routes:
       - name: student-route
         paths:
@@ -30,7 +30,7 @@ services:
           - PATCH
 
   - name: course-service
-    url: http://course:9002/api
+    url: http://192.168.1.247:9002/api
     routes:
       - name: course-route
         paths:
@@ -44,7 +44,7 @@ services:
           - PATCH
 
   - name: document-service
-    url: http://document:9003/api
+    url: http://192.168.1.247:9003/api
     routes:
       - name: document-route
         paths:
@@ -58,7 +58,7 @@ services:
           - PATCH
 
   - name: department-service
-    url: http://department:9004/api
+    url: http://192.168.1.247:9004/api
     routes:
       - name: department-route
         paths:
@@ -72,7 +72,7 @@ services:
           - PATCH
 
   - name: search-service
-    url: http://search:9005/api
+    url: http://192.168.1.247:9005/api
     routes:
       - name: search-route
         paths:
