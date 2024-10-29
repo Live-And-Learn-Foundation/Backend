@@ -1,17 +1,18 @@
 import json
 from datetime import datetime
-from jwcrypto import jwk, jwt
+
+from django.contrib.auth import get_user_model
+from jwcrypto import jwt
 from jwcrypto.common import JWException
 from jwcrypto.jwt import JWTExpired
-from oauth2_provider.oauth2_validators import OAuth2Validator
-from oauthlib.common import verify_signed_token
-from .tokens import JWTAccessToken
-from django.contrib.auth import get_user_model
-
 from oauth2_provider.models import (
     get_access_token_model,
     get_id_token_model,
 )
+from oauth2_provider.oauth2_validators import OAuth2Validator
+
+from .tokens import JWTAccessToken
+
 IDToken = get_id_token_model()
 AccessToken = get_access_token_model()
 User = get_user_model()

@@ -66,6 +66,9 @@ class BaseViewSet(viewsets.ModelViewSet):
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         params = request.query_params
+        ids = params.getlist('ids')
+        if ids:
+            queryset = queryset.filter(id__in=ids)
 
         keyword = params.get("keyword")
         if keyword and len(self.search_map) > 0:
@@ -103,6 +106,7 @@ class BaseViewSet(viewsets.ModelViewSet):
                 instances.delete()
         self.clear_querysets_cache()
         return Response(status=status.HTTP_204_NO_CONTENT)
+
 
 #  Just use this viewset
 

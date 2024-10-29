@@ -1,5 +1,5 @@
-from django.db import models
 from base.models import TimeStampedModel
+from django.db import models
 
 
 class RoomType(TimeStampedModel):

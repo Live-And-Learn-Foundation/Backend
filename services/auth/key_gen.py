@@ -1,6 +1,7 @@
-from Crypto.PublicKey import RSA
 import base64
 import hashlib
+
+from Crypto.PublicKey import RSA
 
 # Generate a new RSA key pair
 key = RSA.generate(2048)
@@ -12,8 +13,10 @@ private_key = key.export_key()
 public_key = key.publickey().export_key()
 
 # Get modulus and exponent
-modulus = base64.urlsafe_b64encode(key.n.to_bytes((key.size_in_bits() + 7) // 8, byteorder='big')).decode('utf-8').rstrip('=')
-exponent = base64.urlsafe_b64encode(key.e.to_bytes((key.e.bit_length() + 7) // 8, byteorder='big')).decode('utf-8').rstrip('=')
+modulus = base64.urlsafe_b64encode(key.n.to_bytes((key.size_in_bits() + 7) // 8, byteorder='big')).decode(
+    'utf-8').rstrip('=')
+exponent = base64.urlsafe_b64encode(key.e.to_bytes((key.e.bit_length() + 7) // 8, byteorder='big')).decode(
+    'utf-8').rstrip('=')
 
 # Generate a unique key ID (e.g., a hash of the public key)
 key_id = hashlib.sha256(public_key).hexdigest()

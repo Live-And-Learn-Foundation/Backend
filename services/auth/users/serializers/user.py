@@ -1,18 +1,27 @@
-from rest_framework import generics, permissions, serializers
-
-from users.models.user import User
+from base.serializers import WritableNestedSerializer
+from rest_framework import serializers
+from rest_framework.fields import UUIDField
 from users.models.role import Role
-from django.contrib.auth.hashers import make_password
+from users.models.user import User
+from users.models.users_detail import UserDetail
 
 from .role import ShortRoleSerializer
 from .users_detail import UserDetailSerializer
-from base.serializers import WritableNestedSerializer
 
 
 # first we define the serializers
 class UserSerializer(WritableNestedSerializer):
     roles = ShortRoleSerializer(many=True, required=False)
+    roles_ids = serializers.PrimaryKeyRelatedField(required=False, write_only=True, many=True, allow_null=True,
+                                                   allow_empty=True,
+                                                   queryset=Role.objects.all(),
+                                                   source='roles')
     user_detail = UserDetailSerializer(required=False)
+    user_detail_id = serializers.PrimaryKeyRelatedField(required=False, write_only=True, allow_null=True,
+                                                        allow_empty=True,
+                                                        queryset=UserDetail.objects.all(),
+                                                        pk_field=UUIDField(format='hex'),
+                                                        source='user_detail')
 
     class Meta:
         model = User
@@ -23,7 +32,9 @@ class UserSerializer(WritableNestedSerializer):
             "last_name",
             "is_active",
             "roles",
-            "user_detail"
+            "roles_ids",
+            "user_detail",
+            "user_detail_id"
         ]
         depth = 1
         nested_create_fields = ["roles"]

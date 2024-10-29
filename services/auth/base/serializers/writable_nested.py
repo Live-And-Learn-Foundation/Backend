@@ -1,3 +1,5 @@
+import inflect
+from base.utils.model_meta import get_field_info, get_unique_fields
 from django.db import transaction
 from django.db.models.fields.related_descriptors import (
     ManyToManyDescriptor,
@@ -6,9 +8,7 @@ from django.db.models.fields.related_descriptors import (
     ForwardOneToOneDescriptor,
     ReverseOneToOneDescriptor
 )
-from base.utils.model_meta import get_field_info, get_unique_fields
 from rest_framework import serializers
-import inflect
 
 p = inflect.engine()
 
@@ -144,7 +144,7 @@ class WritableNestedSerializer(serializers.ModelSerializer):
         except:
             nested_update_fields = list()
 
-       # Filter relationship data
+        # Filter relationship data
         for key, value in data.items():
             if key in forward_relation_keys:
                 relation = forward_relations[key]
@@ -155,10 +155,20 @@ class WritableNestedSerializer(serializers.ModelSerializer):
                         RelatedModelClass = related_serializer.Meta.model if related_serializer.Meta else None
                         if RelatedModelClass is not None and isinstance(value, dict):
                             if key in nested_update_fields:
-                                related_object = self.deep_create(
-                                    related_serializer, value)
-                                validated_data.update({key: related_object})
-                                setattr(instance, key, related_object)
+                                if value.get('id', None) is None:
+                                    related_object = self.deep_create(
+                                        related_serializer, value)
+                                    validated_data.update({key: related_object})
+                                    setattr(instance, key, related_object)
+                                else:
+                                    related_id = value.get('id')
+                                    del value['id']
+                                    related_object = RelatedModelClass.objects.get(
+                                        pk=related_id)
+                                    new_item = self.deep_update(
+                                        related_serializer, related_object, value)
+                                    validated_data.update({key: new_item})
+                                    setattr(instance, key, new_item)
                             else:
                                 del validated_data[key]
                         else:

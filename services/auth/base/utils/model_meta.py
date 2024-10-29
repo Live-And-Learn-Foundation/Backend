@@ -21,6 +21,7 @@ RelationInfo = namedtuple('RelationInfo', [
     'field_name'
 ])
 
+
 def get_field_info(model):
     """
     Given a model class, returns a `FieldInfo` instance, which is a
@@ -39,6 +40,7 @@ def get_field_info(model):
     return FieldInfo(pk, fields, forward_relations, reverse_relations,
                      fields_and_pk, relationships)
 
+
 def get_unique_fields(model):
     """
     Given a model class, returns a dictionary of unique fields.
@@ -50,8 +52,9 @@ def get_unique_fields(model):
         if fields is not None:
             for field in fields:
                 if field.unique:
-                    unique_fields[field.name] =  field
+                    unique_fields[field.name] = field
     return unique_fields
+
 
 def _get_reverse_relationships(opts):
     """
@@ -82,8 +85,8 @@ def _get_reverse_relationships(opts):
             # manytomany do not have to_fields
             to_field=None,
             has_through_model=(
-                (getattr(relation.field.remote_field, 'through', None) is not None) and
-                not relation.field.remote_field.through._meta.auto_created
+                    (getattr(relation.field.remote_field, 'through', None) is not None) and
+                    not relation.field.remote_field.through._meta.auto_created
             ),
             reverse=True,
             field_name=relation.field.name

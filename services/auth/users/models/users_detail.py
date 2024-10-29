@@ -1,5 +1,5 @@
-from django.db import models
 from base.models.timestamped import TimeStampedModel
+from django.db import models
 
 
 class UserDetail(TimeStampedModel):

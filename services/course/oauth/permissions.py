@@ -2,7 +2,6 @@ import logging
 
 from oauth2_provider.contrib.rest_framework.permissions import TokenMatchesOASRequirements
 
-
 log = logging.getLogger("oauth2_provider")
 
 
@@ -30,7 +29,6 @@ class TokenHasActionScope(TokenMatchesOASRequirements):
         token_scope = token.get('scope', '') if isinstance(
             token, dict) else getattr(token, 'scope', '')
         token_scopes = set(token_scope.split())
-
 
         if not token_scopes:
             return False

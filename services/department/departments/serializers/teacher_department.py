@@ -10,7 +10,8 @@ class TeacherDepartmentSerializer(serializers.ModelSerializer):
     teacher_id = serializers.PrimaryKeyRelatedField(required=False, write_only=True, queryset=Teacher.objects.all(),
                                                     pk_field=UUIDField(format='hex'), source='teacher')
     department = DepartmentSerializer(required=False)
-    department_id = serializers.PrimaryKeyRelatedField(required=False, write_only=True, queryset=Department.objects.all(),
+    department_id = serializers.PrimaryKeyRelatedField(required=False, write_only=True,
+                                                       queryset=Department.objects.all(),
                                                        pk_field=UUIDField(format='hex'), source='department')
 
     class Meta:

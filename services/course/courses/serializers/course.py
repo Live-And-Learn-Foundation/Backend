@@ -1,8 +1,8 @@
-from rest_framework import serializers
-from rest_framework.fields import UUIDField
 from courses.models import Course, Room, Subject
 from courses.serializers.room import RoomSerializer
 from courses.serializers.subject import SubjectSerializer
+from rest_framework import serializers
+from rest_framework.fields import UUIDField
 
 
 class CourseSerializer(serializers.ModelSerializer):
@@ -11,7 +11,7 @@ class CourseSerializer(serializers.ModelSerializer):
                                                  pk_field=UUIDField(format='hex'), source='room')
     subject = SubjectSerializer(required=False)
     subject_id = serializers.PrimaryKeyRelatedField(required=False, write_only=True, queryset=Subject.objects.all(),
-                                                pk_field=UUIDField(format='hex'), source='subject')
+                                                    pk_field=UUIDField(format='hex'), source='subject')
 
     class Meta:
         model = Course

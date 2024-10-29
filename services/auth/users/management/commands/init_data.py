@@ -1,8 +1,3 @@
-from django.core.management.base import BaseCommand
-from users.models import User, Role
-from oauth.models import Application
-import random
-from django.db.models import Q
 from core.settings.base import (
     SECRET_KEY,
     DEFAULT_CLIENT_ID,
@@ -10,9 +5,13 @@ from core.settings.base import (
     SUPER_ADMIN_EMAIL,
     SUPER_ADMIN_PASSWORD,
 )
-from oauth2_provider.models import AbstractApplication
-from django.db import transaction
 from django.contrib.auth.hashers import make_password
+from django.core.management.base import BaseCommand
+from django.db import transaction
+from django.db.models import Q
+from oauth.models import Application
+from oauth2_provider.models import AbstractApplication
+from users.models import User, Role
 
 
 class Command(BaseCommand):
