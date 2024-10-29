@@ -18,19 +18,25 @@ def convert_sparql_output(sparql_output):
                 "additional_info": "",
                 "url": []
             }
-            
+            main_object = None
             additional_info_parts = []
             
             for key, value in binding.items():
                 if value['type'] == 'uri':
+                    if main_object == None:
+                        main_object = key
                     individual_type, individual_id = extract_individual_info(value['value'])
                     if individual_type and individual_id:
                         # Thêm cả tên và url từ các URI
                         # entry["name"].append(f"{individual_type} {individual_id}")
                         entry["url"].append(f"/{individual_type}/{individual_id}")
                 else:
-                    # Ghép các phần dữ liệu khác thành additional_info
                     key = re.sub(r'(?<!^)(?=[A-Z])', ' ', key).lower()
+                    if "name" in key or "title" in key:
+                        entry["name"].append(value['value'])
+                    else:
+                        key = f"{main_object} {key}"
+                    # Ghép các phần dữ liệu khác thành additional_info
                     additional_info_parts.append(f"{key}: {value['value']}")
             
             # Nối các phần của additional_info thành một chuỗi với dấu chấm phẩy
