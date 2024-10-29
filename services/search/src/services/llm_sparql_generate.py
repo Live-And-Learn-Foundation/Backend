@@ -68,17 +68,15 @@ for Properties_Name, Description in data_3.values:
 def convert_user_query(user_query):
     messages = base_messages + [{
     "role": "user",
-    "content": f"Convert the following NLQ into a SPARQL query. All data properties of the object should be OPTIONAL unless asserted by the user's query. Ensure that the class of main object of the user's question is selected directly in the query result, in addition to its properties. For each class object being returned in the answer, its name (or title) must also be returned. ONLY provide the query without Prefix and use correct syntax, including the FILTER function for any Data Properties that require substring matching. NLQ: ```{user_query}```",
+    "content": f"ALL data properties of the object should be OPTIONAL. Ensure that the class of main object of the user's question is selected directly in the query result, in addition to its properties. For each class object being returned in the answer, its name (or title) must also be returned. Also, if the class object is Person or its sub classes, BIND its first name and last name together instead of returning these two data properties separated in the answer. Lastly, ONLY provide the query without Prefix and use correct syntax, including the FILTER function for any Data Properties that require substring matching. Now, Convert the following NLQ into a SPARQL query : ```{user_query}```",
     }]
 
     response = client.chat.completions.create(
     messages=messages,
-    temperature=0.2,
+    temperature=0.3,
     top_p=1.0,
     max_tokens=4096,
     model=model_name
     )
-    # with open("test.txt", "a") as file:
-    #     file.write("HI 3")
-    print(response.choices[0].message.content)
+
     return response.choices[0].message.content
