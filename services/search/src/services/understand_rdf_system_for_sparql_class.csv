@@ -1,6 +1,6 @@
 Properties Name,Description
-Academic Department,"A division within a university focused on a specific field of study, responsible for managing courses, staff, and students related to that discipline."
-Subject Material,"Educational content and resources (e.g., textbooks, articles) used to teach a specific subject or course."
+Department,"A division within a university focused on a specific field of study, responsible for managing courses, staff, and students related to that discipline."
+Subject_material,"Educational content and resources (e.g., textbooks, articles) used to teach a specific subject or course."
 Thesis,"A research paper or project submitted by a student or teacher as a requirement for a degree, typically at the undergraduate or graduate level."
 ClassRoom,"A physical or virtual space where students and instructors meet for teaching and learning activities."
 LabRoom,"A specialized room equipped for scientific or technical experiments, used primarily for practical learning and research."

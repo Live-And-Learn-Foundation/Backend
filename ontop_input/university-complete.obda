@@ -43,7 +43,7 @@ source		SELECT
 			s.user_id = t.user_id;
 
 mappingId	MAPID-a2c438c4bfa24bdbaacc049c1bbe74f5
-target		:Department_{id} a :AcademicDepartment ; :hasName {name} ; :createdAt {created_at} ; :updatedAt {updated_at} ; :hasDescription {description} . 
+target		:Department_{id} a :Department ; :hasName {name} ; :createdAt {created_at} ; :updatedAt {updated_at} ; :hasDescription {description} . 
 source		SELECT
 			t.id,
 			t.created_at,
@@ -156,7 +156,7 @@ source		SELECT
 			s.title = 'Library';
 
 mappingId	MAPID-f7377a206afc494dac9223a50d282c58
-target		:Major_{id} a :Major ; :hasName {name} ; :hasDescription {description} ; :createdAt {created_at} ; :updatedAt {updated_at} ; :isOfferedByDepartment :AcademicDepartment_{department_id} . 
+target		:Major_{id} a :Major ; :hasName {name} ; :hasDescription {description} ; :createdAt {created_at} ; :updatedAt {updated_at} ; :isOfferedByDepartment :Department_{department_id} . 
 source		SELECT
 			t.id,
 			t.created_at,

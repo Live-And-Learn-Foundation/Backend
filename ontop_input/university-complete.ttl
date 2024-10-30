@@ -73,7 +73,7 @@
           owl:inverseOf :isOfferedByDepartment ;
           rdf:type owl:AsymmetricProperty ,
                    owl:IrreflexiveProperty ;
-          rdfs:domain :AcademicDepartment ;
+          rdfs:domain :Department ;
           rdfs:range :Major ;
           rdfs:comment "A Department offers one or more Majors (programs of study)."@en .
 
@@ -184,7 +184,7 @@
                        rdf:type owl:AsymmetricProperty ,
                                 owl:IrreflexiveProperty ;
                        rdfs:domain :Major ;
-                       rdfs:range :AcademicDepartment ;
+                       rdfs:range :Department ;
                        rdfs:comment "A Major is offered by a specific Department."@en .
 
 
@@ -545,7 +545,7 @@
                        [ rdf:type owl:Restriction ;
                          owl:onProperty :isOfferedByDepartment ;
                          owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                         owl:onClass :AcademicDepartment
+                         owl:onClass :Department
                        ] ;
        owl:disjointWith :Person .
 
@@ -685,7 +685,7 @@
                          [ rdf:type owl:Restriction ;
                            owl:onProperty :isMemberOf ;
                            owl:qualifiedCardinality "1"^^xsd:nonNegativeInteger ;
-                           owl:onClass :AcademicDepartment
+                           owl:onClass :Department
                          ] .
 
 
