@@ -1,10 +1,13 @@
 from flask import Flask
 
 from src import middlewares, routes
+from flask_cors import CORS
 
 
 def main() -> Flask:
     app = Flask(__name__)
+
+    CORS(app)
 
     routes.register(app)
 
