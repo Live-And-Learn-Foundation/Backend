@@ -64,11 +64,39 @@ for Properties_Name, Description in data_3.values:
         "content": f"Data Properties: {Properties_Name}\nData Properties Description: {Description}\n"
     })
 
+base_messages.append({
+    "role": "system",
+    "content": """Now, here is the rule you must follow when converting an NLQ to Sparql query:\n
+    EVERY SINGLE OBJECT MUST HAVE NAME OR TITLE depending on their class and CANNOT BE OPTIONAL.\n
+    ONLY if the class object is Person or its sub classes (Student, Teacher,... ), BIND the class object's first name and last name together into full name instead of returning these two data properties separated in the answer.\n
+    Class Person and its subclasses (Student, Teacher, ...) CANNOT have ```:hasName``` or ```:hasTitle``` properties and must BIND from the ```:hasFirstName``` and ```:hasLastName``` properties into ```:fullName``` property.\n
+    Class Person and its subclasses (Student, Teacher, ...) MUST BE CHECK to have ```:hasFirstName``` and ```:hasLastName``` properties before BIND\n
+    Most data properties of the object should be OPTIONAL.\n
+    Ensure that the class of main object of the user's question is selected directly in the query result, in addition to its properties.\n
+    For each class object being returned in the answer, the class object's name or title must also be returned depending on the class object's class.\n
+    Lastly, ONLY provide the query without Prefix and HAVE TO USE THE CORRECT SYNTAX, including the FILTER function for any Data Properties that require substring matching.
+    """,
+})
+
+base_messages.append({
+    "role": "user",
+    "content": """Now, here is the rule you must follow when converting an NLQ to Sparql query:\n
+    EVERY SINGLE OBJECT MUST HAVE NAME OR TITLE depending on their class and CANNOT BE OPTIONAL.\n
+    ONLY if the class object is Person or its sub classes (Student, Teacher,... ), BIND the class object's first name and last name together into full name instead of returning these two data properties separated in the answer.\n
+    Class Person and its subclasses (Student, Teacher, ...) CANNOT have ```:hasName``` or ```:hasTitle``` properties and must BIND from the ```:hasFirstName``` and ```:hasLastName``` properties into ```:fullName``` property.\n
+    Class Person and its subclasses (Student, Teacher, ...) MUST BE CHECK to have ```:hasFirstName``` and ```:hasLastName``` properties before BIND\n
+    Most data properties of the object should be OPTIONAL.\n
+    Ensure that the class of main object of the user's question is selected directly in the query result, in addition to its properties.\n
+    For each class object being returned in the answer, the class object's name or title must also be returned depending on the class object's class.\n
+    Lastly, ONLY provide the query without Prefix and HAVE TO USE THE CORRECT SYNTAX, including the FILTER function for any Data Properties that require substring matching.
+    """,
+})
 
 def convert_user_query(user_query):
     messages = base_messages + [{
     "role": "user",
-    "content": f"ALL data properties of the object should be OPTIONAL. Ensure that the class of main object of the user's question is selected directly in the query result, in addition to its properties. For each class object being returned in the answer, its name (or title) must also be returned. Also, if the class object is Person or its sub classes, BIND its first name and last name together instead of returning these two data properties separated in the answer. Lastly, ONLY provide the query without Prefix and use correct syntax, including the FILTER function for any Data Properties that require substring matching. Now, Convert the following NLQ into a SPARQL query : ```{user_query}```",
+    # "content": f"All objects MUST HAVE NAME OR TITLE depending on their class and CANNOT BE OPTIONAL. \n ONLY if the class object is Person or its sub classes (Student, Teacher,... ), BIND the class object's first name and last name together into full name instead of returning these two data properties separated in the answer. \n Class Person and its subclasses (Student, Teacher, ...) CANNOT have ```:hasName``` or ```:hasTitle``` properties and must BIND from the ```:hasFirstName``` and ```:hasLastName``` properties into ```:fullName``` property. \n Most data properties of the object should be OPTIONAL. \n Ensure that the class of main object of the user's question is selected directly in the query result, in addition to its properties. \n For each class object being returned in the answer, the class object's name or title must also be returned depending on the class object's class. \n Also, ONLY if the class object is Person or its sub classes (Student, Teacher,... ), BIND the class object's first name and last name together into full name instead of returning these two data properties separated in the answer. \n Lastly, ONLY provide the query without Prefix and use correct syntax, including the FILTER function for any Data Properties that require substring matching. \n Now, Convert the following NLQ into a SPARQL query : \n```\n{user_query}\n```\n",
+    "content": f"Now, Convert the following NLQ into a SPARQL query : \n```\n{user_query}\n```"
     }]
 
     response = client.chat.completions.create(

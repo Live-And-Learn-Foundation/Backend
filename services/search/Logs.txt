@@ -1,0 +1,1554 @@
+
+--------------------
+all thesis
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?thesis ?hasTitle ?hasDescription ?hasInfo ?hasSubmissonDate WHERE {
+  ?thesis a :Thesis .
+  OPTIONAL { ?thesis :hasTitle ?hasTitle . }
+  OPTIONAL { ?thesis :hasDescription ?hasDescription . }
+  OPTIONAL { ?thesis :hasInfo ?hasInfo . }
+  OPTIONAL { ?thesis :hasSubmissonDate ?hasSubmissonDate . }
+}
+--------------------
+
+--------------------
+all thesis
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?thesis ?hasTitle ?hasDescription ?hasSubmissionDate WHERE {
+  ?thesis a :Thesis .
+  OPTIONAL { ?thesis :hasTitle ?hasTitle . }
+  OPTIONAL { ?thesis :hasDescription ?hasDescription . }
+  OPTIONAL { ?thesis :hasSubmissionDate ?hasSubmissionDate . }
+}
+--------------------
+
+--------------------
+all thesis
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?thesis ?hasTitle ?hasDescription ?hasInfo ?hasSubmissionDate WHERE {
+  ?thesis a :Thesis .
+  OPTIONAL { ?thesis :hasTitle ?hasTitle . }
+  OPTIONAL { ?thesis :hasDescription ?hasDescription . }
+  OPTIONAL { ?thesis :hasInfo ?hasInfo . }
+  OPTIONAL { ?thesis :hasSubmissionDate ?hasSubmissionDate . }
+}
+--------------------
+
+--------------------
+all thesis
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?thesis ?title ?description ?submissionDate WHERE {
+  ?thesis a :Thesis .
+  OPTIONAL { ?thesis :hasTitle ?title . }
+  OPTIONAL { ?thesis :hasDescription ?description . }
+  OPTIONAL { ?thesis :hasSubmissonDate ?submissionDate . }
+}
+--------------------
+
+--------------------
+all thesis
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?thesis ?hasTitle ?hasDescription ?hasInfo ?hasSubmissionDate WHERE {
+  ?thesis a :Thesis .
+  OPTIONAL { ?thesis :hasTitle ?hasTitle . }
+  OPTIONAL { ?thesis :hasDescription ?hasDescription . }
+  OPTIONAL { ?thesis :hasInfo ?hasInfo . }
+  OPTIONAL { ?thesis :hasSubmissionDate ?hasSubmissionDate . }
+}
+--------------------
+
+--------------------
+all thesis description
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?thesis ?hasDescription ?hasTitle WHERE {
+  ?thesis a :Thesis .
+  OPTIONAL { ?thesis :hasDescription ?hasDescription . }
+  OPTIONAL { ?thesis :hasTitle ?hasTitle . }
+}
+--------------------
+
+--------------------
+all departments info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?department ?name ?description ?hasInfo WHERE {
+  ?department a :AcademicDepartment .
+  OPTIONAL { ?department :hasName ?name . }
+  OPTIONAL { ?department :hasDescription ?description . }
+  OPTIONAL { ?department :hasInfo ?hasInfo . }
+}
+--------------------
+
+--------------------
+all departments info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?department ?hasName ?hasDescription ?hasInfo
+WHERE {
+  ?department a :AcademicDepartment .
+  OPTIONAL { ?department :hasName ?hasName . }
+  OPTIONAL { ?department :hasDescription ?hasDescription . }
+  OPTIONAL { ?department :hasInfo ?hasInfo . }
+}
+--------------------
+
+--------------------
+all departments description
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?department ?hasDescription
+WHERE {
+  ?department a :AcademicDepartment .
+  OPTIONAL { ?department :hasDescription ?hasDescription }
+}
+--------------------
+
+--------------------
+all departments description
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?department ?name ?description WHERE {
+  ?department a :AcademicDepartment .
+  ?department :hasName ?name .
+  OPTIONAL { ?department :hasDescription ?description . }
+}
+--------------------
+
+--------------------
+all people info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?person ?fullName ?hasEmail ?hasDegree ?hasBiography ?hasAcademicTitle ?hasDateOfBirth
+WHERE {
+  ?person a :Person .
+  ?person :hasFirstName ?firstName .
+  ?person :hasLastName ?lastName .
+  BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName) .
+  OPTIONAL { ?person :hasEmail ?hasEmail . }
+  OPTIONAL { ?person :hasDegree ?hasDegree . }
+  OPTIONAL { ?person :hasBiography ?hasBiography . }
+  OPTIONAL { ?person :hasAcademicTitle ?hasAcademicTitle . }
+  OPTIONAL { ?person :hasDateOfBirth ?hasDateOfBirth . }
+}
+--------------------
+
+--------------------
+all students info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?student ?fullName ?enrollmentYear ?hasEmail ?hasBiography ?hasDegree WHERE {
+  ?student a :Student .
+  ?student :hasFirstName ?firstName .
+  ?student :hasLastName ?lastName .
+  BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName)
+  OPTIONAL { ?student :enrollmentYear ?enrollmentYear }
+  OPTIONAL { ?student :hasEmail ?hasEmail }
+  OPTIONAL { ?student :hasBiography ?hasBiography }
+  OPTIONAL { ?student :hasDegree ?hasDegree }
+}
+--------------------
+
+--------------------
+all courses studied by students info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?course ?name ?description ?startDate ?endDate ?studentName WHERE {
+  ?course a :Course .
+  ?course :isStudiedBy ?student .
+  ?student a :Student .
+  
+  OPTIONAL { ?course :hasDescription ?description . }
+  OPTIONAL { ?course :startDate ?startDate . }
+  OPTIONAL { ?course :endDate ?endDate . }
+  
+  ?student :hasFirstName ?firstName .
+  ?student :hasLastName ?lastName .
+  BIND(CONCAT(?firstName, " ", ?lastName) AS ?studentName)
+  
+  ?course :hasName ?name .
+}
+--------------------
+
+--------------------
+all courses info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?course ?title ?description ?startDate ?endDate WHERE {
+  ?course a :Course .
+  ?course :hasTitle ?title .
+  OPTIONAL { ?course :hasDescription ?description . }
+  OPTIONAL { ?course :startDate ?startDate . }
+  OPTIONAL { ?course :endDate ?endDate . }
+}
+--------------------
+
+--------------------
+all subjects info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?subject ?title ?description ?credit WHERE {
+  ?subject a :Subject .
+  ?subject :hasTitle ?title .
+  OPTIONAL { ?subject :hasDescription ?description . }
+  OPTIONAL { ?subject :hasCredit ?credit . }
+}
+--------------------
+
+--------------------
+all subjects info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?subject ?title ?description ?credit
+WHERE {
+  ?subject a :Subject .
+  ?subject :hasTitle ?title .
+  OPTIONAL { ?subject :hasDescription ?description . }
+  OPTIONAL { ?subject :hasCredit ?credit . }
+}
+--------------------
+
+--------------------
+all courses of subjects
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?course ?subject ?courseName ?subjectName WHERE {
+  ?course :isCourseOf ?subject .
+  ?course :hasName ?courseName .
+  ?subject :hasName ?subjectName .
+}
+--------------------
+
+--------------------
+all rooms info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?room ?name WHERE {
+  ?room a :Facility .
+  ?room :hasName ?name .
+}
+--------------------
+
+--------------------
+all rooms of courses
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?room ?name WHERE {
+  ?course :isUsedForCourse ?room .
+  ?room :hasName ?name .
+  FILTER NOT EXISTS { ?room :hasTitle ?title }
+}
+--------------------
+
+--------------------
+all rooms info used for courses
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?room ?name WHERE {
+  ?room a :Facility ;
+        :isUsedForCourse ?course ;
+        :hasName ?name .
+}
+--------------------
+
+--------------------
+all rooms info used for courses with course info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?room ?roomName ?course ?courseName ?startDate ?endDate WHERE {
+  ?room a :Facility ;
+        :isUsedForCourse ?course ;
+        :hasName ?roomName .
+  
+  ?course a :Course ;
+          :hasName ?courseName ;
+          :startDate ?startDate ;
+          :endDate ?endDate .
+}
+--------------------
+
+--------------------
+all thesis
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?thesis ?title ?description ?submissionDate WHERE {
+  ?thesis a :Thesis .
+  ?thesis :hasTitle ?title .
+  OPTIONAL { ?thesis :hasDescription ?description . }
+  OPTIONAL { ?thesis :hasSubmissionDate ?submissionDate . }
+}
+--------------------
+
+--------------------
+all subject material
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?subjectMaterial ?title
+WHERE {
+  ?subjectMaterial a :SubjectMaterial .
+  ?subjectMaterial :hasTitle ?title .
+}
+--------------------
+
+--------------------
+all subjects with material
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?subject ?material ?name WHERE {
+  ?subject a :Subject .
+  ?material a :SubjectMaterial .
+  ?material :isMaterialOf ?subject .
+  ?subject :hasName ?name .
+}
+--------------------
+
+--------------------
+all material of subjects
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?material ?title ?subjectName WHERE {
+  ?material a :SubjectMaterial .
+  ?material :isMaterialOf ?subject .
+  ?subject :hasName ?subjectName .
+  ?material :hasTitle ?title .
+}
+--------------------
+
+--------------------
+all material of subjects
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?subjectMaterial ?hasName
+WHERE {
+  ?subjectMaterial a :Subject_material .
+  ?subjectMaterial :isMaterialOf ?subject .
+  ?subject a :Subject .
+  ?subject :hasName ?hasName .
+}
+--------------------
+
+--------------------
+all material info of subjects
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?subjectMaterial ?hasTitle ?hasDescription ?hasInfo WHERE {
+  ?subjectMaterial a :Subject_material .
+  ?subjectMaterial :hasTitle ?hasTitle .
+  OPTIONAL { ?subjectMaterial :hasDescription ?hasDescription . }
+  OPTIONAL { ?subjectMaterial :hasInfo ?hasInfo . }
+}
+--------------------
+
+--------------------
+all departments info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?department ?name ?description ?hasInfo WHERE {
+  ?department a :AcademicDepartment .
+  ?department :hasName ?name .
+  OPTIONAL { ?department :hasDescription ?description . }
+  OPTIONAL { ?department :hasInfo ?hasInfo . }
+}
+--------------------
+
+--------------------
+all majors info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?major ?title ?description ?departmentName WHERE {
+  ?major a :Major .
+  ?major :hasTitle ?title .
+  OPTIONAL { ?major :hasDescription ?description . }
+  OPTIONAL { ?major :isOfferedByDepartment ?department .
+             ?department :hasName ?departmentName . }
+}
+--------------------
+
+--------------------
+all majors info with department info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?major ?department ?departmentName ?majorName WHERE {
+  ?major a :Major ;
+         :hasName ?majorName ;
+         :isOfferedByDepartment ?department .
+  ?department a :AcademicDepartment ;
+              :hasName ?departmentName .
+}
+--------------------
+
+--------------------
+all majors of department
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?major ?name ?department ?departmentName WHERE {
+  ?department a :AcademicDepartment ;
+              :hasMajor ?major .
+  ?major :hasName ?name ;
+         :isOfferedByDepartment ?department .
+  BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName) .
+  OPTIONAL {
+    ?department :hasName ?departmentName .
+  }
+}
+--------------------
+
+--------------------
+all majors of department with info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?major ?hasName ?hasInfo WHERE {
+  ?department :hasMajor ?major .
+  ?major :hasName ?hasName .
+  OPTIONAL { ?major :hasInfo ?hasInfo . }
+}
+--------------------
+
+--------------------
+all majors of department with department
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?department ?departmentName ?major ?majorName WHERE {
+  ?department a :AcademicDepartment ;
+              :hasName ?departmentName ;
+              :hasMajor ?major .
+  ?major a :Major ;
+         :hasName ?majorName .
+}
+--------------------
+
+--------------------
+all teachers of department
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?teacher ?fullName ?hasAcademicTitle ?hasBiography ?hasEmail ?hasDegree 
+WHERE {
+    ?department :hasMember ?teacher .
+    ?teacher a :Teacher .
+    ?teacher :hasFirstName ?firstName .
+    ?teacher :hasLastName ?lastName .
+    BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName)
+    OPTIONAL { ?teacher :hasAcademicTitle ?hasAcademicTitle }
+    OPTIONAL { ?teacher :hasBiography ?hasBiography }
+    OPTIONAL { ?teacher :hasEmail ?hasEmail }
+    OPTIONAL { ?teacher :hasDegree ?hasDegree }
+}
+--------------------
+
+--------------------
+all teachers of department with department info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?teacher ?fullName ?department ?departmentInfo
+WHERE {
+  ?teacher a :Teacher .
+  ?teacher :isMemberOf ?department .
+  ?department :hasName ?departmentName .
+  ?department :hasInfo ?departmentInfo .
+  BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName)
+  ?teacher :hasFirstName ?firstName .
+  ?teacher :hasLastName ?lastName .
+}
+--------------------
+
+--------------------
+all teachers of department with teacher info and department info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?teacher ?teacherName ?department ?departmentName WHERE {
+  ?teacher a :Teacher ;
+           :hasName ?teacherName ;
+           :isMemberOf ?department .
+  ?department a :AcademicDepartment ;
+              :hasName ?departmentName .
+}
+--------------------
+
+--------------------
+all teachers info of department info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?teacher ?fullName ?department ?hasDescription ?hasInfo WHERE {
+  ?teacher a :Teacher .
+  ?teacher :hasName ?name .
+  ?teacher :hasAcademicTitle ?academicTitle .
+  ?teacher :isMemberOf ?department .
+  ?department :hasDescription ?hasDescription .
+  ?department :hasInfo ?hasInfo .
+  
+  BIND(CONCAT(?name, " ", ?academicTitle) AS ?fullName)
+}
+--------------------
+
+--------------------
+all teachers of department
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?teacher ?fullName ?hasAcademicTitle ?hasEmail ?hasBiography WHERE {
+  ?department :hasMember ?teacher .
+  ?teacher a :Teacher .
+  ?teacher :hasFirstName ?firstName .
+  ?teacher :hasLastName ?lastName .
+  BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName)
+}
+--------------------
+
+--------------------
+all teachers of each department
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?department ?departmentName ?teacher ?teacherName WHERE {
+  ?department a :AcademicDepartment ;
+              :hasMember ?teacher .
+  
+  ?teacher a :Teacher ;
+           :hasName ?teacherName .
+  
+  ?department :hasName ?departmentName .
+}
+--------------------
+
+--------------------
+all courses of teachers
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?course ?courseName ?teacher ?teacherName WHERE {
+  ?course a :Course .
+  ?course :hasInstructor ?teacher .
+  ?teacher a :Teacher .
+  ?teacher :hasTitle ?teacherName .
+  ?course :hasName ?courseName .
+}
+--------------------
+
+--------------------
+all teachers of courses
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?teacher ?fullName ?course ?courseTitle WHERE {
+  ?teacher a :Teacher .
+  ?teacher :teaches ?course .
+  ?course :hasTitle ?courseTitle .
+  BIND(CONCAT(?teacher :hasFirstName, " ", ?teacher :hasLastName) AS ?fullName)
+}
+--------------------
+
+--------------------
+all majors of department with department
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?department ?departmentName ?major ?majorName WHERE {
+  ?department a :AcademicDepartment ;
+              :hasName ?departmentName ;
+              :hasMajor ?major .
+  ?major a :Major ;
+         :hasName ?majorName .
+}
+--------------------
+
+--------------------
+all teachers of each department
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?department ?departmentName ?teacher ?fullName ?hasAcademicTitle ?hasEmail ?hasBiography WHERE {
+  ?department a :AcademicDepartment ;
+              :hasMember ?teacher .
+  
+  ?teacher a :Teacher ;
+           :hasTitle ?teacherTitle ;
+           :hasFirstName ?firstName ;
+           :hasLastName ?lastName .
+  
+  BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName)
+  BIND(?departmentName AS ?departmentName)
+}
+--------------------
+
+--------------------
+all teachers of each department
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?department ?teacher (CONCAT(?firstName, " ", ?lastName) AS ?fullName) WHERE {
+  ?department a :AcademicDepartment .
+  ?teacher a :Teacher .
+  ?teacher :isMemberOf ?department .
+  OPTIONAL { ?teacher :hasFirstName ?firstName . }
+  OPTIONAL { ?teacher :hasLastName ?lastName . }
+}
+--------------------
+
+--------------------
+all teachers info of each department
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?teacher (CONCAT(?firstName, " ", ?lastName) AS ?fullName) ?hasAcademicTitle ?hasEmail ?hasBiography ?hasDegree ?hasInfo ?hasDescription ?isMemberOf
+WHERE {
+  ?teacher a :Teacher .
+  ?teacher :hasFirstName ?firstName .
+  ?teacher :hasLastName ?lastName .
+  OPTIONAL { ?teacher :hasAcademicTitle ?hasAcademicTitle . }
+  OPTIONAL { ?teacher :hasEmail ?hasEmail . }
+  OPTIONAL { ?teacher :hasBiography ?hasBiography . }
+  OPTIONAL { ?teacher :hasDegree ?hasDegree . }
+  OPTIONAL { ?teacher :hasInfo ?hasInfo . }
+  OPTIONAL { ?teacher :hasDescription ?hasDescription . }
+  OPTIONAL { ?teacher :isMemberOf ?department . }
+}
+--------------------
+
+--------------------
+all teachers info with theri department info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?teacher (CONCAT(?firstName, " ", ?lastName) AS ?fullName) ?department ?departmentName ?departmentDescription
+WHERE {
+  ?teacher a :Teacher ;
+           :hasName ?name ;
+           :hasFirstName ?firstName ;
+           :hasLastName ?lastName ;
+           :isMemberOf ?department .
+  
+  ?department a :AcademicDepartment ;
+              :hasName ?departmentName ;
+              OPTIONAL { :hasDescription ?departmentDescription } .
+}
+--------------------
+
+--------------------
+all teachers info with their department info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?teacher (CONCAT(?firstName, " ", ?lastName) AS ?fullName) ?department ?departmentName ?departmentDescription
+WHERE {
+  ?teacher a :Teacher ;
+           :hasName ?name ;
+           :hasFirstName ?firstName ;
+           :hasLastName ?lastName ;
+           :isMemberOf ?department .
+  
+  ?department :hasName ?departmentName ;
+              :hasDescription ?departmentDescription .
+}
+--------------------
+
+--------------------
+all teachers info with their department info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?teacher (CONCAT(?firstName, " ", ?lastName) AS ?fullName) ?department ?departmentName WHERE {
+  ?teacher a :Teacher ;
+           :hasFirstName ?firstName ;
+           :hasLastName ?lastName ;
+           :isMemberOf ?department .
+  ?department :hasName ?departmentName .
+}
+--------------------
+
+--------------------
+all majors info with their department info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?major ?majorName ?department ?departmentName WHERE {
+  ?major a :Major ;
+         :hasName ?majorName ;
+         :isOfferedByDepartment ?department .
+  ?department a :AcademicDepartment ;
+              :hasName ?departmentName .
+}
+--------------------
+
+--------------------
+all majors info with their department info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?major ?fullName ?department ?departmentName WHERE {
+  ?major a :Major ;
+         :hasInfo ?info ;
+         :isOfferedByDepartment ?department .
+  
+  ?department a :Department ;
+              :hasInfo ?departmentInfo .
+
+  BIND(CONCAT(?departmentName, " - ", ?info) AS ?fullName)
+  
+  OPTIONAL {
+    ?major :hasName ?majorName .
+  }
+  
+  OPTIONAL {
+    ?department :hasName ?departmentName .
+  }
+}
+--------------------
+
+--------------------
+all majors info with their department info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?major ?hasTitle ?department ?hasDescription ?hasName WHERE {
+  ?major a :Major ;
+         :hasTitle ?hasTitle ;
+         :isOfferedByDepartment ?department .
+
+  OPTIONAL {
+    ?department a :Department ;
+                :hasDescription ?hasDescription ;
+                :hasName ?hasName .
+  }
+}
+--------------------
+
+--------------------
+all teachers info with their courses
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?teacher ?fullName ?hasDescription ?hasEmail ?hasAcademicTitle ?hasBiography ?hasDegree ?course ?courseTitle WHERE {
+  ?teacher a :Teacher ;
+           :hasFirstName ?firstName ;
+           :hasLastName ?lastName ;
+           :hasDescription ?hasDescription ;
+           OPTIONAL { ?teacher :hasEmail ?hasEmail }
+           OPTIONAL { ?teacher :hasAcademicTitle ?hasAcademicTitle }
+           OPTIONAL { ?teacher :hasBiography ?hasBiography }
+           OPTIONAL { ?teacher :hasDegree ?hasDegree } .
+  
+  BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName) .
+  
+  ?teacher :teaches ?course .
+  ?course :hasTitle ?courseTitle .
+}
+--------------------
+
+--------------------
+all teachers info with their courses
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?teacher ?fullName ?hasEmail ?hasDegree ?hasBiography ?course ?hasDescription
+WHERE {
+  ?teacher a :Teacher ;
+           :hasFirstName ?firstName ;
+           :hasLastName ?lastName ;
+           :hasEmail ?hasEmail ;
+           :hasDegree ?hasDegree ;
+           :hasBiography ?hasBiography .
+  BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName)
+  
+  OPTIONAL {
+    ?teacher :teaches ?course .
+    ?course :hasDescription ?hasDescription .
+  }
+}
+--------------------
+
+--------------------
+all teachers info with their courses
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?teacher ?fullName ?hasAcademicTitle ?hasBiography ?hasEmail ?hasDegree ?course ?hasDescription
+WHERE {
+  ?teacher a :Teacher ;
+           :hasFirstName ?firstName ;
+           :hasLastName ?lastName ;
+           :hasAcademicTitle ?hasAcademicTitle ;
+           :hasBiography ?hasBiography ;
+           :hasEmail ?hasEmail ;
+           :hasDegree ?hasDegree .
+  BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName)
+  
+  OPTIONAL {
+    ?teacher :teaches ?course .
+    ?course :hasDescription ?hasDescription .
+  }
+}
+--------------------
+
+--------------------
+all teachers info with their courses
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?teacher ?fullName ?hasAcademicTitle ?hasBiography ?hasDateOfBirth ?hasDegree ?hasEmail ?hasFirstName ?hasLastName ?course ?courseTitle WHERE {
+  ?teacher a :Teacher ;
+           :hasFirstName ?hasFirstName ;
+           :hasLastName ?hasLastName ;
+           :hasAcademicTitle ?hasAcademicTitle ;
+           :hasBiography ?hasBiography ;
+           :hasDateOfBirth ?hasDateOfBirth ;
+           :hasDegree ?hasDegree ;
+           :hasEmail ?hasEmail .
+  
+  BIND(CONCAT(?hasFirstName, " ", ?hasLastName) AS ?fullName)
+
+  OPTIONAL {
+    ?teacher :teaches ?course .
+    ?course :hasTitle ?courseTitle .
+  }
+}
+--------------------
+
+--------------------
+all courses info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?course ?hasTitle ?startDate ?endDate ?hasInfo WHERE {
+  ?course a :Course .
+  ?course :hasTitle ?hasTitle .
+  OPTIONAL { ?course :startDate ?startDate . }
+  OPTIONAL { ?course :endDate ?endDate . }
+  OPTIONAL { ?course :hasInfo ?hasInfo . }
+}
+--------------------
+
+--------------------
+all teachers info with their courses's info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?teacher ?fullName ?hasAcademicTitle ?hasBiography ?hasEmail ?hasDateOfBirth ?hasDegree ?course ?courseTitle ?startDate ?endDate
+WHERE {
+  ?teacher a :Teacher ;
+           :hasFirstName ?firstName ;
+           :hasLastName ?lastName ;
+           :hasAcademicTitle ?hasAcademicTitle ;
+           :hasBiography ?hasBiography ;
+           :hasEmail ?hasEmail ;
+           :hasDateOfBirth ?hasDateOfBirth ;
+           :hasDegree ?hasDegree .
+  
+  BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName)
+
+  OPTIONAL {
+    ?teacher :teaches ?course .
+    ?course :hasTitle ?courseTitle ;
+            :startDate ?startDate ;
+            :endDate ?endDate .
+  }
+}
+--------------------
+
+--------------------
+all teachers's info with their courses's info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?teacher ?fullName ?hasAcademicTitle ?hasBiography ?hasDateOfBirth ?hasDegree ?hasEmail ?course ?hasDescription
+WHERE {
+  ?teacher a :Teacher ;
+           :hasFirstName ?firstName ;
+           :hasLastName ?lastName ;
+           :hasAcademicTitle ?hasAcademicTitle ;
+           :hasBiography ?hasBiography ;
+           :hasDateOfBirth ?hasDateOfBirth ;
+           :hasDegree ?hasDegree ;
+           :hasEmail ?hasEmail .
+  BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName)
+
+  OPTIONAL {
+    ?teacher :teaches ?course .
+    ?course :hasDescription ?hasDescription .
+  }
+}
+--------------------
+
+--------------------
+all teachers' info with their department's info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?teacher ?fullName ?hasAcademicTitle ?hasBiography ?hasDateOfBirth ?hasDegree ?hasEmail ?department ?departmentName WHERE {
+  ?teacher a :Teacher ;
+           :hasFirstName ?firstName ;
+           :hasLastName ?lastName ;
+           :hasAcademicTitle ?hasAcademicTitle ;
+           :hasBiography ?hasBiography ;
+           :hasDateOfBirth ?hasDateOfBirth ;
+           :hasDegree ?hasDegree ;
+           :hasEmail ?hasEmail ;
+           :isMemberOf ?department .
+  
+  ?department :hasName ?departmentName .
+
+  BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName)
+}
+--------------------
+
+--------------------
+all teachers' info with their department's info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?fullName ?hasEmail ?hasDegree ?hasBiography ?hasAcademicTitle ?departmentName ?departmentDescription
+WHERE {
+  ?teacher a :Teacher ;
+           :hasFirstName ?firstName ;
+           :hasLastName ?lastName ;
+           :hasEmail ?hasEmail ;
+           :hasDegree ?hasDegree ;
+           :hasBiography ?hasBiography ;
+           :hasAcademicTitle ?hasAcademicTitle ;
+           :isMemberOf ?department .
+  
+  ?department a :Department ;
+              :hasDescription ?departmentDescription ;
+              :hasName ?departmentName .
+
+  BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName)
+}
+--------------------
+
+--------------------
+all teachers' info with their department's info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?fullName ?hasEmail ?hasDegree ?hasBiography ?hasAcademicTitle ?departmentName ?departmentDescription 
+WHERE {
+  ?teacher a :Teacher ;
+          :hasFirstName ?firstName ;
+          :hasLastName ?lastName ;
+          :hasEmail ?hasEmail ;
+          :hasDegree ?hasDegree ;
+          :hasBiography ?hasBiography ;
+          :hasAcademicTitle ?hasAcademicTitle .
+  
+  BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName)
+
+  ?teacher :isMemberOf ?department .
+  ?department :hasName ?departmentName ;
+              :hasDescription ?departmentDescription .
+}
+--------------------
+
+--------------------
+all teachers' info with their department's info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?fullName ?hasEmail ?hasDegree ?hasBiography ?hasAcademicTitle ?departmentName ?departmentDescription
+WHERE {
+  ?teacher a :Teacher ;
+           :hasFirstName ?firstName ;
+           :hasLastName ?lastName ;
+           :hasEmail ?hasEmail ;
+           :hasDegree ?hasDegree ;
+           :hasBiography ?hasBiography ;
+           :hasAcademicTitle ?hasAcademicTitle .
+  
+  BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName)
+
+  ?teacher :isMemberOf ?department .
+  ?department :hasDescription ?departmentDescription ;
+              :hasName ?departmentName .
+}
+--------------------
+
+--------------------
+all teachers' info with their department's info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?fullName ?hasEmail ?hasBiography ?hasDegree ?hasAcademicTitle ?hasMemberName ?hasDescription WHERE {
+  ?teacher a :Teacher ;
+           :hasFirstName ?firstName ;
+           :hasLastName ?lastName ;
+           :hasEmail ?hasEmail ;
+           :hasBiography ?hasBiography ;
+           :hasDegree ?hasDegree ;
+           :hasAcademicTitle ?hasAcademicTitle .
+  
+  BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName)
+
+  OPTIONAL {
+    ?teacher :isMemberOf ?department .
+    ?department :hasName ?hasMemberName ;
+                :hasDescription ?hasDescription .
+  }
+}
+--------------------
+
+--------------------
+all teachers' info with their department's info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?teacher ?fullName ?hasEmail ?hasDegree ?hasBiography ?department ?departmentName WHERE {
+  ?teacher a :Teacher ;
+           :hasFirstName ?firstName ;
+           :hasLastName ?lastName ;
+           :hasEmail ?hasEmail ;
+           :hasDegree ?hasDegree ;
+           :hasBiography ?hasBiography .
+  BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName)
+
+  ?teacher :isMemberOf ?department .
+  ?department :hasName ?departmentName .
+}
+--------------------
+
+--------------------
+all teachers' info with their department's info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?teacher ?fullName ?hasEmail ?hasDegree ?hasBiography ?department ?departmentName
+WHERE {
+  ?teacher a :Teacher ;
+           :hasFirstName ?firstName ;
+           :hasLastName ?lastName ;
+           :hasEmail ?hasEmail ;
+           :hasDegree ?hasDegree ;
+           :hasBiography ?hasBiography ;
+           :isMemberOf ?department .
+  
+  ?department :hasName ?departmentName .
+
+  BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName)
+}
+--------------------
+
+--------------------
+all teachers' info with their department's info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?teacher ?fullName ?hasEmail ?hasDegree ?hasBiography ?department ?departmentName
+WHERE {
+  ?teacher a :Teacher ;
+           :hasFirstName ?firstName ;
+           :hasLastName ?lastName ;
+           :hasEmail ?hasEmail ;
+           :hasDegree ?hasDegree ;
+           :hasBiography ?hasBiography ;
+           :isMemberOf ?department .
+  
+  ?department :hasName ?departmentName .
+
+  BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName)
+}
+--------------------
+
+--------------------
+all teachers' info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?teacher ?fullName ?hasBiography ?hasEmail ?hasDegree ?hasAcademicTitle
+WHERE {
+  ?teacher a :Teacher .
+  ?teacher :hasFirstName ?firstName .
+  ?teacher :hasLastName ?lastName .
+  BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName)
+  
+  OPTIONAL { ?teacher :hasBiography ?hasBiography }
+  OPTIONAL { ?teacher :hasEmail ?hasEmail }
+  OPTIONAL { ?teacher :hasDegree ?hasDegree }
+  OPTIONAL { ?teacher :hasAcademicTitle ?hasAcademicTitle }
+}
+--------------------
+
+--------------------
+all teachers' info with their courses' info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?teacher ?fullName ?hasAcademicTitle ?hasBiography ?hasDateOfBirth ?hasDegree ?hasEmail ?course ?courseTitle WHERE {
+  ?teacher a :Teacher .
+  ?teacher :hasFirstName ?firstName .
+  ?teacher :hasLastName ?lastName .
+  BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName)
+  
+  OPTIONAL { ?teacher :hasAcademicTitle ?hasAcademicTitle }
+  OPTIONAL { ?teacher :hasBiography ?hasBiography }
+  OPTIONAL { ?teacher :hasDateOfBirth ?hasDateOfBirth }
+  OPTIONAL { ?teacher :hasDegree ?hasDegree }
+  OPTIONAL { ?teacher :hasEmail ?hasEmail }
+  
+  OPTIONAL {
+    ?teacher :teaches ?course .
+    ?course :hasTitle ?courseTitle .
+  }
+}
+--------------------
+
+--------------------
+all courses' info taught by each teacher
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?course ?hasTitle ?teacher ?fullName ?hasEmail ?hasDegree ?hasBiography WHERE {
+  ?course a :Course ;
+          :hasTitle ?hasTitle ;
+          :hasInstructor ?teacher .
+  
+  ?teacher a :Teacher ;
+           :hasFirstName ?firstName ;
+           :hasLastName ?lastName ;
+           OPTIONAL { :hasEmail ?hasEmail } ;
+           OPTIONAL { :hasDegree ?hasDegree } ;
+           OPTIONAL { :hasBiography ?hasBiography } .
+  
+  BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName)
+}
+--------------------
+
+--------------------
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?course ?hasTitle ?teacher ?fullName ?hasEmail ?hasDegree ?hasBiography WHERE {
+  ?course a :Course ;
+          :hasTitle ?hasTitle ;
+          :hasInstructor ?teacher .
+  ?teacher a :Teacher ;
+           :hasFirstName ?firstName ;
+           :hasLastName ?lastName ;
+           OPTIONAL { ?teacher :hasEmail ?hasEmail }
+           OPTIONAL { ?teacher :hasDegree ?hasDegree }
+           OPTIONAL { ?teacher :hasBiography ?hasBiography } .
+  BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName)
+}
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?course ?hasTitle ?teacher ?fullName ?hasEmail ?hasDegree ?hasBiography WHERE {
+  ?course a :Course ;
+          :hasTitle ?hasTitle ;
+          :hasInstructor ?teacher .
+  ?teacher a :Teacher ;
+           :hasFirstName ?firstName ;
+           :hasLastName ?lastName ;
+           OPTIONAL { ?teacher :hasEmail ?hasEmail }
+           OPTIONAL { ?teacher :hasDegree ?hasDegree }
+           OPTIONAL { ?teacher :hasBiography ?hasBiography } .
+  BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName)
+}
+--------------------
+
+--------------------
+all courses' info taught by each teacher
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?course ?hasTitle ?teacher ?fullName ?hasInfo WHERE {
+  ?course a :Course ;
+          :hasInstructor ?teacher ;
+          :hasInfo ?hasInfo ;
+          :hasTitle ?hasTitle .
+  
+  ?teacher a :Teacher ;
+           :hasFirstName ?firstName ;
+           :hasLastName ?lastName .
+  
+  BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName)
+}
+--------------------
+
+--------------------
+all people info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?person ?fullName ?hasEmail ?hasDegree ?hasBiography ?hasDateOfBirth ?hasAcademicTitle WHERE {
+  ?person a :Person .
+  BIND(CONCAT(?hasFirstName, " ", ?hasLastName) AS ?fullName)
+  OPTIONAL { ?person :hasEmail ?hasEmail }
+  OPTIONAL { ?person :hasDegree ?hasDegree }
+  OPTIONAL { ?person :hasBiography ?hasBiography }
+  OPTIONAL { ?person :hasDateOfBirth ?hasDateOfBirth }
+  OPTIONAL { ?person :hasAcademicTitle ?hasAcademicTitle }
+}
+--------------------
+
+--------------------
+all people info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?person ?fullName ?hasEmail ?hasDegree ?hasBiography ?hasDateOfBirth ?hasAcademicTitle WHERE {
+  ?person a :Person .
+  BIND(CONCAT(?hasFirstName, " ", ?hasLastName) AS ?fullName)
+  OPTIONAL { ?person :hasEmail ?hasEmail }
+  OPTIONAL { ?person :hasDegree ?hasDegree }
+  OPTIONAL { ?person :hasBiography ?hasBiography }
+  OPTIONAL { ?person :hasDateOfBirth ?hasDateOfBirth }
+  OPTIONAL { ?person :hasAcademicTitle ?hasAcademicTitle }
+}
+--------------------
+
+--------------------
+all students info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?student ?fullName ?enrollmentYear ?hasEmail ?hasDegree ?hasBiography WHERE {
+  ?student a :Student .
+  ?student :hasFirstName ?firstName .
+  ?student :hasLastName ?lastName .
+  BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName)
+  
+  OPTIONAL { ?student :enrollmentYear ?enrollmentYear }
+  OPTIONAL { ?student :hasEmail ?hasEmail }
+  OPTIONAL { ?student :hasDegree ?hasDegree }
+  OPTIONAL { ?student :hasBiography ?hasBiography }
+}
+--------------------
+
+--------------------
+all people info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?person ?fullName ?hasEmail ?hasDegree ?hasBiography ?hasDateOfBirth ?hasAcademicTitle WHERE {
+  ?person a :Person .
+  
+  OPTIONAL { 
+    ?person :hasFirstName ?firstName .
+    ?person :hasLastName ?lastName .
+    BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName)
+  }
+  
+  OPTIONAL { ?person :hasEmail ?hasEmail . }
+  OPTIONAL { ?person :hasDegree ?hasDegree . }
+  OPTIONAL { ?person :hasBiography ?hasBiography . }
+  OPTIONAL { ?person :hasDateOfBirth ?hasDateOfBirth . }
+  OPTIONAL { ?person :hasAcademicTitle ?hasAcademicTitle . }
+}
+--------------------
+
+--------------------
+all students info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?student ?fullName ?enrollmentYear ?hasEmail ?hasDegree ?hasBiography
+WHERE {
+  ?student a :Student .
+  ?student :hasFirstName ?firstName .
+  ?student :hasLastName ?lastName .
+  BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName)
+  OPTIONAL { ?student :enrollmentYear ?enrollmentYear }
+  OPTIONAL { ?student :hasEmail ?hasEmail }
+  OPTIONAL { ?student :hasDegree ?hasDegree }
+  OPTIONAL { ?student :hasBiography ?hasBiography }
+}
+--------------------
+
+--------------------
+all courses studied by students info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?course ?title ?student ?fullName WHERE {
+  ?course a :Course .
+  ?student a :Student .
+  ?student :studies ?course .
+  ?course :hasTitle ?title .
+  
+  BIND(CONCAT(?student :hasFirstName, " ", ?student :hasLastName) AS ?fullName)
+  
+  FILTER(BOUND(?student :hasFirstName) && BOUND(?student :hasLastName))
+}
+--------------------
+
+--------------------
+all courses studied by students info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?course ?title ?student ?fullName ?enrollmentYear WHERE {
+  ?course a :Course ;
+          :hasTitle ?title ;
+          :isStudiedBy ?student .
+  
+  ?student a :Student ;
+           :hasFirstName ?firstName ;
+           :hasLastName ?lastName ;
+           :enrollmentYear ?enrollmentYear .
+  
+  BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName)
+}
+--------------------
+
+--------------------
+all courses studied by students info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?course ?title ?student ?fullName ?enrollmentYear WHERE {
+  ?course a :Course ;
+          :hasTitle ?title .
+  
+  ?student a :Student ;
+           :studies ?course ;
+           :hasFirstName ?firstName ;
+           :hasLastName ?lastName ;
+           :enrollmentYear ?enrollmentYear .
+  
+  BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName)
+}
+--------------------
+
+--------------------
+all courses' info taught by each teacher
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?course ?courseTitle ?teacher ?fullName ?hasInfo
+WHERE {
+  ?course a :Course ;
+          :hasTitle ?courseTitle ;
+          :hasInstructor ?teacher .
+  
+  ?teacher a :Teacher ;
+           :hasFirstName ?firstName ;
+           :hasLastName ?lastName ;
+           OPTIONAL { ?teacher :hasInfo ?hasInfo } .
+  
+  BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName)
+}
+--------------------
+
+--------------------
+all teachers' info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?teacher (CONCAT(?firstName, " ", ?lastName) AS ?fullName) ?hasAcademicTitle ?hasBiography ?hasEmail ?hasDegree
+WHERE {
+  ?teacher a :Teacher .
+  ?teacher :hasFirstName ?firstName .
+  ?teacher :hasLastName ?lastName .
+  OPTIONAL { ?teacher :hasAcademicTitle ?hasAcademicTitle . }
+  OPTIONAL { ?teacher :hasBiography ?hasBiography . }
+  OPTIONAL { ?teacher :hasEmail ?hasEmail . }
+  OPTIONAL { ?teacher :hasDegree ?hasDegree . }
+}
+--------------------
+
+--------------------
+all teachers' info with their department's info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?teacher ?fullName ?hasEmail ?hasDegree ?hasBiography ?department ?departmentName WHERE {
+  ?teacher a :Teacher ;
+           :hasFirstName ?firstName ;
+           :hasLastName ?lastName ;
+           :hasEmail ?hasEmail ;
+           :hasDegree ?hasDegree ;
+           :hasBiography ?hasBiography ;
+           :isMemberOf ?department .
+  
+  ?department :hasDescription ?departmentName .
+
+  BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName)
+}
+--------------------
+
+--------------------
+all teachers' info with their department's info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?teacher ?fullName ?hasEmail ?hasDegree ?hasBiography ?department ?departmentName WHERE {
+  ?teacher a :Teacher .
+  ?teacher :hasFirstName ?firstName .
+  ?teacher :hasLastName ?lastName .
+  BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName)
+  OPTIONAL { ?teacher :hasEmail ?hasEmail . }
+  OPTIONAL { ?teacher :hasDegree ?hasDegree . }
+  OPTIONAL { ?teacher :hasBiography ?hasBiography . }
+  ?teacher :isMemberOf ?department .
+  ?department :hasDescription ?departmentName .
+}
+--------------------
+
+--------------------
+all people info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?person ?fullName ?hasEmail ?hasDegree ?hasBiography ?hasDateOfBirth ?hasAcademicTitle WHERE {
+  ?person a :Person .
+  
+  OPTIONAL { 
+    ?person :hasFirstName ?firstName .
+    ?person :hasLastName ?lastName .
+    BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName)
+  }
+  
+  OPTIONAL { ?person :hasEmail ?hasEmail . }
+  OPTIONAL { ?person :hasDegree ?hasDegree . }
+  OPTIONAL { ?person :hasBiography ?hasBiography . }
+  OPTIONAL { ?person :hasDateOfBirth ?hasDateOfBirth . }
+  OPTIONAL { ?person :hasAcademicTitle ?hasAcademicTitle . }
+}
+--------------------
+
+--------------------
+all students info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?student ?fullName ?enrollmentYear ?hasEmail ?hasDegree ?hasBiography WHERE {
+  ?student a :Student .
+  ?student :hasFirstName ?firstName .
+  ?student :hasLastName ?lastName .
+  BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName)
+  
+  OPTIONAL { ?student :enrollmentYear ?enrollmentYear }
+  OPTIONAL { ?student :hasEmail ?hasEmail }
+  OPTIONAL { ?student :hasDegree ?hasDegree }
+  OPTIONAL { ?student :hasBiography ?hasBiography }
+}
+--------------------
+
+--------------------
+all courses studied by students info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?course ?hasTitle ?student ?fullName WHERE {
+  ?course a :Course ;
+          :hasTitle ?hasTitle ;
+          :isStudiedBy ?student .
+  
+  ?student a :Student ;
+           :hasFirstName ?firstName ;
+           :hasLastName ?lastName .
+  
+  BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName)
+}
+--------------------
+
+--------------------
+all courses info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?course ?hasTitle ?startDate ?endDate ?hasInfo WHERE {
+  ?course a :Course .
+  ?course :hasTitle ?hasTitle .
+  OPTIONAL { ?course :startDate ?startDate . }
+  OPTIONAL { ?course :endDate ?endDate . }
+  OPTIONAL { ?course :hasInfo ?hasInfo . }
+}
+--------------------
+
+--------------------
+all subjects info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?subject ?title ?hasDescription ?hasCredit ?hasInfo WHERE {
+  ?subject a :Subject .
+  ?subject :hasTitle ?title .
+  OPTIONAL { ?subject :hasDescription ?hasDescription . }
+  OPTIONAL { ?subject :hasCredit ?hasCredit . }
+  OPTIONAL { ?subject :hasInfo ?hasInfo . }
+}
+--------------------
+
+--------------------
+all courses of subjects
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?course ?subject ?subjectTitle WHERE {
+  ?course a :Course .
+  ?course :isCourseOf ?subject .
+  ?subject a :Subject .
+  ?subject :hasTitle ?subjectTitle .
+}
+--------------------
+
+--------------------
+all courses of subjects
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?course ?subject ?subjectTitle ?courseTitle WHERE {
+  ?course a :Course .
+  ?course :isCourseOf ?subject .
+  ?subject a :Subject .
+  ?subject :hasTitle ?subjectTitle .
+  ?course :hasTitle ?courseTitle .
+}
+--------------------
+
+--------------------
+all rooms info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?room ?title ?hasInfo ?hasDescription WHERE {
+  ?room a :Facility .
+  ?room :hasTitle ?title .
+  OPTIONAL { ?room :hasInfo ?hasInfo . }
+  OPTIONAL { ?room :hasDescription ?hasDescription . }
+}
+--------------------
+
+--------------------
+all rooms info used for courses with course info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?room ?roomTitle ?course ?courseTitle ?startDate ?endDate WHERE {
+  ?room a :Facility ;
+        :hasTitle ?roomTitle ;
+        :isUsedForCourse ?course .
+  
+  ?course a :Course ;
+          :hasTitle ?courseTitle ;
+          :startDate ?startDate ;
+          :endDate ?endDate .
+}
+--------------------
+
+--------------------
+all thesis
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?thesis ?title ?hasDescription ?hasSubmissionDate WHERE {
+  ?thesis a :Thesis .
+  ?thesis :hasTitle ?title .
+  OPTIONAL { ?thesis :hasDescription ?hasDescription . }
+  OPTIONAL { ?thesis :hasSubmissionDate ?hasSubmissionDate . }
+}
+--------------------
+
+--------------------
+all material info of subjects
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?subject ?title ?material ?description WHERE {
+  ?subject a :Subject .
+  ?subject :hasTitle ?title .
+  ?material a :Subject_material .
+  ?material :isMaterialOf ?subject .
+  ?material :hasDescription ?description .
+}
+--------------------
+
+--------------------
+all departments info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?department ?hasDescription ?hasTitle WHERE {
+  ?department a :Department .
+  ?department :hasTitle ?hasTitle .
+  OPTIONAL { ?department :hasDescription ?hasDescription . }
+}
+--------------------
+
+--------------------
+all majors info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?major ?hasTitle ?hasDescription ?hasInfo WHERE {
+  ?major a :Major .
+  ?major :hasTitle ?hasTitle .
+  OPTIONAL { ?major :hasDescription ?hasDescription . }
+  OPTIONAL { ?major :hasInfo ?hasInfo . }
+}
+--------------------
+
+--------------------
+all majors info with their department info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?major ?department ?hasDescription ?hasInfo ?hasName WHERE {
+  ?major a :Major ;
+         :hasDescription ?hasDescription ;
+         :hasInfo ?hasInfo ;
+         :hasName ?hasName ;
+         :isOfferedByDepartment ?department .
+  
+  ?department a :Department ;
+              :hasName ?hasName .
+}
+--------------------
+
+--------------------
+all majors' info with their department's info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?major ?department ?hasDescription ?hasName ?hasMajor ?hasDescription ?hasName 
+WHERE {
+  ?major a :Major ;
+         :hasDescription ?hasDescription ;
+         :hasName ?hasName ;
+         :isOfferedByDepartment ?department .
+  
+  ?department a :Department ;
+              :hasDescription ?hasDescription ;
+              :hasName ?hasName .
+}
+--------------------
