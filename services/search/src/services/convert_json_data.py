@@ -29,7 +29,7 @@ def convert_sparql_output(sparql_output):
                     if individual_type and individual_id:
                         # Thêm cả tên và url từ các URI
                         # entry["name"].append(f"{individual_type} {individual_id}")
-                        entry["url"].append(f"/{individual_type}/{individual_id}")
+                        entry["url"].append(f"/details/{individual_type}/{individual_id}")
                 else:
                     key = re.sub(r'(?<!^)(?=[A-Z])', ' ', key).lower()
                     if "name" in key or "title" in key:
