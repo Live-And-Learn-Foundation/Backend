@@ -1552,3 +1552,41 @@ WHERE {
               :hasName ?hasName .
 }
 --------------------
+
+--------------------
+abjsabdjas
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?entity ?name WHERE {
+    { 
+        ?entity a ?class .
+        ?entity :hasName ?name .
+    }
+    UNION
+    { 
+        ?entity a ?class .
+        ?entity :hasTitle ?name .
+    }
+    BIND(STR(?class) AS ?className)
+    FILTER(?className IN ( :Department, :Subject_material, :Thesis, :ClassRoom, :LabRoom, :LectureHall, :Library, :StaffRoom, :OfficeRoom, :Course, :Subject, :Major, :Professor, :TeachingAssistant, :Student, :Teacher, :NonTeachingStaff, :Staff ))
+}
+--------------------
+
+--------------------
+all people info
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?person (CONCAT(?firstName, " ", ?lastName) AS ?fullName) ?hasEmail ?hasDegree ?hasBiography ?hasDateOfBirth WHERE {
+  ?person a :Person .
+  
+  OPTIONAL { 
+    ?person :hasFirstName ?firstName .
+    ?person :hasLastName ?lastName .
+  }
+  
+  OPTIONAL { ?person :hasEmail ?hasEmail . }
+  OPTIONAL { ?person :hasDegree ?hasDegree . }
+  OPTIONAL { ?person :hasBiography ?hasBiography . }
+  OPTIONAL { ?person :hasDateOfBirth ?hasDateOfBirth . }
+}
+--------------------
