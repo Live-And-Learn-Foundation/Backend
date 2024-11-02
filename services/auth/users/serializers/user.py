@@ -41,23 +41,27 @@ class UserSerializer(WritableNestedSerializer):
         nested_update_fields = ["roles", "user_detail"]
 
 
-class CreateUserSerializer(serializers.ModelSerializer):
+class CreateUserSerializer(WritableNestedSerializer):
+    roles = ShortRoleSerializer(many=True, required=False)
+    roles_ids = serializers.PrimaryKeyRelatedField(required=False, write_only=True, many=True, allow_null=True,
+                                                   allow_empty=True,
+                                                   queryset=Role.objects.all(),
+                                                   source='roles')
+    nested_create_fields = ["roles"]
     class Meta:
         model = User
-        fields = ["id", "email", "password", "first_name", "last_name"]
-        extra_kwargs = {"password": {"write_only": True}}
+        fields = ["id", "email", "password", "first_name", "last_name", "roles", "roles_ids"]
+        extra_kwargs = {"password": {"write_only": True, "required": False}}
 
     def create(self, validated_data):
+        roles = validated_data.pop("roles", None)
         try:
             user = User.objects.create(**validated_data)
-            role, _ = Role.objects.get_or_create(
-                name="User",
-                description="User role",
-                scope="__all__"
-            )
-            user.roles.add(role)
-            user.set_password(validated_data["password"])
+            if roles:
+                user.roles.set(roles)
+            user.set_password(validated_data.get("password", validated_data["email"]))
             user.is_superuser = False
+            user.is_active = True
             user.save()
             return user
         except Exception as e:

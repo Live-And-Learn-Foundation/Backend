@@ -15,7 +15,7 @@ from rest_framework.status import (
     HTTP_500_INTERNAL_SERVER_ERROR,
 )
 from users.models.user import User
-from users.serializers import UserSerializer
+from users.serializers import UserSerializer, CreateUserSerializer
 
 
 class UserViewSet(BaseViewSet):
@@ -44,6 +44,9 @@ class UserViewSet(BaseViewSet):
         "first_name": "icontains",
         "last_name": "icontains",
         "email": "icontains"
+    }
+    serializer_map = {
+        "create": CreateUserSerializer
     }
 
     def get_permissions(self):
