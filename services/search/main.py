@@ -1,11 +1,14 @@
 from flask import Flask
-
-from src import middlewares, routes
 from flask_cors import CORS
+
+from src import init_cache
+from src import routes
 
 
 def main() -> Flask:
     app = Flask(__name__)
+
+    init_cache(app)
 
     CORS(app)
 
