@@ -38,41 +38,21 @@ endpoint = "https://models.inference.ai.azure.com"
 model_name = "gpt-4o"
 
 base_messages = []
-base_messages.append({
-    "role": "system",
-    "content": "You are an expert in converting natural language queries (NLQ) into SPARQL queries for university search.",
-})
-base_messages.append({
-    "role": "system",
-    "content": "Given the following classes in my RDF graph design: ",
-})
-for Properties_Name, Description in data_1.values:
-    base_messages.append({
-        "role": "system",
-        "content": f"Class: {Properties_Name}\nClass Description: {Description}\n"
-    })
-base_messages.append({
-    "role": "system",
-    "content": "And given the following object properties in my RDF graph design: ",
-})
-for Properties_Name, Description in data_2.values:
-    base_messages.append({
-        "role": "system",
-        "content": f"Object Properties: {Properties_Name}\nObject Properties Description: {Description}\n"
-    })
-base_messages.append({
-    "role": "system",
-    "content": "And given the following data properties in my RDF graph design: ",
-})
-for Properties_Name, Description in data_3.values:
-    base_messages.append({
-        "role": "system",
-        "content": f"Data Properties: {Properties_Name}\nData Properties Description: {Description}\n"
-    })
+message = "You are an expert in converting natural language queries (NLQ) into SPARQL queries for university search.\n"
 
-base_messages.append({
-    "role": "system",
-    "content": """Now, here is the rule you must follow when converting an NLQ to Sparql query:\n
+message += "Given the following classes in my RDF graph design: \n"
+for Properties_Name, Description in data_1.values:
+    message += f"Class: {Properties_Name} => Class Description: {Description}\n"
+
+message += "Given the following object properties in my RDF graph design: \n"
+for Properties_Name, Description in data_2.values:
+    message += f"Object Properties: {Properties_Name} => Object Properties Description: {Description}\n"
+
+message += "Given the following data properties in my RDF graph design: \n"
+for Properties_Name, Description in data_3.values:
+    message += f"Data Properties: {Properties_Name} => Data Properties Description: {Description}\n"
+
+rule_string = """Now, here is the rule you must follow when converting an NLQ to Sparql query:\n
     EVERY SINGLE OBJECT MUST HAVE NAME OR TITLE depending on their class and their NAME OR TITLE CANNOT BE OPTIONAL.\n
     ONLY if the class object is Person or its sub classes (Student, Teacher,... ), BIND the class object's first name and last name together into full name instead of returning these two data properties separated in the answer.\n
     Class Person and its subclasses (Student, Teacher, ...) CANNOT have ```:hasName``` or ```:hasTitle``` properties and must BIND from the ```:hasFirstName``` and ```:hasLastName``` properties into ```:fullName``` property.\n
@@ -81,22 +61,18 @@ base_messages.append({
     Ensure that the class of main object of the user's question is SELECTED directly in the query result, in addition to its properties.\n
     Conduct subtring matching by Including the FILTER function for any Data Properties searched in the query.\n
     ONLY provide the query without Prefix and HAVE TO USE THE CORRECT SYNTAX\n
-    """,
-})
+    """
 
+message += rule_string
+
+base_messages.append({
+    "role": "system",
+    "content": message,
+})
 # For each class object being returned in the answer, the class object's name or title must also be returned depending on the class object's class.\n
 base_messages.append({
     "role": "user",
-    "content": """Now, here is the rule you must follow when converting an NLQ to Sparql query:\n
-    EVERY SINGLE OBJECT MUST HAVE NAME OR TITLE depending on their class and their NAME OR TITLE CANNOT BE OPTIONAL.\n
-    ONLY if the class object is Person or its sub classes (Student, Teacher,... ), BIND the class object's first name and last name together into full name instead of returning these two data properties separated in the answer.\n
-    Class Person and its subclasses (Student, Teacher, ...) CANNOT have ```:hasName``` or ```:hasTitle``` properties and must BIND from the ```:hasFirstName``` and ```:hasLastName``` properties into ```:fullName``` property.\n
-    Class Person and its subclasses (Student, Teacher, ...) MUST BE CHECK to have ```:hasFirstName``` and ```:hasLastName``` properties before BIND\n
-    Most data properties of the object HAVE TO BE OPTIONAL EXCEPT their NAME OR TITLE.\n
-    Ensure that the class of main object of the user's question is SELECTED directly in the query result, in addition to its properties.\n
-    Conduct subtring matching by Including the FILTER function for any Data Properties searched in the query.\n
-    ONLY provide the query without Prefix and HAVE TO USE THE CORRECT SYNTAX\n
-    """,
+    "content": rule_string,
 })
 
 def convert_user_query(user_query):
