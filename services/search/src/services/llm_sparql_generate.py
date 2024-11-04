@@ -35,7 +35,7 @@ data_2 = data_2.dropna()
 data_3 = data_3.dropna()
 
 endpoint = "https://models.inference.ai.azure.com"
-model_name = "gpt-4o-mini"
+model_name = "gpt-4o"
 
 base_messages = []
 base_messages.append({
@@ -73,28 +73,29 @@ for Properties_Name, Description in data_3.values:
 base_messages.append({
     "role": "system",
     "content": """Now, here is the rule you must follow when converting an NLQ to Sparql query:\n
-    EVERY SINGLE OBJECT MUST HAVE NAME OR TITLE depending on their class and CANNOT BE OPTIONAL.\n
+    EVERY SINGLE OBJECT MUST HAVE NAME OR TITLE depending on their class and their NAME OR TITLE CANNOT BE OPTIONAL.\n
     ONLY if the class object is Person or its sub classes (Student, Teacher,... ), BIND the class object's first name and last name together into full name instead of returning these two data properties separated in the answer.\n
     Class Person and its subclasses (Student, Teacher, ...) CANNOT have ```:hasName``` or ```:hasTitle``` properties and must BIND from the ```:hasFirstName``` and ```:hasLastName``` properties into ```:fullName``` property.\n
     Class Person and its subclasses (Student, Teacher, ...) MUST BE CHECK to have ```:hasFirstName``` and ```:hasLastName``` properties before BIND\n
-    Most data properties of the object should be OPTIONAL.\n
-    Ensure that the class of main object of the user's question is selected directly in the query result, in addition to its properties.\n
-    For each class object being returned in the answer, the class object's name or title must also be returned depending on the class object's class.\n
-    Lastly, ONLY provide the query without Prefix and HAVE TO USE THE CORRECT SYNTAX, including the FILTER function for any Data Properties that require substring matching.
+    Most data properties of the object HAVE TO BE OPTIONAL EXCEPT their NAME OR TITLE.\n
+    Ensure that the class of main object of the user's question is SELECTED directly in the query result, in addition to its properties.\n
+    Conduct subtring matching by Including the FILTER function for any Data Properties searched in the query.\n
+    ONLY provide the query without Prefix and HAVE TO USE THE CORRECT SYNTAX\n
     """,
 })
 
+# For each class object being returned in the answer, the class object's name or title must also be returned depending on the class object's class.\n
 base_messages.append({
     "role": "user",
     "content": """Now, here is the rule you must follow when converting an NLQ to Sparql query:\n
-    EVERY SINGLE OBJECT MUST HAVE NAME OR TITLE depending on their class and CANNOT BE OPTIONAL.\n
+    EVERY SINGLE OBJECT MUST HAVE NAME OR TITLE depending on their class and their NAME OR TITLE CANNOT BE OPTIONAL.\n
     ONLY if the class object is Person or its sub classes (Student, Teacher,... ), BIND the class object's first name and last name together into full name instead of returning these two data properties separated in the answer.\n
     Class Person and its subclasses (Student, Teacher, ...) CANNOT have ```:hasName``` or ```:hasTitle``` properties and must BIND from the ```:hasFirstName``` and ```:hasLastName``` properties into ```:fullName``` property.\n
     Class Person and its subclasses (Student, Teacher, ...) MUST BE CHECK to have ```:hasFirstName``` and ```:hasLastName``` properties before BIND\n
-    Most data properties of the object should be OPTIONAL.\n
-    Ensure that the class of main object of the user's question is selected directly in the query result, in addition to its properties.\n
-    For each class object being returned in the answer, the class object's name or title must also be returned depending on the class object's class.\n
-    Lastly, ONLY provide the query without Prefix and HAVE TO USE THE CORRECT SYNTAX, including the FILTER function for any Data Properties that require substring matching.
+    Most data properties of the object HAVE TO BE OPTIONAL EXCEPT their NAME OR TITLE.\n
+    Ensure that the class of main object of the user's question is SELECTED directly in the query result, in addition to its properties.\n
+    Conduct subtring matching by Including the FILTER function for any Data Properties searched in the query.\n
+    ONLY provide the query without Prefix and HAVE TO USE THE CORRECT SYNTAX\n
     """,
 })
 
