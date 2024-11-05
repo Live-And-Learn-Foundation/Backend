@@ -22,6 +22,9 @@ class StudentViewSet(BaseViewSet):
     def list(self, request, *args, **kwargs):
         queryset = self.filter_queryset(self.get_queryset())
         params = request.query_params
+        ids = params.getlist('ids')
+        if ids:
+            queryset = queryset.filter(id__in=ids)
 
         # Fetch students list
         keyword = params.get("keyword")
@@ -63,7 +66,7 @@ class StudentViewSet(BaseViewSet):
             access_token = request.headers.get('Authorization')
             headers = {'Authorization': access_token}
             response = requests.get(
-                f"http://host.docker.internal:9000/api/auth/v1/users/{user_id}",
+                f"http://host.docker.internal:9000/api/v1/users/{user_id}",
                 headers=headers
             )
             response.raise_for_status()

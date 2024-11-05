@@ -17,10 +17,15 @@ def generate_answer(user_query):
         # Thêm prefix vào đầu câu truy vấn
         prefix = "PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>\n"
         sparql_query_final = prefix + sparql_query_cleaned.strip()
-        # return sparql_query
+        with open("Logs.txt", "a") as file:
+            file.write('\n--------------------\n')
+            file.write(user_query)
+            file.write('\n\n')
+            file.write(sparql_query_final)
+            file.write('\n--------------------\n')
 
         response = requests.post(
-            f"http://localhost:9090/sparql",
+            f"http://host.docker.internal:9090/sparql",
             data={"query": sparql_query_final}  # Form data with key "query"
         )
         response.raise_for_status()  # Raise an error for HTTP error responses

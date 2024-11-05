@@ -32,3 +32,4 @@ storage/*
 
 .kong_data/
 .mysql_data/
+services/search/keys.env
