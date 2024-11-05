@@ -1,21 +1,15 @@
-import requests
-import dotenv
 import os
+from dotenv import load_dotenv
 import pandas as pd
 from openai import OpenAI
 
-openai_api_keys_from_env = [
-    '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', 
-    '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', 
-    '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',
-    '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',
-    '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',
-    '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',
-    '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',
-    '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',
-    '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',
-    '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',
-    ]
+load_dotenv("keys.env")
+
+keys_string = os.getenv('OPENAI_KEYS')
+
+openai_api_keys_from_env = keys_string.split(',') if keys_string else []
+
+print(openai_api_keys_from_env)
 
 # Đặt đường dẫn thư mục hiện tại là thư mục chứa file chương trình
 current_dir = os.path.dirname(os.path.abspath(__file__))
