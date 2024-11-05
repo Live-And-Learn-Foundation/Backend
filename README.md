@@ -3,8 +3,8 @@
 ## Table of Contents
 
 1. [Installation](#installation)
-2. [Usage](#usage)
-3. [Configuration](#configuration)
+2. [Configuration](#configuration)
+3. [Usage](#usage)
 
 ## Installation
 
