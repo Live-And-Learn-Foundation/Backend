@@ -38,6 +38,13 @@ In your environment files:
 
 Change the configuration's IP addresses into your local machine's IP address
 
+Insert your openAI personal access token (PAT) (Preferably from github marketplace) or Azure production key(s)  into:
+```
+./services/search/keys.env
+```
+
+Learn more: [Prototyping with AI models](https://docs.github.com/en/github-models/prototyping-with-ai-models)
+
 ## Usage
 
 Start by running the following commands:
