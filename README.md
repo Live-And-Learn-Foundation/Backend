@@ -22,6 +22,8 @@ This project requires docker to be installed.
 
 ## Configuration
 
+Copy oicd.key.sample into oicd.key
+
 In your environment files:
 
 ```
