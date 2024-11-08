@@ -1,7 +1,7 @@
 Properties Name,Description
 :endDate,"The date when an entity ends. Used for class Course ONLY."
 :startDate,"The date when an entity starts. Used for class Course ONLY."
-:hasDescription,"A textual description or explanation of an entity or individual. Used in classes Thesis, Department, Subject_material, Major ONLY. Course DO NOT have :hasDescription"
+:hasDescription,"A description or explanation of the entity or individual, contains many information for searching and substring matching. Used in classes Thesis, Department, Subject_material, Major ONLY. Course, Subject DO NOT have :hasDescription"
 :hasInfo,"Additional information or metadata about an entity or individual. Used across various classes."
 :hasName,"The name of an entity or individual. Used across various classes, except Person and its subclasses Professor, TeachingAssistant, Student, Teacher, NonTeachingStaff, Staff ONLY."
 :hasTitle,"The title of an entity or individual. Used in classes Facility, StaffRoom, LabRoom, OfficeRoom, ClassRoom, Library, LectureHall, Subject, Course, Thesis, Subject_material ONLY."

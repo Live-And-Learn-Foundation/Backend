@@ -25,23 +25,6 @@ source		SELECT
 			ON
 			s.user_id = t.user_id;
 
-mappingId	MAPID-54cb5daeab074120abffb3acb3f40b44
-target		:Thesis_{id} a :Thesis ; :hasTitle {title} ; :hasDescription {description} ; :hasSubmissionDate {submission_date} ; :createdAt {created_at} ; :updatedAt {updated_at} ; :hasAuthor :Person_{user_id} . :Person_{user_id} a :Teacher . 
-source		SELECT
-			t.id,
-			t.title,
-			t.description,
-			t.submission_date,
-			t.created_at,
-			t.updated_at,
-			t.user_id
-			FROM
-			document_db.thesis t
-			JOIN
-			department_db.teachers s
-			ON
-			s.user_id = t.user_id;
-
 mappingId	MAPID-a2c438c4bfa24bdbaacc049c1bbe74f5
 target		:Department_{id} a :Department ; :hasName {name} ; :createdAt {created_at} ; :updatedAt {updated_at} ; :hasDescription {description} . 
 source		SELECT

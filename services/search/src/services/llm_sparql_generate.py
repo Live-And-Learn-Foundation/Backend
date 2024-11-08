@@ -32,7 +32,7 @@ endpoint = "https://models.inference.ai.azure.com"
 model_name = "gpt-4o"
 
 base_messages = []
-message = "You are an expert in converting natural language queries (NLQ) into SPARQL queries for university search.\n"
+message = "You are a languages specialist and an expert in converting natural language queries (NLQ) into SPARQL queries for university search.\n"
 
 message += "Given the following classes in my RDF graph design: \n"
 for Properties_Name, Description in data_1.values:
@@ -46,16 +46,38 @@ message += "Given the following data properties in my RDF graph design: \n"
 for Properties_Name, Description in data_3.values:
     message += f"Data Properties: {Properties_Name} => Data Properties Description: {Description}\n"
 
-rule_string = """Now, here is the rule you must follow when converting an NLQ to Sparql query:\n
-    EVERY SINGLE OBJECT MUST HAVE NAME OR TITLE depending on their class and their NAME OR TITLE CANNOT BE OPTIONAL.\n
-    ONLY if the class object is Person or its sub classes (Student, Teacher,... ), BIND the class object's first name and last name together into full name instead of returning these two data properties separated in the answer.\n
-    Class Person and its subclasses (Student, Teacher, ...) CANNOT have ```:hasName``` or ```:hasTitle``` properties and must BIND from the ```:hasFirstName``` and ```:hasLastName``` properties into ```:fullName``` property.\n
-    Class Person and its subclasses (Student, Teacher, ...) MUST BE CHECK to have ```:hasFirstName``` and ```:hasLastName``` properties before BIND\n
-    Most data properties of the object HAVE TO BE OPTIONAL EXCEPT their NAME OR TITLE.\n
-    Ensure that the class of main object of the user's question is SELECTED directly in the query result, in addition to its properties.\n
-    Conduct subtring matching by Including the FILTER function for any Data Properties searched in the query.\n
-    ONLY provide the query without Prefix and HAVE TO USE THE CORRECT SYNTAX\n
-    """
+# rule_string = """Now, here is the rules you must follow when converting an NLQ to Sparql query:\n
+#     First of all, convert user's query into English language, especially Vietnamese.\n
+#     Acronyms must be expanded.\n
+#     EVERY SINGLE OBJECT MUST HAVE NAME OR TITLE depending on their class and their NAME OR TITLE CANNOT BE OPTIONAL.\n
+#     ONLY if the class object is Person or its sub classes (Student, Teacher,... ), BIND the class object's first name and last name together into full name instead of returning these two data properties separated in the answer.\n
+#     Class Person and its subclasses (Student, Teacher, ...) CANNOT have ```:hasName``` or ```:hasTitle``` properties and must BIND from the ```:hasFirstName``` and ```:hasLastName``` properties into ```:fullName``` property.\n
+#     Class Person and its subclasses (Student, Teacher, ...) MUST BE CHECK to have ```:hasFirstName``` and ```:hasLastName``` properties before BIND\n
+#     Most data properties of the object HAVE TO BE OPTIONAL EXCEPT their NAME OR TITLE.\n
+#     The class of main object of the user's question has to be SELECTED directly in the query result, in addition to its properties.\n
+#     Conduct substring matching when the user is referring to a data property's value of a certain class by Including the FILTER function for any Data Properties searched in the query.\n
+#     When performing substring matching, first extract the relevant named entities from the user's input before conducting the matching process. This ensures that specific entities are accurately targeted when locating data properties in the query.\n
+#     Convert substring matching to English language before matching.\n
+#     ONLY provide the query without Prefix and HAVE TO USE THE CORRECT SYNTAX.\n
+#     Only return Sparql query without Prefix without explanation, and have to use the correct syntax.\n
+#     """
+
+rule_string = '''Now, here is the rules you must follow when converting an NLQ to Sparql query:
+    - Convert user's query into English language, especially Vietnamese.
+    - Expand acronyms.
+    - Every single object must have a name or title depending on their class, and their name or title cannot be optional.
+    - If the class object is Person or its subclasses (Student, Teacher, etc.), bind the class object's first name and last name together into full name instead of returning these two data properties separately.
+    - Class Person and its subclasses (Student, Teacher, etc.) cannot have ':hasName' or ':hasTitle' properties and must bind from the ':hasFirstName' and ':hasLastName' properties into ':fullName' property.
+    - Class Person and its subclasses (Student, Teacher, etc.) must be checked to have ':hasFirstName' and ':hasLastName' properties before binding.
+    - Most data properties of the object have to be optional except their name or title.
+    - The class of the main object of the user's question has to be selected directly in the query result, in addition to its properties.
+    - Conduct substring matching when the user is referring to a data property's value of a certain class by including the FILTER function for any data properties searched in the query.
+    - When performing substring matching, first extract the relevant named entities from the user's input before conducting the matching process. This ensures that specific entities are accurately targeted when locating data properties in the query.
+    - Convert substring matching to English language before matching.
+    - Expand abbreviations by providing their full forms.
+    - Only provide the query without prefix and have to use the correct syntax.
+    - Only return SPARQL query without prefix without explanation, and have to use the correct syntax.
+    '''
 
 message += rule_string
 
@@ -73,7 +95,7 @@ def convert_user_query(user_query):
     keys_length = len(openai_api_keys_from_env)
     current_key_index = 0
     success = False
-    while not success: 
+    while not success:
         try:
             current_key = openai_api_keys_from_env[current_key_index]
             client = OpenAI(
@@ -100,6 +122,13 @@ def convert_user_query(user_query):
         except Exception as e:
             # Print the error and continue to the next key
             print(f"Error with {current_key}: {e}. Start using new key.")
+            with open("Errors.txt", "a") as file:
+                file.write('\n--------------------\n')
+                file.write(user_query)
+                file.write('\n\n')
+                file.write(f"Error with {current_key}: {e}.")
+                file.write('\n--------------------\n')
+            
             current_key_index += 1
             if current_key_index >= keys_length:
                 print("Max keys reached: {}".format(keys_length))

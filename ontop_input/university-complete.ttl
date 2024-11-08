@@ -42,8 +42,7 @@
            rdf:type owl:AsymmetricProperty ,
                     owl:IrreflexiveProperty ;
            rdfs:domain :Document ;
-           rdfs:range :Student ,
-                      :Teacher ;
+           rdfs:range :Student ;
            rdfs:comment "This Document is made by some teachers or students"@en .
 
 
@@ -123,8 +122,7 @@
 :isAuthorof rdf:type owl:ObjectProperty ,
                      owl:AsymmetricProperty ,
                      owl:IrreflexiveProperty ;
-            rdfs:domain :Student ,
-                        :Teacher ;
+            rdfs:domain :Student ;
             rdfs:range :Document ;
             rdfs:comment "A Teacher or Student is the author of a specific type of document."@en .
 
@@ -676,11 +674,6 @@
                            owl:onProperty :isAuthorof ;
                            owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
                            owl:onClass :Subject_material
-                         ] ,
-                         [ rdf:type owl:Restriction ;
-                           owl:onProperty :isAuthorof ;
-                           owl:minQualifiedCardinality "0"^^xsd:nonNegativeInteger ;
-                           owl:onClass :Thesis
                          ] ,
                          [ rdf:type owl:Restriction ;
                            owl:onProperty :isMemberOf ;
