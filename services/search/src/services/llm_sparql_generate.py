@@ -18,6 +18,11 @@ current_dir = os.path.dirname(os.path.abspath(__file__))
 data_1_path = os.path.join(current_dir, 'understand_rdf_system_for_sparql_class.csv')
 data_2_path = os.path.join(current_dir, 'understand_rdf_system_for_sparql_object_properties.csv')
 data_3_path = os.path.join(current_dir, 'understand_rdf_system_for_sparql_data_properties.csv')
+triples_path = os.path.join(current_dir, 'Triples.txt')
+
+with open(triples_path, 'r') as file:
+    text = file.read()
+    triples = [msg.strip() for msg in text.split('\n')]
 
 # Đọc file CSV
 data_1 = pd.read_csv(data_1_path)
@@ -62,7 +67,7 @@ for Properties_Name, Description in data_3.values:
 #     Only return Sparql query without Prefix without explanation, and have to use the correct syntax.\n
 #     """
 
-rule_string = '''Now, here is the rules you must follow when converting an NLQ to Sparql query:
+rule_string = '''Now, here are the rules you must follow when converting an NLQ to SPARQL query:
     - Convert user's query into English language, especially Vietnamese.
     - Expand acronyms.
     - Every single object must have a name or title depending on their class, and their name or title cannot be optional.
@@ -74,12 +79,22 @@ rule_string = '''Now, here is the rules you must follow when converting an NLQ t
     - Conduct substring matching when the user is referring to a data property's value of a certain class by including the FILTER function for any data properties searched in the query.
     - When performing substring matching, first extract the relevant named entities from the user's input before conducting the matching process. This ensures that specific entities are accurately targeted when locating data properties in the query.
     - Convert substring matching to English language before matching.
+    - Only filter for single words in any case, excluding compound nouns.
     - Expand abbreviations by providing their full forms.
+    - SELECT statement must always include the name or title data properties of the main object in the query result.
+    - Object variables must be consistently referenced throughout the query to avoid syntax errors (e.g., use ?department when binding `:hasDescription`).
+    - When the user's query is in Vietnamese, translate relevant keywords (like "khóa học") to English ("course") and do not use these translations in FILTER functions.
     - Only provide the query without prefix and have to use the correct syntax.
     - Only return SPARQL query without prefix without explanation, and have to use the correct syntax.
     '''
 
 message += rule_string
+
+for triple in triples:
+    base_messages.append({
+        "role": "system",
+        "content": f"Data: {triple}",
+    })
 
 base_messages.append({
     "role": "system",
