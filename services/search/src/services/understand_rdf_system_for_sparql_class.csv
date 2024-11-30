@@ -11,7 +11,7 @@ OfficeRoom,"A private or shared workspace used by professors or staff for admini
 Facility,"A Facility represents any physical space within a university designed to support educational, research, or administrative activities. Facility is the superclass of ClassRoom, LectureHall, LabRoom, Library, StaffRoom and OfficeRoom."
 Course,"A structured series of lessons and assessments covering a specific topic, taught over a semester or academic term."
 Subject,"An area of knowledge or study that is part of a broader educational curriculum, often linked to specific courses or major."
-Major,"The primary focus of a student’s academic studies, usually requiring a set number of subjects in that discipline to fulfill degree requirements"
+Major,"The primary focus of a student's academic studies, usually requiring a set number of subjects in that discipline to fulfill degree requirements"
 Professor,"A senior academic responsible for teaching, mentoring, and conducting research at a university or college."
 TeachingAssistant,"A student or junior academic who assists a professor with teaching tasks, such as grading and helping students."
 Student,"An individual enrolled in a university or educational institution, actively participating in courses and pursuing a degree."
