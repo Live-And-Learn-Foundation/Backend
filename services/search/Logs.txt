@@ -9294,3 +9294,400 @@ WHERE {
     FILTER(CONTAINS(LCASE(?subjectName), "software architecture"))
 }
 --------------------
+
+--------------------
+Tôi muốn tìm kiếm một chuyên ngành về IT cho con trai năm cuối lớp 12 của tôi. Cho tôi gợi ý
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?major ?majorName ?description WHERE {
+    ?major a :Major ;
+           :hasName ?majorName ;
+           :hasDescription ?description .
+    FILTER(CONTAINS(LCASE(?majorName), "it") || CONTAINS(LCASE(?description), "it"))
+}
+--------------------
+
+--------------------
+One teacher
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?teacher ?fullName ?hasEmail ?hasDegree ?hasBiography ?hasAcademicTitle
+WHERE {
+  ?teacher a :Teacher.
+  ?teacher :hasFirstName ?firstName.
+  ?teacher :hasLastName ?lastName.
+  BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName)
+  OPTIONAL { ?teacher :hasEmail ?hasEmail. }
+  OPTIONAL { ?teacher :hasDegree ?hasDegree. }
+  OPTIONAL { ?teacher :hasBiography ?hasBiography. }
+  OPTIONAL { ?teacher :hasAcademicTitle ?hasAcademicTitle. }
+}
+LIMIT 1
+--------------------
+
+--------------------
+Cho tôi thông tin về ngành IT\
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?major ?majorName ?majorDescription
+WHERE {
+    ?major a :Major ;
+           :hasName ?majorName ;
+           :hasDescription ?majorDescription .
+    FILTER(CONTAINS(LCASE(?majorName), "information technology"))
+}
+--------------------
+
+--------------------
+tôi muốn tất cả thông tin của học sinh
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?student ?fullName ?email ?dateOfBirth ?degree ?enrollmentYear
+WHERE {
+    ?student a :Student ;
+             :hasFirstName ?firstName ;
+             :hasLastName ?lastName ;
+             :hasEmail ?email ;
+             :hasDateOfBirth ?dateOfBirth ;
+             :hasDegree ?degree ;
+             :enrollmentYear ?enrollmentYear .
+    BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName)
+}
+--------------------
+
+--------------------
+tôi muốn tất cả thông tin của học sinh
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?student ?fullName ?enrollmentYear ?hasEmail ?hasDegree ?hasBiography
+WHERE {
+  ?student a :Student ;
+           :hasFirstName ?firstName ;
+           :hasLastName ?lastName ;
+           :enrollmentYear ?enrollmentYear .
+  BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName)
+  OPTIONAL { ?student :hasEmail ?hasEmail }
+  OPTIONAL { ?student :hasDegree ?hasDegree }
+  OPTIONAL { ?student :hasBiography ?hasBiography }
+}
+--------------------
+
+--------------------
+tôi muốn thông tin về ngành IT
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?major ?majorName ?description
+WHERE {
+    ?major a :Major ;
+           :hasName ?majorName ;
+           :hasDescription ?description .
+    FILTER(CONTAINS(LCASE(?majorName), "information technology") || CONTAINS(LCASE(?description), "information technology"))
+}
+--------------------
+
+--------------------
+all
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?department ?departmentName ?departmentDescription
+WHERE {
+    ?department a :Department ;
+                :hasName ?departmentName ;
+                :hasDescription ?departmentDescription .
+}
+--------------------
+
+--------------------
+all teachers
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?teacher ?fullName ?hasAcademicTitle ?hasBiography ?hasDegree ?hasEmail ?hasDateOfBirth
+WHERE {
+  ?teacher a :Teacher.
+  ?teacher :hasFirstName ?firstName.
+  ?teacher :hasLastName ?lastName.
+  BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName).
+  ?teacher :hasAcademicTitle ?hasAcademicTitle.
+  OPTIONAL { ?teacher :hasBiography ?hasBiography. }
+  OPTIONAL { ?teacher :hasDegree ?hasDegree. }
+  OPTIONAL { ?teacher :hasEmail ?hasEmail. }
+  OPTIONAL { ?teacher :hasDateOfBirth ?hasDateOfBirth. }
+}
+--------------------
+
+--------------------
+Give me the name of teachers that deliver the advanced data science subject and room for this subject as well as its
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?fullName ?facilityName
+WHERE {
+  ?teacher a :Teacher;
+           :hasFirstName ?firstName;
+           :hasLastName ?lastName;
+           :teaches ?course.
+  BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName)
+  
+  ?course :isCourseOf ?subject;
+          :studyIn ?facility.
+  ?facility :hasTitle ?facilityName.
+  
+  ?subject :hasTitle ?subjectName.
+  FILTER(CONTAINS(LCASE(?subjectName), "advanced") && CONTAINS(LCASE(?subjectName), "data") && CONTAINS(LCASE(?subjectName), "science"))
+}
+--------------------
+
+--------------------
+Give me the name of teachers that deliver the advanced data science subject and room for this subject as well as its course
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?fullName ?roomTitle ?courseTitle
+WHERE {
+    ?teacher a :Teacher;
+             :hasFirstName ?firstName;
+             :hasLastName ?lastName;
+             :teaches ?course.
+    BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName)
+    
+    ?course a :Course;
+            :isCourseOf ?subject;
+            :hasTitle ?courseTitle.
+    
+    ?subject a :Subject;
+             :includesCourse ?course;
+             :hasName ?subjectName.
+    FILTER(CONTAINS(LCASE(?subjectName), "advanced") && CONTAINS(LCASE(?subjectName), "data") && CONTAINS(LCASE(?subjectName), "science"))
+    
+    ?facility a :Facility;
+              :isUsedForCourse ?course;
+              :hasTitle ?roomTitle.
+}
+--------------------
+
+--------------------
+Give me the name of teachers that deliver the advanced data science subject and room for this subject and its course
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?fullName ?facilityName
+WHERE {
+  ?teacher a :Teacher ;
+           :hasFirstName ?firstName ;
+           :hasLastName ?lastName ;
+           :teaches ?course .
+  BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName)
+  
+  ?course :isCourseOf ?subject ;
+          :studyIn ?facility .
+  
+  ?subject :hasTitle ?subjectTitle .
+  FILTER(CONTAINS(LCASE(?subjectTitle), "advanced") && CONTAINS(LCASE(?subjectTitle), "data") && CONTAINS(LCASE(?subjectTitle), "science"))
+  
+  ?facility :hasTitle ?facilityName .
+}
+--------------------
+
+--------------------
+Give me information of teacher Trương Ngọc Châu
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?teacher ?fullName ?hasEmail ?hasBiography ?hasAcademicTitle ?hasDegree
+WHERE {
+  ?teacher a :Teacher;
+           :hasFirstName ?firstName;
+           :hasLastName ?lastName;
+           :hasEmail ?hasEmail;
+           :hasBiography ?hasBiography;
+           :hasAcademicTitle ?hasAcademicTitle;
+           :hasDegree ?hasDegree.
+  BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName)
+  FILTER(CONTAINS(LCASE(?firstName), "trương") && CONTAINS(LCASE(?lastName), "châu"))
+}
+--------------------
+
+--------------------
+Give me information of teacher Trương Ngọc
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?teacher ?fullName ?hasAcademicTitle ?hasBiography ?hasDegree ?hasEmail ?hasDateOfBirth
+WHERE {
+  ?teacher a :Teacher;
+           :hasFirstName ?firstName;
+           :hasLastName ?lastName;
+           :hasAcademicTitle ?hasAcademicTitle.
+  BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName)
+  FILTER(CONTAINS(LCASE(?firstName), "trương") && CONTAINS(LCASE(?lastName), "ngọc"))
+  OPTIONAL { ?teacher :hasBiography ?hasBiography. }
+  OPTIONAL { ?teacher :hasDegree ?hasDegree. }
+  OPTIONAL { ?teacher :hasEmail ?hasEmail. }
+  OPTIONAL { ?teacher :hasDateOfBirth ?hasDateOfBirth. }
+}
+--------------------
+
+--------------------
+all t
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?thesis ?title ?description ?submissionDate
+WHERE {
+  ?thesis a :Thesis.
+  ?thesis :hasTitle ?title.
+  OPTIONAL { ?thesis :hasDescription ?description. }
+  OPTIONAL { ?thesis :hasSubmissonDate ?submissionDate. }
+}
+--------------------
+
+--------------------
+all
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?department ?departmentName ?departmentDescription
+WHERE {
+    ?department a :Department ;
+                :hasName ?departmentName ;
+                :hasDescription ?departmentDescription .
+}
+--------------------
+
+--------------------
+all teachers
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?teacher ?fullName ?hasAcademicTitle ?hasBiography ?hasDegree ?hasEmail
+WHERE {
+    ?teacher a :Teacher.
+    ?teacher :hasFirstName ?firstName.
+    ?teacher :hasLastName ?lastName.
+    BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName).
+    ?teacher :hasAcademicTitle ?hasAcademicTitle.
+    OPTIONAL { ?teacher :hasBiography ?hasBiography. }
+    OPTIONAL { ?teacher :hasDegree ?hasDegree. }
+    OPTIONAL { ?teacher :hasEmail ?hasEmail. }
+}
+--------------------
+
+--------------------
+all teacher
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?teacher ?fullName ?hasAcademicTitle ?hasBiography ?hasDegree ?hasEmail ?hasDateOfBirth
+WHERE {
+    ?teacher a :Teacher.
+    ?teacher :hasFirstName ?firstName.
+    ?teacher :hasLastName ?lastName.
+    BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName).
+    ?teacher :hasAcademicTitle ?hasAcademicTitle.
+    OPTIONAL { ?teacher :hasBiography ?hasBiography. }
+    OPTIONAL { ?teacher :hasDegree ?hasDegree. }
+    OPTIONAL { ?teacher :hasEmail ?hasEmail. }
+    OPTIONAL { ?teacher :hasDateOfBirth ?hasDateOfBirth. }
+}
+--------------------
+
+--------------------
+all rooms
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?facility ?title
+WHERE {
+  ?facility a :Facility.
+  ?facility :hasTitle ?title.
+}
+--------------------
+
+--------------------
+Give me the information of the subject advanced data science
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?subject ?subjectTitle ?subjectDescription ?subjectCredit
+WHERE {
+  ?subject a :Subject ;
+           :hasTitle ?subjectTitle ;
+           :hasDescription ?subjectDescription ;
+           :hasCredit ?subjectCredit .
+  FILTER(CONTAINS(LCASE(?subjectTitle), "advanced") && CONTAINS(LCASE(?subjectTitle), "data") && CONTAINS(LCASE(?subjectTitle), "science"))
+}
+--------------------
+
+--------------------
+Give me the information of the advanced data science subject
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?subject ?subjectTitle ?subjectDescription ?subjectCredit
+WHERE {
+    ?subject a :Subject ;
+             :hasTitle ?subjectTitle ;
+             :hasDescription ?subjectDescription ;
+             :hasCredit ?subjectCredit .
+    FILTER (CONTAINS(LCASE(?subjectTitle), "advanced") || CONTAINS(LCASE(?subjectTitle), "data") || CONTAINS(LCASE(?subjectTitle), "science"))
+}
+--------------------
+
+--------------------
+Give me all IT students and has passionate about AI
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?student ?fullName ?enrollmentYear ?hasEmail ?hasBiography ?hasDegree
+WHERE {
+    ?student a :Student.
+    ?student :hasFirstName ?firstName.
+    ?student :hasLastName ?lastName.
+    BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName).
+    ?student :enrollmentYear ?enrollmentYear.
+    ?student :hasEmail ?hasEmail.
+    ?student :hasBiography ?hasBiography.
+    ?student :hasDegree ?hasDegree.
+    ?student :enrollsIn ?major.
+    ?major :hasName ?majorName.
+    FILTER(CONTAINS(LCASE(?majorName), "information technology")).
+    FILTER(CONTAINS(LCASE(?hasBiography), "passionate")).
+    FILTER(CONTAINS(LCASE(?hasBiography), "ai")).
+}
+--------------------
+
+--------------------
+Give me all IT students
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?student ?fullName ?enrollmentYear ?email ?degree ?biography ?academicTitle
+WHERE {
+  ?student a :Student ;
+           :enrollsIn ?major ;
+           :hasFirstName ?firstName ;
+           :hasLastName ?lastName ;
+           :enrollmentYear ?enrollmentYear .
+  BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName)
+  OPTIONAL { ?student :hasEmail ?email }
+  OPTIONAL { ?student :hasDegree ?degree }
+  OPTIONAL { ?student :hasBiography ?biography }
+  OPTIONAL { ?student :hasAcademicTitle ?academicTitle }
+  ?major :hasName ?majorName .
+  FILTER(CONTAINS(LCASE(?majorName), "information technology"))
+}
+--------------------
+
+--------------------
+give me all courses and subjects that those courses belong to
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?course ?courseName ?subject ?subjectName
+WHERE {
+    ?course a :Course ;
+            :hasTitle ?courseName ;
+            :isCourseOf ?subject .
+    ?subject a :Subject ;
+             :hasTitle ?subjectName .
+}
+--------------------
+
+--------------------
+Danh sách sinh viên
+
+PREFIX : <http://www.semanticweb.org/nguye/ontologies/2024/8/university#>
+SELECT ?student ?fullName ?enrollmentYear
+WHERE {
+    ?student a :Student.
+    ?student :hasFirstName ?firstName.
+    ?student :hasLastName ?lastName.
+    BIND(CONCAT(?firstName, " ", ?lastName) AS ?fullName).
+    ?student :enrollmentYear ?enrollmentYear.
+}
+--------------------
