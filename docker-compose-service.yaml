@@ -6,8 +6,8 @@ x-common-service: &common-service
   environment:
       - DB_USER=${DB_USER}
       - DB_PASSWORD=${DB_PASSWORD}
-      - DB_HOST=192.168.1.113
-      - DB_PORT=${DB_PORT}
+      - DB_HOST=192.168.1.12
+      - DB_PORT=3307
   networks:
     - network-1
 

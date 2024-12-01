@@ -2,7 +2,7 @@ _format_version: "1.1"
 
 services:
   - name: auth-service
-    url: http://192.168.1.113:9000/api
+    url: http://192.168.1.12:9000/api
     routes:
       - name: auth-route
         paths:
@@ -26,7 +26,7 @@ services:
           max_age: 3600
 
   - name: student-service
-    url: http://192.168.1.113:9001/api
+    url: http://192.168.1.12:9001/api
     routes:
       - name: student-route
         paths:
@@ -50,7 +50,7 @@ services:
           max_age: 3600
 
   - name: course-service
-    url: http://192.168.1.113:9002/api
+    url: http://192.168.1.12:9002/api
     routes:
       - name: course-route
         paths:
@@ -74,7 +74,7 @@ services:
           max_age: 3600
 
   - name: document-service
-    url: http://192.168.1.113:9003/api
+    url: http://192.168.1.12:9003/api
     routes:
       - name: document-route
         paths:
@@ -98,7 +98,7 @@ services:
           max_age: 3600
 
   - name: department-service
-    url: http://192.168.1.113:9004/api
+    url: http://192.168.1.12:9004/api
     routes:
       - name: department-route
         paths:
@@ -122,7 +122,7 @@ services:
           max_age: 3600
 
   - name: search-service
-    url: http://192.168.1.113:9005/api
+    url: http://192.168.1.12:9005/api
     routes:
       - name: search-route
         paths:
